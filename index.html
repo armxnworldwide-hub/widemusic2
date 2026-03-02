@@ -283,6 +283,54 @@
         .song-card:hover .hover-play {
             opacity: 1;
         }
+        
+        .loader-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 3000;
+        }
+        
+        .loader-box {
+            background: #1e1e1e;
+            padding: 20px 35px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: #f5f5f5;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .spinner {
+            width: 18px;
+            height: 18px;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            border-top: 3px solid #00f2ff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
     </style>
 </head>
 
@@ -301,7 +349,12 @@
     <div id="noResult">❌No Songs Found</div>
 
     <audio id="audio"></audio>
-
+    <div id="loader" class="loader-overlay">
+        <div class="loader-box">
+            <div class="spinner"></div>
+            <span>Loading...</span>
+        </div>
+    </div>
     <div class="player">
 
         <div class="song-info">
@@ -441,7 +494,7 @@
                 }, {
                     title: "Love sick",
                     file: "Sidhu Moosewala/Love sick.mp3",
-                    poster: "images/Love sick.jpeg"
+                    poster: "images/Neverfold.jpeg"
                 }, {
                     title: "Attach",
                     file: "Sidhu Moosewala/Attach.mp3",
@@ -1163,7 +1216,7 @@
             container.innerHTML = "";
             document.getElementById("backBtn").style.display = "inline-block";
             currentSongs = artists[key].songs;
-
+            document.getElementById("loader").style.display = "flex";
             currentSongs.forEach((song, index) => {
                 container.innerHTML += `
 <div class="song-card" onclick="playSong(${index})">
@@ -1172,6 +1225,9 @@
     <h3>${song.title}</h3>
 </div>`;
             });
+            setTimeout(() => {
+                document.getElementById("loader").style.display = "none";
+            }, 400);
         }
 
         function playArtist(key) {
