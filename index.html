@@ -45,6 +45,11 @@
             transition: 0.3s;
         }
         
+        .artist-card h3 {
+            color: #b80505;
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+        }
+        
         .artist-card img {
             width: 180px;
             height: 180px;
@@ -54,6 +59,44 @@
         
         .artist-card:hover {
             transform: scale(1.08);
+        }
+        
+        .artist-card,
+        .song-card {
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .song-card img,
+        .artist-card img {
+            transition: 0.3s;
+        }
+        
+        .song-card:hover img,
+        .artist-card:hover img {
+            filter: brightness(0.6);
+        }
+        
+        .hover-play {
+            position: absolute;
+            bottom: 65px;
+            right: 20px;
+            background: #1db954;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: black;
+            font-size: 20px;
+            opacity: 0;
+            transition: 0.3s;
+        }
+        
+        .song-card:hover .hover-play,
+        .artist-card:hover .hover-play {
+            opacity: 1;
         }
         
         .song-card {
@@ -188,6 +231,40 @@
             display: none;
             color: yellow;
         }
+        
+        .song-card {
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .song-card img {
+            transition: 0.3s;
+        }
+        
+        .song-card:hover img {
+            filter: brightness(0.6);
+        }
+        
+        .hover-play {
+            position: absolute;
+            bottom: 65px;
+            right: 20px;
+            background: #1db954;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: black;
+            font-size: 20px;
+            opacity: 0;
+            transition: 0.3s;
+        }
+        
+        .song-card:hover .hover-play {
+            opacity: 1;
+        }
     </style>
 </head>
 
@@ -251,7 +328,7 @@
 
         var artists = {
             prem: {
-                name: "Prem Dhillon",
+                name: "PREM DHILLON",
                 image: "images/prem.jpeg",
                 songs: [{
                     title: "Shoes Off",
@@ -325,7 +402,7 @@
             },
 
             sidhu: {
-                name: "Sidhu Moosewala",
+                name: "SIDHU MOOSEWALA",
                 image: "images/sidhu.jpeg",
                 songs: [{
                     title: "410",
@@ -367,7 +444,7 @@
             },
 
             shubh: {
-                name: "Shubh",
+                name: "SHUBH",
                 image: "images/shubh.jpeg",
                 songs: [{
                     title: "We Rollin",
@@ -500,7 +577,7 @@
                 }],
             },
             navaan: {
-                name: "Navaan Sandhu",
+                name: "NAVAAN SANDHU",
                 image: "images/navaan.jpeg",
                 songs: [{
                     title: "My Prime",
@@ -669,7 +746,7 @@
                 }],
             },
             karan: {
-                name: "Karan Aujla",
+                name: "KARAN AUJLA",
                 image: "images/karan.jpeg",
                 songs: [{
                     title: "Don't Look",
@@ -824,7 +901,7 @@
 
             },
             jerry: {
-                name: "Jerry",
+                name: "JERRY",
                 image: "images/jerry.jpeg",
                 songs: [{
                     title: "Zero Cares",
@@ -1053,16 +1130,16 @@
         function loadArtists() {
             container.innerHTML = "";
             document.getElementById("backBtn").style.display = "none";
+
             for (let key in artists) {
                 container.innerHTML += `
-<div class="artist-card">
-<img src="${artists[key].image}">
-<h3>${artists[key].name}</h3>
-<button onclick="openArtist('${key}')">Open</button>
+<div class="artist-card" onclick="openArtist('${key}')">
+    <img src="${artists[key].image}">
+    <div class="hover-play" onclick="event.stopPropagation(); playArtist('${key}')">▶</div>
+    <h3>${artists[key].name}</h3>
 </div>`;
             }
         }
-
 
         function openArtist(key) {
             container.innerHTML = "";
@@ -1071,12 +1148,18 @@
 
             currentSongs.forEach((song, index) => {
                 container.innerHTML += `
-<div class="song-card">
-<img src="${song.poster}">
-<h3>${song.title}</h3>
-<button onclick="playSong(${index})">Play</button>
+<div class="song-card" onclick="playSong(${index})">
+    <img src="${song.poster}">
+    <div class="hover-play">▶</div>
+    <h3>${song.title}</h3>
 </div>`;
             });
+        }
+
+        function playArtist(key) {
+            currentSongs = artists[key].songs;
+            currentIndex = 0;
+            playSong(-0);
         }
 
 
@@ -1188,7 +1271,7 @@
 <div class="artist-card">
 <img src="${artists[key].image}">
 <h3>${artists[key].name}</h3>
-<button onclick="openArtist('${key}')">Open</button>
+<div class="artist-card" onclick="openArtist('${key}')">
 </div>`;
                     found++;
                 }
@@ -1196,10 +1279,14 @@
                 artists[key].songs.forEach((song, index) => {
                     if (song.title.toLowerCase().includes(input)) {
                         container.innerHTML += `
-<div class="song-card">
+<div class="song-card" onclick="playSong(${index})">
 <img src="${song.poster}">
+
+<div class="hover-play" onclick="event.stopPropagation(); playSong(${index})">
+▶
+</div>
+
 <h3>${song.title}</h3>
-<button onclick="playSong(${index})">Play</button>
 </div>`;
                         found++;
                     }
