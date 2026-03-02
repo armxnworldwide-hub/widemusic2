@@ -331,6 +331,15 @@
                 transform: scale(1);
             }
         }
+        
+        .time {
+            width: 70%;
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #ccc;
+            margin-bottom: 5px;
+        }
     </style>
 </head>
 
@@ -373,7 +382,10 @@
                 <button onclick="next()">⏭</button>
                 <button id="repeatBtn" onclick="toggleRepeat()">🔁</button>
             </div>
-
+            <div class="time">
+                <span id="currentTime">0:00</span>
+                <span id="duration">0:00</span>
+            </div>
             <div class="progress" onclick="seek(event)">
                 <div class="progress-bar" id="progressBar"></div>
             </div>
@@ -511,7 +523,131 @@
                     title: "Wiseman",
                     file: "Sidhu Moosewala/Wiseman.mp3",
                     poster: "images/Wiseman.jpeg"
-                }]
+                }, {
+                    title: "US",
+                    file: "Sidhu Moosewala/US.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "UNFUCKWITHABLE",
+                    file: "Sidhu Moosewala/Unfuckwithable.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "295",
+                    file: "Sidhu Moosewala/295.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "ULTIMATUM",
+                    file: "Sidhu Moosewala/Ultimatum.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "TRAIL DAY SKIT",
+                    file: "Sidhu Moosewala/TrialDaySkit.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "THESE DAYS",
+                    file: "Sidhu Moosewala/TheseDays.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "SIDHU SON",
+                    file: "Sidhu Moosewala/SidhuSon.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "REGRET",
+                    file: "Sidhu Moosewala/Regret.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "REAL ONE SKIT",
+                    file: "Sidhu Moosewala/RealOneSkit.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "RACKS AND ROUNDS",
+                    file: "Sidhu Moosewala/RacksAndRounds.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "POWER",
+                    file: "Sidhu Moosewala/Power.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "PIND HOOD DAMN GOOD",
+                    file: "Sidhu Moosewala/PindHoodDamnGood.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "MOSSEDRILLA",
+                    file: "Sidhu Moosewala/MosseDrilla.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "ME AND MY GIRLFRIEND",
+                    file: "Sidhu Moosewala/MeAndMyGirlfriend.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "MALWA BLOCK",
+                    file: "Sidhu Moosewala/Malwa_Block.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "INVINICIBLE",
+                    file: "Sidhu Moosewala/Invincible.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "IDGAF",
+                    file: "Sidhu Moosewala/IDGAF.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "G SHIT",
+                    file: "Sidhu Moosewala/GShit.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "FACTS SKIT",
+                    file: "Sidhu Moosewala/FactsSkit.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "CHACHA HU SKIT",
+                    file: "Sidhu Moosewala/ChachaHuuSkit.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "GOAT",
+                    file: "Sidhu Moosewala/GOAT.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "CELEBRITY KILLER",
+                    file: "Sidhu Moosewala/Celebrity Killer.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "CALABOOSE",
+                    file: "Sidhu Moosewala/Calaboose.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "BURBERRY",
+                    file: "Sidhu Moosewala/Burberry.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "BUILT DIFFERENT",
+                    file: "Sidhu Moosewala/BuiltDifferent.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "BROWN SHORTIE",
+                    file: "Sidhu Moosewala/BrownShortie.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "BOO CALL SKIT",
+                    file: "Sidhu Moosewala/BooCallSkit.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "BITCH I'M BACK ",
+                    file: "Sidhu Moosewala/Bitch I M Back.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "B W",
+                    file: "Sidhu Moosewala/B W.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "AROMA",
+                    file: "Sidhu Moosewala/Aroma.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "AMLI TALK SKIT",
+                    file: "Sidhu Moosewala/Amli Talk Skit.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }],
             },
 
             shubh: {
@@ -1311,19 +1447,22 @@
             }
         }
 
-
-
         audio.addEventListener("timeupdate", () => {
+
             if (!audio.duration) return;
             var percent = (audio.currentTime / audio.duration) * 100;
             progressBar.style.width = percent + "%";
-        });
-        audio.addEventListener("ended", () => {
-            if (isRepeat) {
-                audio.play();
-            } else {
-                next();
-            }
+            var currentMinutes = Math.floor(audio.currentTime / 60);
+            var currentSeconds = Math.floor(audio.currentTime % 60);
+            if (currentSeconds < 10) currentSeconds = "0" + currentSeconds;
+            document.getElementById("currentTime").innerText =
+                currentMinutes + ":" + currentSeconds;
+            var totalMinutes = Math.floor(audio.duration / 60);
+            var totalSeconds = Math.floor(audio.duration % 60);
+            if (totalSeconds < 10) totalSeconds = "0" + totalSeconds;
+
+            document.getElementById("duration").innerText =
+                totalMinutes + ":" + totalSeconds;
         });
 
         function seek(e) {
