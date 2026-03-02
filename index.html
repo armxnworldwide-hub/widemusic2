@@ -5,6 +5,15 @@
     <title>WIDE MUSIC</title>
 
     <style>
+        #volumeSlider::-webkit-slider-thumb {
+            appearance: none;
+            width: 14px;
+            height: 14px;
+            background: #00f2ff;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        
         body {
             margin: 0;
             font-family: Arial;
@@ -191,9 +200,26 @@
         
         .controls {
             display: flex;
-            gap: 22px;
-            margin-bottom: 6px;
             align-items: center;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 10px;
+        }
+        
+        .volume-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        #volumeSlider {
+            width: 120px;
+            appearance: none;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+            accent-color: #00f2ff;
+            cursor: pointer;
         }
         
         .controls button {
@@ -231,18 +257,54 @@
         }
         
         .progress {
+            position: relative;
             width: 70%;
-            height: 3px;
-            background: #444;
-            border-radius: 5px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
             cursor: pointer;
+            transition: 0.2s;
+        }
+        
+        .progress:hover {
+            height: 8px;
         }
         
         .progress-bar {
-            height: 3px;
-            background: #1db954;
+            position: relative;
+            height: 100%;
+            background: #00f2ff;
             width: 0%;
-            border-radius: 5px;
+            border-radius: 10px;
+            transition: width 0.2s linear;
+        }
+        
+        .time {
+            font-size: 13px;
+            color: #ccc;
+            margin-top: 5px;
+            display: flex;
+            justify-content: space-between;
+            width: 70%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .progress-bar::after {
+            content: "";
+            position: absolute;
+            right: -6px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 14px;
+            height: 14px;
+            background: #00f2ff;
+            border-radius: 50%;
+            opacity: 0;
+        }
+        
+        .progress:hover .progress-bar::after {
+            opacity: 1;
         }
         
         #noResult {
@@ -331,15 +393,6 @@
                 transform: scale(1);
             }
         }
-        
-        .time {
-            width: 70%;
-            display: flex;
-            justify-content: space-between;
-            font-size: 12px;
-            color: #ccc;
-            margin-bottom: 5px;
-        }
     </style>
 </head>
 
@@ -382,15 +435,21 @@
                 <button onclick="next()">⏭</button>
                 <button id="repeatBtn" onclick="toggleRepeat()">🔁</button>
             </div>
+            <div class="volume-container">
+                🔊
+                <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1">
+            </div>
             <div class="time">
                 <span id="currentTime">0:00</span>
                 <span id="duration">0:00</span>
             </div>
+
             <div class="progress" onclick="seek(event)">
                 <div class="progress-bar" id="progressBar"></div>
             </div>
-
         </div>
+
+    </div>
 
     </div>
 
@@ -403,7 +462,7 @@
         var title = document.getElementById("title");
         var shuffleBtn = document.getElementById("shuffleBtn");
         var repeatBtn = document.getElementById("repeatBtn");
-
+        var volumeSlider = document.getElementById("volumeSlider");
         var currentSongs = [];
         var currentIndex = 0;
         var isShuffle = false;
@@ -1369,11 +1428,13 @@
         function playArtist(key) {
             currentSongs = artists[key].songs;
             currentIndex = 0;
-            playSong(-0);
+            playSong(0);
         }
 
 
         function playSong(index) {
+            if (!currentSongs[index]) return;
+
             currentIndex = index;
             audio.src = "songs/" + currentSongs[index].file;
             poster.src = currentSongs[index].poster;
@@ -1381,7 +1442,6 @@
             audio.play();
             playBtn.innerText = "⏸";
         }
-
 
         function togglePlay() {
             if (audio.paused) {
@@ -1409,16 +1469,6 @@
             if (currentSongs.length == 0) return;
             currentIndex = (currentIndex - 1 + currentSongs.length) % currentSongs.length;
             playSong(currentIndex);
-        }
-
-        function toggleShuffle() {
-            isShuffle = !isShuffle;
-
-            if (isShuffle) {
-                shuffleBtn.classList.add("active");
-            } else {
-                shuffleBtn.classList.remove("active");
-            }
         }
 
         function toggleShuffle() {
@@ -1464,6 +1514,16 @@
             document.getElementById("duration").innerText =
                 totalMinutes + ":" + totalSeconds;
         });
+        volumeSlider.addEventListener("input", () => {
+            audio.volume = volumeSlider.value;
+        });
+        audio.addEventListener("ended", () => {
+            if (isRepeat) {
+                audio.play();
+            } else {
+                next();
+            }
+        });
 
         function seek(e) {
             if (!audio.duration) return;
@@ -1481,10 +1541,9 @@
             for (let key in artists) {
                 if (artists[key].name.toLowerCase().includes(input)) {
                     container.innerHTML += `
-<div class="artist-card">
-<img src="${artists[key].image}">
-<h3>${artists[key].name}</h3>
 <div class="artist-card" onclick="openArtist('${key}')">
+    <img src="${artists[key].image}">
+    <h3>${artists[key].name}</h3>
 </div>`;
                     found++;
                 }
