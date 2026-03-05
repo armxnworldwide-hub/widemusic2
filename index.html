@@ -208,16 +208,20 @@
         .song-info {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 20px;
             width: 25%;
+            position: relative;
         }
         
         .song-info img {
-            width: 55px;
-            height: 55px;
-            border-radius: 6px;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
             object-fit: cover;
-            background: #222;
+            background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%);
+            box-shadow: 0 0 0 12px #000, 0 0 0 14px #222, 0 0 15px rgba(0, 0, 0, 0.9), inset 0 0 15px rgba(255, 255, 255, 0.05);
+            transition: 0.3s;
+            position: relative;
         }
         
         .center {
@@ -492,9 +496,11 @@
 
     <button id="lovedSongsBtn" onclick="showLovedSongs()" style="position: fixed; top: 20px; right: 20px; padding: 8px 16px; border-radius: 30px; border: 1px solid rgba(0, 255, 255, 0.5); background: rgba(0, 0, 0, 0.4); color: #00f2ff; font-weight: 500; cursor: pointer; z-index: 998; display: none;">❤️ Liked Songs</button>
 
+    <button id="recentlyPlayedBtn" onclick="showRecentlyPlayed()" style="position: fixed; top: 20px; right: 200px; padding: 8px 16px; border-radius: 30px; border: 1px solid rgba(0, 255, 255, 0.5); background: rgba(0, 0, 0, 0.4); color: #00f2ff; font-weight: 500; cursor: pointer; z-index: 998; display: none;">🕒 Recently Played</button>
+
     <div class="container" id="mainContainer"></div>
 
-    <div id="noResult">❌No Result Found</div>
+    <div id="noResult">❌No Results Found</div>
 
     <audio id="audio"></audio>
     <div id="loader" class="loader-overlay">
@@ -506,9 +512,11 @@
     <div class="player">
 
         <div class="song-info">
-            <img id="poster" src="">
+            <div style="position: relative;">
+                <img id="poster" src="">
+            </div>
             <div>
-                <h4 id="title">Select a Song</h4>
+                <h4 id="title">Select any Song</h4>
             </div>
         </div>
 
@@ -556,6 +564,9 @@
         var currentIndex = 0;
         var isShuffle = false;
         var isRepeat = false;
+        var diskRotationAngle = 0;
+        var diskRotationInterval = null;
+        var recentlyPlayed = JSON.parse(localStorage.getItem("recentlyPlayed")) || [];
 
         var artists = {
             prem: {
@@ -1526,6 +1537,7 @@
             container.innerHTML = "";
             document.getElementById("backBtn").style.display = "none";
             document.getElementById("lovedSongsBtn").style.display = "inline-block";
+            document.getElementById("recentlyPlayedBtn").style.display = "inline-block";
 
             for (let key in artists) {
                 container.innerHTML += `
@@ -1541,6 +1553,7 @@
             container.innerHTML = "";
             document.getElementById("backBtn").style.display = "inline-block";
             document.getElementById("lovedSongsBtn").style.display = "inline-block";
+            document.getElementById("recentlyPlayedBtn").style.display = "inline-block";
 
             let liked = JSON.parse(localStorage.getItem("lovedSongs")) || [];
 
@@ -1562,11 +1575,38 @@
             });
         }
 
+        function showRecentlyPlayed() {
+            container.innerHTML = "";
+            document.getElementById("backBtn").style.display = "inline-block";
+            document.getElementById("lovedSongsBtn").style.display = "inline-block";
+            document.getElementById("recentlyPlayedBtn").style.display = "inline-block";
+
+            if (recentlyPlayed.length == 0) {
+                container.innerHTML = "<h2 style='margin-top: 100px;'>No Recently Played Songs Yet 🕒</h2>";
+                return;
+            }
+
+            currentSongs = recentlyPlayed;
+
+            recentlyPlayed.forEach((song, index) => {
+                let isLiked = JSON.parse(localStorage.getItem("lovedSongs")) || [];
+                isLiked = isLiked.find(s => s.title === song.title) ? 'liked' : '';
+                container.innerHTML += `
+<div class="song-card">
+    <img src="${song.poster}" onclick="playSong(${index})">
+    <div class="hover-play" onclick="playSong(${index})">▶</div>
+    <div class="like-btn ${isLiked}" onclick="event.stopPropagation();toggleLike('${song.title}','${song.file}','${song.poster}', event.currentTarget)">${isLiked ? '🤍' : '❤️'}</div>
+    <h3>${song.title}</h3>
+</div>`;
+            });
+        }
+
 
         function openArtist(key) {
             container.innerHTML = "";
             document.getElementById("backBtn").style.display = "inline-block";
             document.getElementById("lovedSongsBtn").style.display = "inline-block";
+            document.getElementById("recentlyPlayedBtn").style.display = "inline-block";
             currentSongs = artists[key].songs;
             document.getElementById("loader").style.display = "flex";
 
@@ -1589,23 +1629,61 @@
             currentIndex = 0;
         }
 
+        function startDiskRotation() {
+            if (diskRotationInterval) return;
+            diskRotationInterval = setInterval(() => {
+                diskRotationAngle = diskRotationAngle + 6;
+                poster.style.transform = `rotate(${diskRotationAngle}deg)`;
+            }, 50);
+        }
+
+        function stopDiskRotation() {
+            if (diskRotationInterval) {
+                clearInterval(diskRotationInterval);
+                diskRotationInterval = null;
+            }
+        }
+
+        function addToRecentlyPlayed(song) {
+            // Remove if already exists
+            recentlyPlayed = recentlyPlayed.filter(s => s.title !== song.title);
+
+            // Add to beginning
+            recentlyPlayed.unshift(song);
+
+            // Keep only last 10 songs
+            if (recentlyPlayed.length > 10) {
+                recentlyPlayed = recentlyPlayed.slice(0, 10);
+            }
+
+            // Save to localStorage
+            localStorage.setItem("recentlyPlayed", JSON.stringify(recentlyPlayed));
+        }
+
         function playSong(index) {
             if (!currentSongs[index]) return;
             currentIndex = index;
+
+            // Add to recently played
+            addToRecentlyPlayed(currentSongs[index]);
+
             audio.src = "songs/" + currentSongs[index].file;
             poster.src = currentSongs[index].poster;
             title.innerText = currentSongs[index].title;
             audio.play();
             playBtn.innerText = "⏸";
+            startDiskRotation();
         }
 
         function togglePlay() {
             if (audio.paused) {
                 audio.play();
                 playBtn.innerText = "⏸";
+                startDiskRotation();
             } else {
                 audio.pause();
                 playBtn.innerText = "▶";
+                stopDiskRotation();
             }
         }
 
@@ -1754,6 +1832,10 @@
             var input = document.getElementById("searchBar").value.toLowerCase();
             container.innerHTML = "";
             var found = 0;
+
+            document.getElementById("backBtn").style.display = "inline-block";
+            document.getElementById("lovedSongsBtn").style.display = "inline-block";
+            document.getElementById("recentlyPlayedBtn").style.display = "inline-block";
 
             let liked = JSON.parse(localStorage.getItem("lovedSongs")) || [];
 
