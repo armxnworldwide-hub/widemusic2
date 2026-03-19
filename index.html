@@ -578,6 +578,7 @@
         var currentIndex = 0;
         var isShuffle = false;
         var isRepeat = false;
+        var queue = [];
 
         var artists = {
             prem: {
@@ -1629,13 +1630,24 @@
                 container.innerHTML += `
 <div class="song-card" onclick="playSong(${index})">
     <img src="${song.poster}">
+    
     <div class="hover-play">▶</div>
+
+    <button onclick="event.stopPropagation(); addToQueue(currentSongs[${index}])">
+        ➕ Queue
+    </button>
+
     <h3>${song.title}</h3>
 </div>`;
             });
             setTimeout(() => {
                 document.getElementById("loader").style.display = "none";
             }, 400);
+        }
+
+        function addToQueue(song) {
+            queue.push(song);
+            console.log("Added to queue:", song.title);
         }
 
         function playArtist(key) {
@@ -1667,6 +1679,20 @@
         }
 
         function next() {
+            if (queue.length > 0) {
+                let nextSong = queue.shift();
+
+                audio.src = "songs/" + nextSong.file;
+                poster.src = nextSong.poster;
+                title.innerText = nextSong.title;
+
+                audio.play();
+                playBtn.innerText = "⏸";
+
+                return;
+            }
+
+
             if (currentSongs.length == 0) return;
 
             if (isShuffle) {
@@ -1765,13 +1791,15 @@
                     if (song.title.toLowerCase().includes(input)) {
                         container.innerHTML += `
 <div class="song-card" onclick="playSong(${index})">
-<img src="${song.poster}">
+    <img src="${song.poster}">
+    
+    <div class="hover-play">▶</div>
 
-<div class="hover-play" onclick="event.stopPropagation(); playSong(${index})">
-▶
-</div>
+    <button onclick="event.stopPropagation(); addToQueue(currentSongs[${index}])">
+        ➕ Queue
+    </button>
 
-<h3>${song.title}</h3>
+    <h3>${song.title}</h3>
 </div>`;
                         found++;
                     }
