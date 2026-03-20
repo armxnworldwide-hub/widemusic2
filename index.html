@@ -410,6 +410,53 @@
             background: rgba(0, 0, 0, 0.3);
             border-radius: 10px;
         }
+        
+        .song-list-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 15px;
+            border-radius: 10px;
+            transition: 0.2s;
+            cursor: pointer;
+        }
+        
+        .song-list-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .song-list-item img {
+            width: 55px;
+            height: 55px;
+            border-radius: 6px;
+        }
+        
+        .song-info-text {
+            flex: 1;
+            text-align: left;
+            margin-left: 12px;
+        }
+        
+        .song-info-text h4 {
+            margin: 0;
+            font-size: 14px;
+        }
+        
+        .song-info-text p {
+            margin: 0;
+            font-size: 12px;
+            color: #aaa;
+        }
+        
+        .song-list-item::after {
+            content: "▶";
+            opacity: 0;
+            margin-left: 10px;
+        }
+        
+        .song-list-item:hover::after {
+            opacity: 1;
+        }
     </style>
 </head>
 
@@ -1546,17 +1593,21 @@
             document.getElementById("loader").style.display = "flex";
             currentSongs.forEach((song, index) => {
                 container.innerHTML += `
-<div class="song-card" onclick="playSong(${index})">
-    <img src="${song.poster}">
+<div class="song-list-item" onclick="playSong(${index})">
     
-    <div class="hover-play">▶</div>
+    <img src="${song.poster}">
+
+    <div class="song-info-text">
+        <h4>${song.title}</h4>
+        <p>${artists[key].name}</p>
+    </div>
 
     <button onclick="event.stopPropagation(); addToQueue(currentSongs[${index}])">
-        ➕ Queue
+        ➕
     </button>
 
-    <h3>${song.title}</h3>
 </div>`;
+
             });
             setTimeout(() => {
                 document.getElementById("loader").style.display = "none";
@@ -1574,7 +1625,6 @@
             playSong(0);
         }
 
-
         function playSong(index) {
             if (!currentSongs[index]) return;
 
@@ -1582,6 +1632,9 @@
             audio.src = "songs/" + currentSongs[index].file;
             poster.src = currentSongs[index].poster;
             title.innerText = currentSongs[index].title;
+
+            audio.playbackRate = 1;
+
             audio.play();
             playBtn.innerText = "⏸";
         }
