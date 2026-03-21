@@ -1,0 +1,2520 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EQUIFY</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+         :root {
+            --bg: #0a0a0c;
+            --surface: #111115;
+            --surface2: #18181e;
+            --surface3: #1f1f28;
+            --accent: #c8f542;
+            --accent2: #a8d930;
+            --text: #f0f0f0;
+            --muted: #555560;
+            --muted2: #888890;
+            --border: rgba(255, 255, 255, 0.07);
+            --player-h: 90px;
+            --sidebar-w: 260px;
+        }
+        
+        html {
+            height: 100%;
+        }
+        
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            height: 100vh;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: var(--sidebar-w) 1fr;
+            grid-template-rows: 1fr var(--player-h);
+        }
+        /* ─── SIDEBAR ─── */
+        
+        .sidebar {
+            grid-row: 1 / 2;
+            background: var(--surface);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .logo-wrap {
+            padding: 28px 24px 20px;
+            border-bottom: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+        
+        .logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2rem;
+            letter-spacing: 3px;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .logo-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            box-shadow: 0 0 12px var(--accent);
+            animation: blink 2s ease-in-out infinite;
+        }
+        
+        @keyframes blink {
+            0%,
+            100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.4;
+            }
+        }
+        
+        .logo span {
+            color: var(--accent);
+        }
+        
+        .search-wrap {
+            padding: 16px 16px 12px;
+            flex-shrink: 0;
+        }
+        
+        .search-wrap input {
+            width: 100%;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 10px 14px 10px 36px;
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.85rem;
+            outline: none;
+            transition: border-color 0.2s;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23555560' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: 12px center;
+        }
+        
+        .search-wrap input:focus {
+            border-color: var(--accent);
+        }
+        
+        .search-wrap input::placeholder {
+            color: var(--muted);
+        }
+        
+        .sidebar-nav {
+            padding: 0 12px;
+            flex-shrink: 0;
+        }
+        
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 10px;
+            background: none;
+            border: none;
+            color: var(--muted2);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.88rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+            margin-bottom: 2px;
+        }
+        
+        .nav-btn:hover,
+        .nav-btn.active {
+            background: var(--surface2);
+            color: var(--text);
+        }
+        
+        .nav-btn.active .nav-icon {
+            color: var(--accent);
+        }
+        
+        .nav-icon {
+            font-size: 1rem;
+            width: 18px;
+        }
+        
+        .sidebar-label {
+            padding: 16px 24px 8px;
+            font-size: 0.68rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--muted);
+            flex-shrink: 0;
+        }
+        
+        .artists-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0 12px 12px;
+            scrollbar-width: thin;
+            scrollbar-color: var(--surface3) transparent;
+        }
+        
+        .artists-list::-webkit-scrollbar {
+            width: 4px;
+        }
+        
+        .artists-list::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        
+        .artists-list::-webkit-scrollbar-thumb {
+            background: var(--surface3);
+            border-radius: 4px;
+        }
+        
+        .artist-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .artist-item:hover {
+            background: var(--surface2);
+        }
+        
+        .artist-item.active {
+            background: var(--surface3);
+        }
+        
+        .artist-item img {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1.5px solid var(--border);
+        }
+        
+        .artist-item-name {
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: var(--text);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        /* ─── MAIN ─── */
+        
+        .main {
+            grid-column: 2;
+            grid-row: 1;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--surface3) transparent;
+            background: var(--bg);
+        }
+        
+        .main::-webkit-scrollbar {
+            width: 5px;
+        }
+        
+        .main::-webkit-scrollbar-thumb {
+            background: var(--surface3);
+            border-radius: 4px;
+        }
+        
+        .main-header {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: rgba(10, 10, 12, 0.88);
+            backdrop-filter: blur(20px);
+            padding: 20px 32px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .main-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.8rem;
+            letter-spacing: 2px;
+            color: var(--text);
+        }
+        
+        .main-subtitle {
+            font-size: 0.8rem;
+            color: var(--muted2);
+            margin-top: 2px;
+        }
+        
+        .header-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .btn-pill {
+            padding: 8px 18px;
+            border-radius: 30px;
+            border: none;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn-pill-outline {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--muted2);
+        }
+        
+        .btn-pill-outline:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+        
+        .btn-pill-accent {
+            background: var(--accent);
+            color: #000;
+        }
+        
+        .btn-pill-accent:hover {
+            background: var(--accent2);
+            transform: scale(1.03);
+        }
+        /* ─── ARTIST GRID ─── */
+        
+        .artists-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 20px;
+            padding: 28px 32px;
+        }
+        
+        .artist-card {
+            cursor: pointer;
+            border-radius: 14px;
+            overflow: hidden;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+            position: relative;
+            aspect-ratio: 1;
+        }
+        
+        .artist-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5);
+            border-color: rgba(200, 245, 66, 0.25);
+        }
+        
+        .artist-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .artist-card-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 40%, transparent 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 14px;
+        }
+        
+        .artist-card-name {
+            font-size: 0.82rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .artist-card-count {
+            font-size: 0.7rem;
+            color: var(--muted2);
+            margin-top: 2px;
+        }
+        
+        .card-play-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 36px;
+            height: 36px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            color: #000;
+            border: none;
+            cursor: pointer;
+            opacity: 0;
+            transform: scale(0.7) translateY(4px);
+            transition: all 0.2s;
+        }
+        
+        .artist-card:hover .card-play-btn {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+        /* ─── SONG LIST ─── */
+        
+        .songs-section {
+            padding: 28px 32px;
+        }
+        
+        .back-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 24px;
+        }
+        
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--muted2);
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.82rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .back-btn:hover {
+            color: var(--text);
+            border-color: var(--muted);
+        }
+        
+        .artist-hero {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 28px;
+            padding: 20px;
+            background: var(--surface);
+            border-radius: 16px;
+            border: 1px solid var(--border);
+        }
+        
+        .artist-hero img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--border);
+        }
+        
+        .artist-hero-info h2 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.8rem;
+            letter-spacing: 2px;
+        }
+        
+        .artist-hero-info p {
+            color: var(--muted2);
+            font-size: 0.82rem;
+            margin-top: 4px;
+        }
+        
+        .play-all-btn {
+            margin-left: auto;
+            background: var(--accent);
+            color: #000;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 30px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .play-all-btn:hover {
+            background: var(--accent2);
+            transform: scale(1.03);
+        }
+        
+        .songs-table-header {
+            display: grid;
+            grid-template-columns: 40px 1fr auto;
+            padding: 0 12px 8px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 6px;
+        }
+        
+        .th {
+            font-size: 0.68rem;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+        
+        .song-row {
+            display: grid;
+            grid-template-columns: 40px 1fr auto;
+            align-items: center;
+            padding: 8px 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.15s;
+            gap: 4px;
+        }
+        
+        .song-row:hover {
+            background: var(--surface);
+        }
+        
+        .song-row.playing {
+            background: rgba(200, 245, 66, 0.06);
+        }
+        
+        .song-num {
+            font-size: 0.82rem;
+            color: var(--muted);
+            text-align: center;
+            font-variant-numeric: tabular-nums;
+        }
+        
+        .song-row.playing .song-num {
+            color: var(--accent);
+        }
+        
+        .song-row-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .song-row-info img {
+            width: 44px;
+            height: 44px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+        
+        .song-row-text h4 {
+            font-size: 0.88rem;
+            font-weight: 500;
+        }
+        
+        .song-row.playing .song-row-text h4 {
+            color: var(--accent);
+        }
+        
+        .song-row-text p {
+            font-size: 0.75rem;
+            color: var(--muted2);
+            margin-top: 2px;
+        }
+        
+        .song-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        
+        .song-row:hover .song-actions {
+            opacity: 1;
+        }
+        
+        .like-btn {
+            background: none;
+            border: none;
+            font-size: 1rem;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 6px;
+            transition: transform 0.2s;
+            line-height: 1;
+        }
+        
+        .like-btn:hover {
+            transform: scale(1.2);
+        }
+        
+        .like-btn.liked {
+            opacity: 1 !important;
+        }
+        
+        .queue-btn {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            color: var(--muted2);
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 0.75rem;
+            transition: all 0.2s;
+        }
+        
+        .queue-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+        /* ─── PLAYER ─── */
+        
+        .player {
+            grid-column: 1 / -1;
+            grid-row: 2;
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            display: grid;
+            grid-template-columns: 280px 1fr 280px;
+            align-items: center;
+            padding: 0 24px;
+            gap: 16px;
+        }
+        
+        .player-song {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .player-poster {
+            width: 54px;
+            height: 54px;
+            border-radius: 10px;
+            object-fit: cover;
+            border: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+        
+        .player-song-title {
+            font-size: 0.88rem;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 160px;
+        }
+        
+        .player-song-artist {
+            font-size: 0.75rem;
+            color: var(--muted2);
+            margin-top: 2px;
+        }
+        
+        .player-like {
+            background: none;
+            border: none;
+            font-size: 1.1rem;
+            cursor: pointer;
+            padding: 4px;
+            flex-shrink: 0;
+            transition: transform 0.2s;
+        }
+        
+        .player-like:hover {
+            transform: scale(1.2);
+        }
+        /* Center controls */
+        
+        .player-center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .player-controls {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .ctrl-btn {
+            background: none;
+            border: none;
+            color: var(--muted2);
+            font-size: 1rem;
+            cursor: pointer;
+            padding: 6px;
+            border-radius: 50%;
+            width: 34px;
+            height: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        
+        .ctrl-btn:hover {
+            color: var(--text);
+            background: var(--surface2);
+        }
+        
+        .ctrl-btn.on {
+            color: var(--accent);
+        }
+        
+        .play-btn {
+            width: 44px;
+            height: 44px;
+            background: var(--accent);
+            color: #000;
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+        
+        .play-btn:hover {
+            background: var(--accent2);
+            transform: scale(1.08);
+        }
+        
+        .player-progress {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            max-width: 480px;
+        }
+        
+        .time-label {
+            font-size: 0.72rem;
+            color: var(--muted);
+            font-variant-numeric: tabular-nums;
+            min-width: 32px;
+        }
+        
+        .time-label:last-child {
+            text-align: right;
+        }
+        
+        .progress-track {
+            flex: 1;
+            height: 3px;
+            background: var(--surface3);
+            border-radius: 4px;
+            cursor: pointer;
+            position: relative;
+            transition: height 0.15s;
+        }
+        
+        .progress-track:hover {
+            height: 5px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--accent);
+            border-radius: 4px;
+            width: 0%;
+            transition: width 0.2s linear;
+            position: relative;
+        }
+        
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            right: -5px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 10px;
+            height: 10px;
+            background: var(--accent);
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.15s;
+        }
+        
+        .progress-track:hover .progress-fill::after {
+            opacity: 1;
+        }
+        /* Right side */
+        
+        .player-right {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+        
+        .volume-wrap {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .vol-icon {
+            color: var(--muted2);
+            font-size: 0.9rem;
+        }
+        
+        input[type=range] {
+            -webkit-appearance: none;
+            appearance: none;
+            background: var(--surface3);
+            height: 3px;
+            border-radius: 4px;
+            outline: none;
+            cursor: pointer;
+        }
+        
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 12px;
+            height: 12px;
+            background: var(--accent);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        
+        #volumeSlider {
+            width: 80px;
+        }
+        /* ─── EMPTY / NO RESULT ─── */
+        
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 24px;
+            color: var(--muted2);
+            gap: 12px;
+        }
+        
+        .empty-state .emoji {
+            font-size: 3rem;
+        }
+        
+        .empty-state p {
+            font-size: 0.95rem;
+        }
+        /* ─── EQUALIZER ANIMATION (playing indicator) ─── */
+        
+        .eq-bars {
+            display: flex;
+            align-items: flex-end;
+            gap: 2px;
+            height: 16px;
+            width: 16px;
+        }
+        
+        .eq-bar {
+            width: 3px;
+            background: var(--accent);
+            border-radius: 2px;
+            animation: eq 0.8s ease-in-out infinite alternate;
+        }
+        
+        .eq-bar:nth-child(1) {
+            animation-delay: 0s;
+        }
+        
+        .eq-bar:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .eq-bar:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        
+        @keyframes eq {
+            from {
+                height: 4px;
+            }
+            to {
+                height: 14px;
+            }
+        }
+        /* ─── MOBILE ─── */
+        
+        @media (max-width: 768px) {
+            body {
+                grid-template-columns: 1fr;
+                grid-template-rows: 56px 1fr var(--player-h);
+                overflow: hidden;
+                --player-h: 80px;
+            }
+            .sidebar {
+                grid-column: 1;
+                grid-row: 1;
+                flex-direction: row;
+                align-items: center;
+                overflow: hidden;
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+                padding: 0 16px;
+                gap: 12px;
+            }
+            .logo-wrap {
+                padding: 0;
+                border-bottom: none;
+                flex-shrink: 0;
+            }
+            .logo {
+                font-size: 1.4rem;
+                letter-spacing: 2px;
+            }
+            .sidebar-nav,
+            .sidebar-label,
+            .artists-list {
+                display: none;
+            }
+            .search-wrap {
+                flex: 1;
+                padding: 0;
+            }
+            .search-wrap input {
+                font-size: 0.82rem;
+                padding: 8px 12px 8px 32px;
+            }
+            .fav-mobile-btn {
+                background: none;
+                border: none;
+                font-size: 1.2rem;
+                cursor: pointer;
+                flex-shrink: 0;
+                padding: 4px;
+            }
+            .main {
+                grid-column: 1;
+                grid-row: 2;
+            }
+            .main-header {
+                padding: 14px 16px;
+            }
+            .main-title {
+                font-size: 1.3rem;
+            }
+            .main-subtitle {
+                display: none;
+            }
+            .btn-pill {
+                padding: 7px 14px;
+                font-size: 0.75rem;
+            }
+            .artists-grid {
+                grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+                gap: 14px;
+                padding: 16px;
+            }
+            .songs-section {
+                padding: 16px;
+            }
+            .back-row {
+                margin-bottom: 16px;
+            }
+            .artist-hero {
+                padding: 14px;
+                gap: 14px;
+            }
+            .artist-hero img {
+                width: 60px;
+                height: 60px;
+            }
+            .artist-hero-info h2 {
+                font-size: 1.3rem;
+            }
+            .play-all-btn {
+                padding: 9px 18px;
+                font-size: 0.82rem;
+            }
+            .songs-table-header {
+                display: none;
+            }
+            .song-row {
+                grid-template-columns: 1fr auto;
+                gap: 8px;
+                padding: 8px 6px;
+            }
+            .song-num {
+                display: none;
+            }
+            .song-row-info img {
+                width: 40px;
+                height: 40px;
+            }
+            .song-actions {
+                opacity: 1;
+            }
+            .player {
+                grid-column: 1;
+                grid-row: 3;
+                grid-template-columns: 1fr auto 1fr;
+                padding: 0 14px;
+                gap: 10px;
+            }
+            .player-song-title {
+                max-width: 110px;
+                font-size: 0.82rem;
+            }
+            .player-song-artist {
+                display: none;
+            }
+            .player-poster {
+                width: 44px;
+                height: 44px;
+            }
+            .player-center {
+                gap: 4px;
+            }
+            .player-progress {
+                max-width: 100%;
+                gap: 6px;
+            }
+            .player-controls {
+                gap: 12px;
+            }
+            .ctrl-btn.hide-mobile {
+                display: none;
+            }
+            .player-right {
+                display: none;
+            }
+            .play-btn {
+                width: 38px;
+                height: 38px;
+                font-size: 1rem;
+            }
+            .time-label {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="logo-wrap">
+            <div class="logo">
+                <div class="logo-dot"></div>
+                <span>EQU</span>IFY
+            </div>
+        </div>
+
+        <div class="search-wrap">
+            <input type="text" id="searchBar" placeholder="Search artist or song…" oninput="globalSearch()">
+        </div>
+
+        <!-- mobile fav btn -->
+        <button class="fav-mobile-btn" onclick="showLikedSongs()" title="Favorites">❤️</button>
+
+        <div class="sidebar-nav">
+            <button class="nav-btn active" id="navHome" onclick="loadArtists()">
+      <span class="nav-icon">⊞</span> Artists
+    </button>
+            <button class="nav-btn" id="navFav" onclick="showLikedSongs()">
+      <span class="nav-icon">❤️</span> Favorites
+    </button>
+        </div>
+
+        <div class="sidebar-label">Library</div>
+
+        <div class="artists-list" id="sidebarArtists"></div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main" id="mainArea">
+        <!-- content rendered here -->
+    </main>
+
+    <!-- PLAYER -->
+    <footer class="player">
+        <div class="player-song">
+            <img class="player-poster" id="poster" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='54' height='54' viewBox='0 0 54 54'%3E%3Crect width='54' height='54' fill='%2318181e'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-size='22' fill='%23555560'%3E♫%3C/text%3E%3C/svg%3E">
+            <div>
+                <div class="player-song-title" id="playerTitle">Nothing playing</div>
+                <div class="player-song-artist" id="playerArtist">—</div>
+            </div>
+            <button class="player-like" id="playerLikeBtn" onclick="togglePlayerLike()">🤍</button>
+        </div>
+
+        <div class="player-center">
+            <div class="player-controls">
+                <button class="ctrl-btn hide-mobile" id="shuffleBtn" onclick="toggleShuffle()" title="Shuffle">⇄</button>
+                <button class="ctrl-btn" onclick="previous()" title="Previous">⏮</button>
+                <button class="play-btn" id="playBtn" onclick="togglePlay()">▶</button>
+                <button class="ctrl-btn" onclick="next()" title="Next">⏭</button>
+                <button class="ctrl-btn hide-mobile" id="repeatBtn" onclick="toggleRepeat()" title="Repeat">↻</button>
+            </div>
+            <div class="player-progress">
+                <span class="time-label" id="currentTime">0:00</span>
+                <div class="progress-track" id="progressTrack" onclick="seek(event)">
+                    <div class="progress-fill" id="progressBar"></div>
+                </div>
+                <span class="time-label" id="duration">0:00</span>
+            </div>
+        </div>
+
+        <div class="player-right">
+            <div class="volume-wrap">
+                <span class="vol-icon">🔊</span>
+                <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1">
+            </div>
+        </div>
+    </footer>
+
+    <audio id="audio"></audio>
+
+    <script>
+        // ── DATA ──────────────────────────────────────────────────
+        const artists = {
+            prem: {
+                name: "PREM DHILLON",
+                image: "images/prem.jpeg",
+                songs: [{
+                    title: "Shoes Off",
+                    file: "Prem Dhillon/ShoesOff.mp3",
+                    poster: "images/ShoesOff.jpeg"
+                }, {
+                    title: "Get At Me",
+                    file: "Prem Dhillon/Get At Me.mp3",
+                    poster: "images/Get At Me.jpeg"
+                }, {
+                    title: "3am In Gillco",
+                    file: "Prem Dhillon/3am In Gillco.mp3",
+                    poster: "images/3am In Gillco.jpeg"
+                }, {
+                    title: "Lying Anyway",
+                    file: "Prem Dhillon/Lying Anyway.mp3",
+                    poster: "images/Lying Anyway.jpeg"
+                }, {
+                    title: "Cant Be Us",
+                    file: "Prem Dhillon/Cant Be Us.mp3",
+                    poster: "images/Cant Be Us.jpeg"
+                }, {
+                    title: "ASTARR",
+                    file: "Prem Dhillon/ASTARR.mp3",
+                    poster: "images/ASTARR.jpeg"
+                }, {
+                    title: "Damn Daddy",
+                    file: "Prem Dhillon/Damn Daddy.mp3",
+                    poster: "images/Damn Daddy.jpeg"
+                }, {
+                    title: "RUBICON",
+                    file: "Prem Dhillon/RUBICON.mp3",
+                    poster: "images/RUBICON.jpeg"
+                }, {
+                    title: "BADBOY",
+                    file: "Prem Dhillon/BADBOY.mp3",
+                    poster: "images/ASTARR.jpeg"
+                }, {
+                    title: "TOP DAWG",
+                    file: "Prem Dhillon/TOP DAWG.mp3",
+                    poster: "images/ASTARR.jpeg"
+                }, {
+                    title: "Busy Doin Nothin",
+                    file: "Prem Dhillon/Busy Doin Nothin.mp3",
+                    poster: "images/Busy Doin Nothin.jpeg"
+                }, {
+                    title: "Still Mine",
+                    file: "Prem Dhillon/Still Mine.mp3",
+                    poster: "images/Still Mine.jpeg"
+                }, {
+                    title: "Silicone",
+                    file: "Prem Dhillon/Silicone.mp3",
+                    poster: "images/Silicone.jpeg"
+                }, {
+                    title: "Old Skool",
+                    file: "Prem Dhillon/Old Skool.mp3",
+                    poster: "images/Old Skool.jpeg"
+                }, {
+                    title: "Majha Block",
+                    file: "Prem Dhillon/Majha Block.mp3",
+                    poster: "images/Majha Block.jpeg"
+                }, {
+                    title: "TYPE SHII",
+                    file: "Prem Dhillon/TYPE SHII.mp3",
+                    poster: "images/ASTARR.jpeg"
+                }, {
+                    title: "Wake Up Call",
+                    file: "Prem Dhillon/Wake Up Call.mp3",
+                    poster: "images/Wake Up Call.jpeg"
+                }]
+            },
+
+            sidhu: {
+                name: "SIDHU MOOSEWALA",
+                image: "images/sidhu.jpeg",
+                songs: [{
+                    title: "410",
+                    file: "Sidhu Moosewala/410.mp3",
+                    poster: "images/410.jpeg"
+                }, {
+                    title: "Barota",
+                    file: "Sidhu Moosewala/Barota.mp3",
+                    poster: "images/Barota.jpeg"
+                }, {
+                    title: "Never fold",
+                    file: "Sidhu Moosewala/Neverfold.mp3",
+                    poster: "images/Neverfold.jpeg"
+                }, {
+                    title: "Signed To God",
+                    file: "Sidhu Moosewala/Signed To God.mp3",
+                    poster: "images/Signed To God.jpeg"
+                }, {
+                    title: "Love sick",
+                    file: "Sidhu Moosewala/Love sick.mp3",
+                    poster: "images/Neverfold.jpeg"
+                }, {
+                    title: "Attach",
+                    file: "Sidhu Moosewala/Attach.mp3",
+                    poster: "images/Attach.jpeg"
+                }, {
+                    title: "Lock",
+                    file: "Sidhu Moosewala/Lock.mp3",
+                    poster: "images/Lock.jpeg"
+                }, {
+                    title: "Watch Out",
+                    file: "Sidhu Moosewala/Watch Out.mp3",
+                    poster: "images/Watch Out.jpeg"
+                }, {
+                    title: "Wiseman",
+                    file: "Sidhu Moosewala/Wiseman.mp3",
+                    poster: "images/Wiseman.jpeg"
+                }, {
+                    title: "US",
+                    file: "Sidhu Moosewala/US.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "UNFUCKWITHABLE",
+                    file: "Sidhu Moosewala/Unfuckwithable.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "295",
+                    file: "Sidhu Moosewala/295.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "ULTIMATUM",
+                    file: "Sidhu Moosewala/Ultimatum.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "TRAIL DAY SKIT",
+                    file: "Sidhu Moosewala/TrialDaySkit.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "THESE DAYS",
+                    file: "Sidhu Moosewala/TheseDays.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "SIDHU SON",
+                    file: "Sidhu Moosewala/SidhuSon.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "REGRET",
+                    file: "Sidhu Moosewala/Regret.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "REAL ONE SKIT",
+                    file: "Sidhu Moosewala/RealOneSkit.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "RACKS AND ROUNDS",
+                    file: "Sidhu Moosewala/RacksAndRounds.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "POWER",
+                    file: "Sidhu Moosewala/Power.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "PIND HOOD DAMN GOOD",
+                    file: "Sidhu Moosewala/PindHoodDamnGood.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "MOSSEDRILLA",
+                    file: "Sidhu Moosewala/MosseDrilla.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "ME AND MY GIRLFRIEND",
+                    file: "Sidhu Moosewala/MeAndMyGirlfriend.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "MALWA BLOCK",
+                    file: "Sidhu Moosewala/Malwa_Block.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "INVINICIBLE",
+                    file: "Sidhu Moosewala/Invincible.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "IDGAF",
+                    file: "Sidhu Moosewala/IDGAF.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "G SHIT",
+                    file: "Sidhu Moosewala/GShit.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "FACTS SKIT",
+                    file: "Sidhu Moosewala/FactsSkit.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "CHACHA HU SKIT",
+                    file: "Sidhu Moosewala/ChachaHuuSkit.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "GOAT",
+                    file: "Sidhu Moosewala/GOAT.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "CELEBRITY KILLER",
+                    file: "Sidhu Moosewala/Celebrity Killer.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "CALABOOSE",
+                    file: "Sidhu Moosewala/Calaboose.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "BURBERRY",
+                    file: "Sidhu Moosewala/Burberry.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "BUILT DIFFERENT",
+                    file: "Sidhu Moosewala/BuiltDifferent.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "BROWN SHORTIE",
+                    file: "Sidhu Moosewala/BrownShortie.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "BOO CALL SKIT",
+                    file: "Sidhu Moosewala/BooCallSkit.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "BITCH I'M BACK ",
+                    file: "Sidhu Moosewala/Bitch I M Back.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "B W",
+                    file: "Sidhu Moosewala/B W.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "AROMA",
+                    file: "Sidhu Moosewala/Aroma.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "AMLI TALK SKIT",
+                    file: "Sidhu Moosewala/Amli Talk Skit.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }],
+            },
+
+            shubh: {
+                name: "SHUBH",
+                image: "images/shubh.jpeg",
+                songs: [{
+                    title: "We Rollin",
+                    file: "Shubh/We Rollin.mp3",
+                    poster: "images/We Rollin.jpeg"
+                }, {
+                    title: "Balenci",
+                    file: "Shubh/Balenci.mp3",
+                    poster: "images/Balenci.jpeg"
+                }, {
+                    title: "Buckle Up",
+                    file: "Shubh/Buckle Up.mp3",
+                    poster: "images/Buckle Up.jpeg"
+                }, {
+                    title: "No Love",
+                    file: "Shubh/No Love.mp3",
+                    poster: "images/No Love.jpeg"
+                }, {
+                    title: "Aura",
+                    file: "Shubh/Aura.mp3",
+                    poster: "images/Aura.jpeg"
+                }, {
+                    title: "Baller",
+                    file: "Shubh/Baller.mp3",
+                    poster: "images/Baller.jpeg"
+                }, {
+                    title: "Bandana",
+                    file: "Shubh/Bandana.mp3",
+                    poster: "images/Bandana.jpeg"
+                }, {
+                    title: "Bars",
+                    file: "Shubh/Bars.mp3",
+                    poster: "images/Bars.jpeg"
+                }, {
+                    title: "Offshore",
+                    file: "Shubh/Offshore.mp3",
+                    poster: "images/Offshore.jpeg"
+                }, {
+                    title: "Still Rollin",
+                    file: "Shubh/Still Rollin.mp3",
+                    poster: "images/Still Rollin.jpeg"
+                }, {
+                    title: "OG",
+                    file: "Shubh/OG.mp3",
+                    poster: "images/OG.jpeg"
+                }, {
+                    title: "Be Mine",
+                    file: "Shubh/Be Mine.mp3",
+                    poster: "images/Be Mine.jpeg"
+                }, {
+                    title: "You and Me",
+                    file: "Shubh/You and Me.mp3",
+                    poster: "images/You and Me.jpeg"
+                }, {
+                    title: "King Shit",
+                    file: "Shubh/King Shit.mp3",
+                    poster: "images/King Shit.jpeg"
+                }, {
+                    title: "Her",
+                    file: "Shubh/Her.mp3",
+                    poster: "images/Her.jpeg"
+                }, {
+                    title: "Hood Anthem",
+                    file: "Shubh/Hood Anthem.mp3",
+                    poster: "images/Hood Anthem.jpeg"
+                }, {
+                    title: "Carti",
+                    file: "Shubh/Carti.mp3",
+                    poster: "images/Carti.jpeg"
+                }, {
+                    title: "Cheques",
+                    file: "Shubh/Cheques.mp3",
+                    poster: "images/Cheques.jpeg"
+                }, {
+                    title: "Dior",
+                    file: "Shubh/Dior.mp3",
+                    poster: "images/Dior.jpeg"
+                }, {
+                    title: "Fell For You",
+                    file: "Shubh/Fell For You.mp3",
+                    poster: "images/Fell For You.jpeg"
+                }, {
+                    title: "Ice",
+                    file: "Shubh/Ice.mp3",
+                    poster: "images/Ice.jpeg"
+                }, {
+                    title: "In Love",
+                    file: "Shubh/In Love.mp3",
+                    poster: "images/In Love.jpeg"
+                }, {
+                    title: "MVP",
+                    file: "Shubh/MVP.mp3",
+                    poster: "images/MVP.jpeg"
+                }, {
+                    title: "One Love",
+                    file: "Shubh/One Love.mp3",
+                    poster: "images/One Love.jpeg"
+                }, {
+                    title: "Reckless",
+                    file: "Shubh/Reckless.mp3",
+                    poster: "images/Reckless.jpeg"
+                }, {
+                    title: "Routine",
+                    file: "Shubh/Routine.mp3",
+                    poster: "images/Routine.jpeg"
+                }, {
+                    title: "Ruger",
+                    file: "Shubh/Ruger.mp3",
+                    poster: "images/Ruger.jpeg"
+                }, {
+                    title: "Top G",
+                    file: "Shubh/Top G.mp3",
+                    poster: "images/Top G.jpeg"
+                }, {
+                    title: "Ruthless",
+                    file: "Shubh/Ruthless.mp3",
+                    poster: "images/Ruthless.jpeg"
+                }, {
+                    title: "Safety Off",
+                    file: "Shubh/Safety Off.mp3",
+                    poster: "images/Safety Off.jpeg"
+                }, {
+                    title: "The Flow",
+                    file: "Shubh/The Flow.mp3",
+                    poster: "images/The Flow.jpeg"
+                }, {
+                    title: "Together",
+                    file: "Shubh/Together.mp3",
+                    poster: "images/Together.jpeg"
+                }],
+            },
+            navaan: {
+                name: "NAVAAN SANDHU",
+                image: "images/navaan.jpeg",
+                songs: [{
+                    title: "My Prime",
+                    file: "Navaan Sandhu/My Prime.mp3",
+                    poster: "images/Naveezy.jpeg"
+                }, {
+                    title: "Rehan Deyan",
+                    file: "Navaan Sandhu/Rehan Deyan.mp3",
+                    poster: "images/Naveezy.jpeg"
+                }, {
+                    title: "Naveezy",
+                    file: "Navaan Sandhu/Naveezy.mp3",
+                    poster: "images/Naveezy.jpeg"
+                }, {
+                    title: "Dil Lagiyan",
+                    file: "Navaan Sandhu/Dil Lagiyan.mp3",
+                    poster: "images/Naveezy.jpeg"
+                }, {
+                    title: "Kach Wangu",
+                    file: "Navaan Sandhu/Kach Wangu.mp3",
+                    poster: "images/Naveezy.jpeg"
+                }, {
+                    title: "Jail",
+                    file: "Navaan Sandhu/Jail.mp3",
+                    poster: "images/Naveezy.jpeg"
+                }, {
+                    title: "Dinar",
+                    file: "Navaan Sandhu/Dinar.mp3",
+                    poster: "images/Naveezy.jpeg"
+                }, {
+                    title: "Sit Down Son",
+                    file: "Navaan Sandhu/Sit Down Son.mp3",
+                    poster: "images/Sit Down Son.jpeg"
+                }, {
+                    title: "Culture Clicks ",
+                    file: "Navaan Sandhu/Culture Clicks.mp3",
+                    poster: "images/Navior.jpeg"
+                }, {
+                    title: "Dapper Dan",
+                    file: "Navaan Sandhu/Dapper Dan.mp3",
+                    poster: "images/Navior.jpeg"
+                }, {
+                    title: "Eyes On Us",
+                    file: "Navaan Sandhu/Eyes On Us.mp3",
+                    poster: "images/Navior.jpeg"
+                }, {
+                    title: "Levels N Graphs",
+                    file: "Navaan Sandhu/Levels N Graphs.mp3",
+                    poster: "images/Navior.jpeg"
+                }, {
+                    title: "Navior",
+                    file: "Navaan Sandhu/Navior.mp3",
+                    poster: "images/Navior.jpeg"
+                }, {
+                    title: "Racks On Racks",
+                    file: "Navaan Sandhu/Racks On Racks.mp3",
+                    poster: "images/Navior.jpeg"
+                }, {
+                    title: "Regret",
+                    file: "Navaan Sandhu/Regret.mp3",
+                    poster: "images/Navior.jpeg"
+                }, {
+                    title: "Sajda",
+                    file: "Navaan Sandhu/Sajda.mp3",
+                    poster: "images/Navior.jpeg"
+                }, {
+                    title: "Tabaah",
+                    file: "Navaan Sandhu/Tabaah.mp3",
+                    poster: "images/Navior.jpeg"
+                }, {
+                    title: "Deewane",
+                    file: "Navaan Sandhu/Deewane.mp3",
+                    poster: "images/Navior.jpeg"
+                }, {
+                    title: "Raah",
+                    file: "Navaan Sandhu/Raah.mp3",
+                    poster: "images/Raah.jpeg"
+                }, {
+                    title: "2 Asle",
+                    file: "Navaan Sandhu/2 Asle.mp3",
+                    poster: "images/2 Asle.jpeg"
+                }, {
+                    title: "24/7",
+                    file: "Navaan Sandhu/241.mp3",
+                    poster: "images/241.jpeg"
+                }, {
+                    title: "Black Life Original",
+                    file: "Navaan Sandhu/Black Life Original.mp3",
+                    poster: "images/Black Life Original.jpeg"
+                }, {
+                    title: "Black Life",
+                    file: "Navaan Sandhu/Black Life.mp3",
+                    poster: "images/Black Life.jpeg"
+                }, {
+                    title: "Do Asle",
+                    file: "Navaan Sandhu/Do Asle.mp3",
+                    poster: "images/Do Asle.jpeg"
+                }, {
+                    title: "Do Pal",
+                    file: "Navaan Sandhu/Do Pal.mp3",
+                    poster: "images/Do Pal.jpeg"
+                }, {
+                    title: "Hanji Hanji",
+                    file: "Navaan Sandhu/Hanji Hanji.mp3",
+                    poster: "images/Hanji Hanji.jpeg"
+                }, {
+                    title: "Hero",
+                    file: "Navaan Sandhu/Hero.mp3",
+                    poster: "images/Hero.jpeg"
+                }, {
+                    title: "Hirni",
+                    file: "Navaan Sandhu/Hirni.mp3",
+                    poster: "images/Hirni.jpeg"
+                }, {
+                    title: "In Demand",
+                    file: "Navaan Sandhu/In Demand.mp3",
+                    poster: "images/In Demand.jpeg"
+                }, {
+                    title: "Majha Forever",
+                    file: "Navaan Sandhu/Majha Forever.mp3",
+                    poster: "images/Majha Forever.jpeg"
+                }, {
+                    title: "Mann Di Nahi",
+                    file: "Navaan Sandhu/Mann Di Nahi.mp3",
+                    poster: "images/Mann Di Nahi.jpeg"
+                }, {
+                    title: "NO MIDMAN",
+                    file: "Navaan Sandhu/NO MIDMAN.mp3",
+                    poster: "images/NO MIDMAN.jpeg"
+                }, {
+                    title: "Picture Perfect",
+                    file: "Navaan Sandhu/Picture Perfect.mp3",
+                    poster: "images/Picture Perfect.jpeg"
+                }, {
+                    title: "Plug Talk",
+                    file: "Navaan Sandhu/Plug Talk.mp3",
+                    poster: "images/Plug Talk.jpeg"
+                }, {
+                    title: "Sandhu Takeover",
+                    file: "Navaan Sandhu/Sandhu Takeover.mp3",
+                    poster: "images/Sandhu Takeover.jpeg"
+                }, {
+                    title: "Sherni Banke",
+                    file: "Navaan Sandhu/Sherni Banke.mp3",
+                    poster: "images/Sherni Banke.jpeg"
+                }, {
+                    title: "Sick Tone",
+                    file: "Navaan Sandhu/Sick Tone.mp3",
+                    poster: "images/Sick Tone.jpeg"
+                }, {
+                    title: "So Mean",
+                    file: "Navaan Sandhu/So Mean.mp3",
+                    poster: "images/So Mean.jpeg"
+                }, {
+                    title: "Unbothered",
+                    file: "Navaan Sandhu/Unbothered.mp3",
+                    poster: "images/Unbothered.jpeg"
+                }, {
+                    title: "Taaz",
+                    file: "Navaan Sandhu/Taaz.mp3",
+                    poster: "images/Taaz.jpeg"
+                }, {
+                    title: "Waare Waare",
+                    file: "Navaan Sandhu/Waare Waare.mp3",
+                    poster: "images/Waare Waare.jpeg"
+                }, {
+                    title: "Ziddi Generation",
+                    file: "Navaan Sandhu/Ziddi Generation.mp3",
+                    poster: "images/Ziddi Generation.jpeg"
+                }, {
+                    title: "Ziddi Generation",
+                    file: "Navaan Sandhu/Ziddi_Generation.mp3",
+                    poster: "images/Zidddi Generation.jpeg"
+                }],
+            },
+            karan: {
+                name: "KARAN AUJLA",
+                image: "images/karan.jpeg",
+                songs: [{
+                    title: "Don't Look",
+                    file: "Karan Aujla/Don'nt Look.mp3",
+                    poster: "images/Don'nt Look.jpeg"
+                }, {
+                    title: "Chitta Kurta",
+                    file: "Karan Aujla/Chitta Kurta.mp3",
+                    poster: "images/Chitta Kurta.jpeg"
+                }, {
+                    title: "Jhanjar",
+                    file: "Karan Aujla/Jhanjar.mp3",
+                    poster: "images/Jhanjar.jpeg"
+                }, {
+                    title: "Kya Baat Aa",
+                    file: "Karan Aujla/Kya Baat Aa.mp3",
+                    poster: "images/Kya Baat Aa.jpeg"
+                }, {
+                    title: "7 7 Magnitude",
+                    file: "Karan Aujla/7 7 Magnitude.mp3",
+                    poster: "images/MF Gabhru.jpeg"
+                }, {
+                    title: "52 Bars",
+                    file: "Karan Aujla/52 Bars.mp3",
+                    poster: "images/52 Bars.jpeg"
+                }, {
+                    title: "Admirin You",
+                    file: "Karan Aujla/Admirin You.mp3",
+                    poster: "images/Admirin You.jpeg"
+                }, {
+                    title: "Antidote",
+                    file: "Karan Aujla/Antidote.mp3",
+                    poster: "images/IDK How.jpeg"
+                }, {
+                    title: "Boyfriend",
+                    file: "Karan Aujla/Boyfriend.mp3",
+                    poster: "images/MF Gabhru.jpeg"
+                }, {
+                    title: "Fallin Apart",
+                    file: "Karan Aujla/FallinApart.mp3",
+                    poster: "images/Nothing Lasts.jpeg"
+                }, {
+                    title: "For A Reason",
+                    file: "Karan Aujla/For A Reason.mp3",
+                    poster: "images/MF Gabhru.jpeg"
+                }, {
+                    title: "Game Over",
+                    file: "Karan Aujla/Game Over.mp3",
+                    poster: "images/Game Over.jpeg"
+                }, {
+                    title: "Goin Off",
+                    file: "Karan Aujla/Goin Off.mp3",
+                    poster: "images/Goin Off.jpeg"
+                }, {
+                    title: "HIM",
+                    file: "Karan Aujla/HIM.mp3",
+                    poster: "images/MF Gabhru.jpeg"
+                }, {
+                    title: "I Really Do",
+                    file: "Karan Aujla/I Really Do.mp3",
+                    poster: "images/MF Gabhru.jpeg"
+                }, {
+                    title: "IDK How",
+                    file: "Karan Aujla/IDK How.mp3",
+                    poster: "images/IDK How.jpeg"
+                }, {
+                    title: "Let em Play",
+                    file: "Karan Aujla/Let em Play.mp3",
+                    poster: "images/Let em Play.jpeg"
+                }, {
+                    title: "Mexico",
+                    file: "Karan Aujla/Mexico.mp3",
+                    poster: "images/Mexico.jpeg"
+                }, {
+                    title: "MF Gabhru!",
+                    file: "Karan Aujla/MF Gabhru!.mp3",
+                    poster: "images/MF Gabhru.jpeg"
+                }, {
+                    title: "Nothing Lasts",
+                    file: "Karan Aujla/Nothing Lasts.mp3",
+                    poster: "images/Nothing Lasts.jpeg"
+                }, {
+                    title: "On Top",
+                    file: "Karan Aujla/On Top.mp3",
+                    poster: "images/On Top.jpeg"
+                }, {
+                    title: "P POP CULTURE",
+                    file: "Karan Aujla/P POP CULTURE.mp3",
+                    poster: "images/MF Gabhru.jpeg"
+                }, {
+                    title: "Soch",
+                    file: "Karan Aujla/Soch.mp3",
+                    poster: "images/Soch.jpeg"
+                }, {
+                    title: "Take It Easy",
+                    file: "Karan Aujla/Take It Easy.mp3",
+                    poster: "images/52 Bars.jpeg"
+                }, {
+                    title: "Tareefan",
+                    file: "Karan Aujla/Tareefan.mp3",
+                    poster: "images/Nothing Lasts.jpeg"
+                }, {
+                    title: "Wavy",
+                    file: "Karan Aujla/Wavy.mp3",
+                    poster: "images/Wavy.jpeg"
+                }, {
+                    title: "Winning Speech",
+                    file: "Karan Aujla/Winning Speech.mp3",
+                    poster: "images/Winning Speech.jpeg"
+                }]
+            },
+            smg: {
+                name: "S.M.G",
+                image: "images/smg.jpeg",
+                songs: [{
+                    title: "Bexley Road",
+                    file: "SMG/Bexley Road.mp3",
+                    poster: "images/Bexley Road.jpeg"
+                }, {
+                    title: "C R E A M POSSE",
+                    file: "SMG/C R E A M POSSE.mp3",
+                    poster: "images/STIFF KIN.jpeg"
+                }, {
+                    title: "G.O.D",
+                    file: "SMG/G.O.D.mp3",
+                    poster: "images/G.O.D.jpeg"
+                }, {
+                    title: "HIGH ROLLERZ",
+                    file: "SMG/HIGH ROLLERZ.mp3",
+                    poster: "images/STIFF KIN.jpeg"
+                }, {
+                    title: "Intezaar",
+                    file: "SMG/Intezaar.mp3",
+                    poster: "images/Intezaar.jpeg"
+                }, {
+                    title: "LMK",
+                    file: "SMG/LMK.mp3",
+                    poster: "images/LMK.jpeg"
+                }, {
+                    title: "Lord Knows",
+                    file: "SMG/Lord Knows.mp3",
+                    poster: "images/Lord Knows.jpeg"
+                }, {
+                    title: "STIFF KIN",
+                    file: "SMG/STIFF KIN.mp3",
+                    poster: "images/STIFF KIN.jpeg"
+                }, {
+                    title: "WHY",
+                    file: "SMG/Why.mp3",
+                    poster: "images/Why.jpeg"
+                }]
+
+            },
+            jerry: {
+                name: "JERRY",
+                image: "images/jerry.jpeg",
+                songs: [{
+                    title: "Zero Cares",
+                    file: "Jerry/Zero Cares.mp3",
+                    poster: "images/Zero Cares.jpeg"
+                }, {
+                    title: "Young G",
+                    file: "Jerry/Young G.mp3",
+                    poster: "images/Young G.jpeg"
+                }, {
+                    title: "Weakness",
+                    file: "Jerry/Weakness.mp3",
+                    poster: "images/Weakness.jpeg"
+                }, {
+                    title: "Vehnde Vehnde",
+                    file: "Jerry/Vehnde Vehnde.mp3",
+                    poster: "images/Vehnde Vehnde.jpeg"
+                }, {
+                    title: "Trippin",
+                    file: "Jerry/Trippin.mp3",
+                    poster: "images/Trippin.jpeg"
+                }, {
+                    title: "Tera Hassna",
+                    file: "Jerry/Tera Hassna.mp3",
+                    poster: "images/Tera Hassna.jpeg"
+                }, {
+                    title: "Tease",
+                    file: "Jerry/Tease.mp3",
+                    poster: "images/Tease.jpeg"
+                }, {
+                    title: "Street Style",
+                    file: "Jerry/Street Style.mp3",
+                    poster: "images/Street Style.jpeg"
+                }, {
+                    title: "Step Off",
+                    file: "Jerry/Step Off.mp3",
+                    poster: "images/Step Off.jpeg"
+                }, {
+                    title: "Statement",
+                    file: "Jerry/Statement.mp3",
+                    poster: "images/Statement.jpeg"
+                }, {
+                    title: "Sinner",
+                    file: "Jerry/Sinner.mp3",
+                    poster: "images/Sinner.jpeg"
+                }, {
+                    title: "Showstopper",
+                    file: "Jerry/Showstopper.mp3",
+                    poster: "images/Showstopper.jpeg"
+                }, {
+                    title: "She S The One",
+                    file: "Jerry/She S The One.mp3",
+                    poster: "images/She S The One.jpeg"
+                }, {
+                    title: "Pyaar Na Di Cheez",
+                    file: "Jerry/Pyaar Na Di Cheez.mp3",
+                    poster: "images/Pyaar Na Di Cheez.jpeg"
+                }, {
+                    title: "Pta Ni",
+                    file: "Jerry/Pta Ni.mp3",
+                    poster: "images/Pta Ni.jpeg"
+                }, {
+                    title: "Pta Kro",
+                    file: "Jerry/Pta Kro.mp3",
+                    poster: "images/Statement.jpeg"
+                }, {
+                    title: "Pricey",
+                    file: "Jerry/Pricey.mp3",
+                    poster: "images/Tease.jpeg"
+                }, {
+                    title: "President",
+                    file: "Jerry/President.mp3",
+                    poster: "images/Statement.jpeg"
+                }, {
+                    title: "Photo",
+                    file: "Jerry/Photo.mp3",
+                    poster: "images/Statement.jpeg"
+                }, {
+                    title: "Palm Angels",
+                    file: "Jerry/Palm Angels.mp3",
+                    poster: "images/Palm Angels.jpeg"
+                }, {
+                    title: "One Of One",
+                    file: "Jerry/One Of One.mp3",
+                    poster: "images/Tease.jpeg"
+                }, {
+                    title: "Miami Flow",
+                    file: "Jerry/Miami Flow.mp3",
+                    poster: "images/Tease.jpeg"
+                }, {
+                    title: "Mainu Nai Pehchaandi",
+                    file: "Jerry/Mainu Nai Pehchaandi.mp3",
+                    poster: "images/Mainu Nai Pehchaandi.jpeg"
+                }, {
+                    title: "LV",
+                    file: "Jerry/LV.mp3",
+                    poster: "images/LV.jpeg"
+                }, {
+                    title: "Link Up",
+                    file: "Jerry/Link Up.mp3",
+                    poster: "images/Tease.jpeg"
+                }, {
+                    title: "January",
+                    file: "Jerry/January.mp3",
+                    poster: "images/January.jpeg"
+                }, {
+                    title: "Illegal Whip",
+                    file: "Jerry/Illegal Whip.mp3",
+                    poster: "images/Illegal Whip.jpeg"
+                }, {
+                    title: "Icon",
+                    file: "Jerry/Icon.mp3",
+                    poster: "images/Icon.jpeg"
+                }, {
+                    title: "Holy Faak",
+                    file: "Jerry/Holy Faak.mp3",
+                    poster: "images/Holy Faak.jpeg"
+                }, {
+                    title: "Hanju",
+                    file: "Jerry/Hanju.mp3",
+                    poster: "images/Hanju.jpeg"
+                }, {
+                    title: "Hall Of Fame",
+                    file: "Jerry/Hall Of Fame.mp3",
+                    poster: "images/Statement.jpeg"
+                }, {
+                    title: "Gunda Van",
+                    file: "Jerry/Gunda Van.mp3",
+                    poster: "images/Gunda Van.jpeg"
+                }, {
+                    title: "Goddamn",
+                    file: "Jerry/Goddamn.mp3",
+                    poster: "images/Goddamn.jpeg"
+                }, {
+                    title: "Gaani",
+                    file: "Jerry/Gaani.mp3",
+                    poster: "images/Gaani.jpeg"
+                }, {
+                    title: "Fidah",
+                    file: "Jerry/Fidah.mp3",
+                    poster: "images/Statement.jpeg"
+                }, {
+                    title: "Destiny",
+                    file: "Jerry/Destiny.mp3",
+                    poster: "images/Tease.jpeg"
+                }, {
+                    title: "Damn Good",
+                    file: "Jerry/Damn Good.mp3",
+                    poster: "images/Statement.jpeg"
+                }, {
+                    title: "Culture",
+                    file: "Jerry/Culture.mp3",
+                    poster: "images/Culture.jpeg"
+                }, {
+                    title: "Confess",
+                    file: "Jerry/Confess.mp3",
+                    poster: "images/Confess.jpeg"
+                }, {
+                    title: "College Dropout",
+                    file: "Jerry/College Dropout.mp3",
+                    poster: "images/Statement.jpeg"
+                }, {
+                    title: "Cheetah",
+                    file: "Jerry/Cheetah.mp3",
+                    poster: "images/Statement.jpeg"
+                }, {
+                    title: "Casanova",
+                    file: "Jerry/Casanova.mp3",
+                    poster: "images/Casanova.jpeg"
+                }, {
+                    title: "Bet On Me",
+                    file: "Jerry/Bet On Me.mp3",
+                    poster: "images/Bet On Me.jpeg"
+                }, {
+                    title: "Bae Call",
+                    file: "Jerry/Bae Call.mp3",
+                    poster: "images/Bae Call.jpeg"
+                }, {
+                    title: "Badtmeeji",
+                    file: "Jerry/Badtmeeji.mp3",
+                    poster: "images/Badtmeeji.jpeg"
+                }, {
+                    title: "Attwadi Dasde",
+                    file: "Jerry/Attwadi Dasde.mp3",
+                    poster: "images/Attwadi Dasde.jpeg"
+                }, {
+                    title: "Antisocial",
+                    file: "Jerry/Antisocial.mp3",
+                    poster: "images/Statement.jpeg"
+                }, {
+                    title: "Alpha",
+                    file: "Jerry/Alpha.mp3",
+                    poster: "images/Tease.jpeg"
+                }, {
+                    title: "Aint Gonna Stop",
+                    file: "Jerry/Aint Gonna Stop.mp3",
+                    poster: "images/Aint Gonna Stop.jpeg"
+                }, {
+                    title: "Adore",
+                    file: "Jerry/Adore.mp3",
+                    poster: "images/Adore.jpeg"
+                }, {
+                    title: "999",
+                    file: "Jerry/999.mp3",
+                    poster: "images/999.jpeg"
+                }, {
+                    title: "80 Lac",
+                    file: "Jerry/80 Lac.mp3",
+                    poster: "images/Statement.jpeg"
+                }, {
+                    title: "38",
+                    file: "Jerry/38.mp3",
+                    poster: "images/38.jpeg"
+                }, {
+                    title: "9 2 11",
+                    file: "Jerry/9 2 11.mp3",
+                    poster: "images/Statement.jpeg"
+                }, {
+                    title: "7 Saal",
+                    file: "Jerry/7 Saal.mp3",
+                    poster: "images/7 Saal.jpeg"
+                }, ]
+            },
+            gurindergill: {
+                name: "GURINDER GILL",
+                image: "images/gurinder.jpeg",
+                songs: [{
+                    title: "LATE KNIGHTS",
+                    file: "Gurinder Gill/Late Knights.mp3",
+                    poster: "images/Late Knight.jpeg"
+                }, {
+                    title: "RICH HEART",
+                    file: "Gurinder Gill/Rich Heart.mp3",
+                    poster: "images/Rich Heart.jpeg"
+                }]
+            },
+            gurnambhullar: {
+                name: "GURNAM BHULLAR",
+                image: "images/gurnam bhullar.jpeg",
+                songs: [{
+                    title: "DIAMOND",
+                    file: "Gurnam Bhullar/Diamond.mp3",
+                    poster: "images/Diamond.jpeg"
+                }]
+            },
+            mankirataulakh: {
+                name: "MANKIRAT AULAKH",
+                image: "images/mankirat.jpeg",
+                songs: [{
+                    title: "GODDESS",
+                    file: "Mankirat Aulakh/Goddess.mp3",
+                    poster: "images/Goddess.jpeg"
+                }]
+            },
+            parmishverma: {
+                name: "PARMISH VERMA",
+                image: "images/parmish.jpeg",
+                songs: [{
+                    title: "Aam Jahe Munde",
+                    file: "Parmish Verma/Aam Jahe Munde.mp3",
+                    poster: "images/Aam Jahe Munde.jpeg"
+                }]
+            },
+            arjan: {
+                name: "ARJAN DHILLON",
+                image: "images/arjan.jpeg",
+                songs: [{
+                    title: "25-25",
+                    file: "Arjan Dhillon/25-25.mp3",
+                    poster: "images/25-25.jpeg"
+                }, {
+                    title: "Hazur",
+                    file: "Arjan Dhillon/Hazur.mp3",
+                    poster: "images/25-25.jpeg"
+                }, {
+                    title: "Trucker",
+                    file: "Arjan Dhillon/Trucker.mp3",
+                    poster: "images/Trucker.jpeg"
+                }, {
+                    title: "AKAD",
+                    file: "Arjan Dhillon/AKAD.mp3",
+                    poster: "images/AKAD.jpeg"
+                }, {
+                    title: "Din Te Gin",
+                    file: "Arjan Dhillon/Din Te Gin.mp3",
+                    poster: "images/AKAD.jpeg"
+                }, {
+                    title: "Hawa Banke",
+                    file: "Arjan Dhillon/Hawa Banke.mp3",
+                    poster: "images/AKAD.jpeg"
+                }, {
+                    title: "Karma Walia Akhan",
+                    file: "Arjan Dhillon/Karma Walia Akhan.mp3",
+                    poster: "images/AKAD.jpeg"
+                }, {
+
+                    title: "Kavita",
+                    file: "Arjan Dhillon/Kavita.mp3",
+                    poster: "images/Hawa Banke.jpeg"
+                }, {
+                    title: "Khat Likhi",
+                    file: "Arjan Dhillon/Khat Likhi.mp3",
+                    poster: "images/Hawa Banke.jpeg"
+                }, {
+                    title: "Pakka Ghar",
+                    file: "Arjan Dhillon/Pakka Ghar.mp3",
+                    poster: "images/Hawa Banke.jpeg"
+                }, {
+                    title: "Taj Mahal",
+                    file: "Arjan Dhillon/Taj Mahal.mp3",
+                    poster: "images/Hawa Banke.jpeg"
+                }, {
+                    title: "Tatoo",
+                    file: "Arjan Dhillon/Tatoo.mp3",
+                    poster: "images/Hawa Banke.jpeg"
+                }, {
+                    title: "Trucker",
+                    file: "Arjan Dhillon/trucker.mp3",
+                    poster: "images/Hawa Banke.jpeg"
+                }],
+            }
+        }
+
+        // ── STATE ─────────────────────────────────────────────────
+        const audio = document.getElementById('audio');
+        const progressBar = document.getElementById('progressBar');
+        const playBtn = document.getElementById('playBtn');
+        const posterEl = document.getElementById('poster');
+        const playerTitle = document.getElementById('playerTitle');
+        const playerArtist = document.getElementById('playerArtist');
+        const volumeSlider = document.getElementById('volumeSlider');
+
+        let currentSongs = [];
+        let currentIndex = 0;
+        let currentArtistKey = null;
+        let isShuffle = false;
+        let isRepeat = false;
+        let queue = [];
+        let likedSongs = JSON.parse(localStorage.getItem('equify_liked') || '{}');
+
+        // ── SIDEBAR ───────────────────────────────────────────────
+        function buildSidebar() {
+            const sb = document.getElementById('sidebarArtists');
+            sb.innerHTML = '';
+            for (let key in artists) {
+                const a = artists[key];
+                sb.innerHTML += `<div class="artist-item" id="sb_${key}" onclick="openArtist('${key}')">
+      <img src="${a.image}" onerror="this.style.background='#1f1f28'">
+      <span class="artist-item-name">${a.name}</span>
+    </div>`;
+            }
+        }
+
+        // ── ARTISTS GRID ──────────────────────────────────────────
+        function loadArtists() {
+            setNavActive('navHome');
+            document.getElementById('mainArea').innerHTML = `
+    <div class="main-header">
+      <div>
+        <div class="main-title">Artists</div>
+        <div class="main-subtitle">${Object.keys(artists).length} artists in your library</div>
+      </div>
+      <div class="header-actions">
+        <button class="btn-pill btn-pill-outline" onclick="showLikedSongs()">❤️ Favorites</button>
+      </div>
+    </div>
+    <div class="artists-grid" id="artistsGrid">
+      ${Object.entries(artists).map(([key, a]) => `
+        <div class="artist-card" onclick="openArtist('${key}')">
+          <img src="${a.image}" onerror="this.style.background='#1f1f28'" loading="lazy">
+          <div class="artist-card-overlay">
+            <div class="artist-card-name">${a.name}</div>
+            <div class="artist-card-count">${a.songs.length} songs</div>
+          </div>
+          <button class="card-play-btn" onclick="event.stopPropagation(); playArtist('${key}')">▶</button>
+        </div>`).join('')}
+    </div>`;
+}
+
+// ── ARTIST SONGS ──────────────────────────────────────────
+function openArtist(key) {
+  currentArtistKey = key;
+  const a = artists[key];
+  currentSongs = a.songs;
+
+  setSidebarActive(key);
+
+  document.getElementById('mainArea').innerHTML = `
+    <div class="main-header">
+      <div>
+        <div class="main-title">${a.name}</div>
+        <div class="main-subtitle">${a.songs.length} songs</div>
+      </div>
+      <div class="header-actions">
+        <button class="btn-pill btn-pill-accent" onclick="playArtist('${key}')">▶ Play All</button>
+      </div>
+    </div>
+    <div class="songs-section">
+      <div class="songs-table-header">
+        <span class="th">#</span>
+        <span class="th">Title</span>
+        <span class="th"></span>
+      </div>
+      <div id="songsList">
+        ${a.songs.map((song, i) => songRowHTML(song, i, a.name)).join('')}
+      </div>
+    </div>`;
+}
+
+function songRowHTML(song, i, artistName) {
+  const isPlaying = currentIndex === i && currentSongs === artists[currentArtistKey]?.songs && !audio.paused;
+  const liked = likedSongs[song.file];
+  return `<div class="song-row${isPlaying ? ' playing' : ''}" id="row_${i}" onclick="playSong(${i})">
+    <div class="song-num">${isPlaying ? '<div class="eq-bars"><div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div></div>' : i + 1}</div>
+    <div class="song-row-info">
+      <img src="${song.poster}" onerror="this.style.background='#1f1f28'" loading="lazy">
+      <div class="song-row-text">
+        <h4>${song.title}</h4>
+        <p>${artistName}</p>
+      </div>
+    </div>
+    <div class="song-actions">
+      <button class="like-btn ${liked ? 'liked' : ''}" onclick="event.stopPropagation(); toggleLike('${song.file}', ${i})">${liked ? '❤️' : '🤍'}</button>
+      <button class="queue-btn" onclick="event.stopPropagation(); addToQueue(${i})" title="Add to queue">＋</button>
+    </div>
+  </div>`;
+}
+
+function refreshSongRows() {
+  if (!currentArtistKey) return;
+  const a = artists[currentArtistKey];
+  const list = document.getElementById('songsList');
+  if (!list) return;
+  list.innerHTML = a.songs.map((s, i) => songRowHTML(s, i, a.name)).join('');
+}
+
+// ── PLAYBACK ──────────────────────────────────────────────
+function playSong(index) {
+  if (!currentSongs[index]) return;
+  currentIndex = index;
+  const song = currentSongs[index];
+  audio.src = 'songs/' + song.file;
+  posterEl.src = song.poster;
+  playerTitle.textContent = song.title;
+
+  // find artist name
+  const artistKey = Object.keys(artists).find(k => artists[k].songs === currentSongs);
+  playerArtist.textContent = artistKey ? artists[artistKey].name : '';
+
+  updatePlayerLikeBtn(song.file);
+  audio.play();
+  playBtn.textContent = '⏸';
+
+  refreshSongRows();
+}
+
+function togglePlay() {
+  if (audio.paused) { audio.play(); playBtn.textContent = '⏸'; }
+  else { audio.pause(); playBtn.textContent = '▶'; }
+}
+
+function next() {
+  if (queue.length > 0) {
+    const s = queue.shift();
+    audio.src = 'songs/' + s.file;
+    posterEl.src = s.poster;
+    playerTitle.textContent = s.title;
+    audio.play(); playBtn.textContent = '⏸';
+    return;
+  }
+  if (!currentSongs.length) return;
+  currentIndex = isShuffle
+    ? Math.floor(Math.random() * currentSongs.length)
+    : (currentIndex + 1) % currentSongs.length;
+  playSong(currentIndex);
+}
+
+function previous() {
+  if (!currentSongs.length) return;
+  if (audio.currentTime > 3) { audio.currentTime = 0; return; }
+  currentIndex = (currentIndex - 1 + currentSongs.length) % currentSongs.length;
+  playSong(currentIndex);
+}
+
+function playArtist(key) {
+  currentSongs = artists[key].songs;
+  currentArtistKey = key;
+  currentIndex = 0;
+  playSong(0);
+}
+
+function seek(e) {
+  if (!audio.duration) return;
+  const rect = document.getElementById('progressTrack').getBoundingClientRect();
+  audio.currentTime = ((e.clientX - rect.left) / rect.width) * audio.duration;
+}
+
+function addToQueue(index) {
+  queue.push(currentSongs[index]);
+  showToast('Added to queue');
+}
+
+// ── CONTROLS ──────────────────────────────────────────────
+function toggleShuffle() {
+  isShuffle = !isShuffle;
+  document.getElementById('shuffleBtn').classList.toggle('on', isShuffle);
+}
+
+function toggleRepeat() {
+  isRepeat = !isRepeat;
+  audio.loop = isRepeat;
+  document.getElementById('repeatBtn').classList.toggle('on', isRepeat);
+}
+
+// ── LIKES ─────────────────────────────────────────────────
+function toggleLike(fileId, rowIndex) {
+  if (likedSongs[fileId]) delete likedSongs[fileId];
+  else likedSongs[fileId] = true;
+  localStorage.setItem('equify_liked', JSON.stringify(likedSongs));
+  if (rowIndex !== undefined) refreshSongRows();
+  updatePlayerLikeBtn(fileId);
+}
+
+function togglePlayerLike() {
+  if (!currentSongs[currentIndex]) return;
+  const fileId = currentSongs[currentIndex].file;
+  toggleLike(fileId);
+}
+
+function updatePlayerLikeBtn(fileId) {
+  document.getElementById('playerLikeBtn').textContent = likedSongs[fileId] ? '❤️' : '🤍';
+}
+
+// ── LIKED SONGS ───────────────────────────────────────────
+function showLikedSongs() {
+  setNavActive('navFav');
+  currentSongs = [];
+  const liked = [];
+  for (let key in artists) {
+    artists[key].songs.forEach(s => {
+      if (likedSongs[s.file]) liked.push({ ...s, artistName: artists[key].name, artistKey: key });
+    });
+  }
+
+  document.getElementById('mainArea').innerHTML = `
+    <div class="main-header">
+      <div>
+        <div class="main-title">Favorites</div>
+        <div class="main-subtitle">${liked.length} liked songs</div>
+      </div>
+    </div>
+    <div class="songs-section">
+      ${liked.length === 0
+        ? '<div class="empty-state"><div class="emoji">🎵</div><p>No favorites yet. Like songs to see them here.</p></div>'
+        : `<div>${liked.map((s, i) => `
+          <div class="song-row" onclick="playLikedSong(${i})">
+            <div class="song-num">${i + 1}</div>
+            <div class="song-row-info">
+              <img src="${s.poster}" onerror="this.style.background='#1f1f28'" loading="lazy">
+              <div class="song-row-text">
+                <h4>${s.title}</h4>
+                <p>${s.artistName}</p>
+              </div>
+            </div>
+            <div class="song-actions">
+              <button class="like-btn liked" onclick="event.stopPropagation(); toggleLikeFav('${s.file}', this)">❤️</button>
+            </div>
+          </div>`).join('')}</div>`}
+    </div>`;
+
+  window.__likedList = liked;
+}
+
+function playLikedSong(index) {
+  const s = window.__likedList[index];
+  currentSongs = window.__likedList;
+  currentArtistKey = null;
+  currentIndex = index;
+  audio.src = 'songs/' + s.file;
+  posterEl.src = s.poster;
+  playerTitle.textContent = s.title;
+  playerArtist.textContent = s.artistName || '';
+  updatePlayerLikeBtn(s.file);
+  audio.play(); playBtn.textContent = '⏸';
+}
+
+function toggleLikeFav(fileId, btn) {
+  delete likedSongs[fileId];
+  localStorage.setItem('equify_liked', JSON.stringify(likedSongs));
+  btn.closest('.song-row').style.opacity = '0';
+  setTimeout(() => showLikedSongs(), 300);
+}
+
+// ── SEARCH ────────────────────────────────────────────────
+function globalSearch() {
+  const q = document.getElementById('searchBar').value.toLowerCase().trim();
+  if (!q) { loadArtists(); return; }
+
+  let html = '';
+  let count = 0;
+
+  for (let key in artists) {
+    const a = artists[key];
+    if (a.name.toLowerCase().includes(q)) {
+      html += `<div class="artist-card" onclick="openArtist('${key}')">
+        <img src="${a.image}" onerror="this.style.background='#1f1f28'">
+        <div class="artist-card-overlay">
+          <div class="artist-card-name">${a.name}</div>
+          <div class="artist-card-count">${a.songs.length} songs</div>
+        </div>
+        <button class="card-play-btn" onclick="event.stopPropagation(); playArtist('${key}')">▶</button>
+      </div>`; count++;
+    }
+    a.songs.forEach((s, i) => {
+      if (s.title.toLowerCase().includes(q)) {
+        html += `<div class="artist-card" style="aspect-ratio:unset;padding:12px 14px;display:flex;gap:12px;align-items:center;background:var(--surface);border-radius:12px;" onclick="openArtistAndPlay('${key}',${i})">
+          <img src="${s.poster}" style="width:44px;height:44px;border-radius:8px;object-fit:cover;flex-shrink:0;">
+          <div style="text-align:left;overflow:hidden;">
+            <div style="font-size:.88rem;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${s.title}</div>
+            <div style="font-size:.75rem;color:var(--muted2);">${a.name}</div>
+          </div>
+        </div>`; count++;
+      }
+    });
+  }
+
+  document.getElementById('mainArea').innerHTML = `
+    <div class="main-header">
+      <div>
+        <div class="main-title">Results for "${q}"</div>
+        <div class="main-subtitle">${count} found</div>
+      </div>
+    </div>
+    <div class="artists-grid">${count ? html : ''}</div>
+    ${!count ? '<div class="empty-state"><div class="emoji">🔍</div><p>No results found for "' + q + '"</p></div>' : ''}`;
+}
+
+function openArtistAndPlay(key, index) {
+  currentSongs = artists[key].songs;
+  currentArtistKey = key;
+  openArtist(key);
+  playSong(index);
+}
+
+// ── AUDIO EVENTS ──────────────────────────────────────────
+audio.addEventListener('timeupdate', () => {
+  if (!audio.duration) return;
+  const pct = (audio.currentTime / audio.duration) * 100;
+  progressBar.style.width = pct + '%';
+  document.getElementById('currentTime').textContent = fmt(audio.currentTime);
+  document.getElementById('duration').textContent = fmt(audio.duration);
+});
+
+audio.addEventListener('ended', () => { if (!isRepeat) next(); });
+audio.addEventListener('play', () => { playBtn.textContent = '⏸'; });
+audio.addEventListener('pause', () => { playBtn.textContent = '▶'; });
+
+volumeSlider.addEventListener('input', () => { audio.volume = volumeSlider.value; });
+
+function fmt(s) {
+  const m = Math.floor(s / 60), sec = Math.floor(s % 60);
+  return m + ':' + String(sec).padStart(2, '0');
+}
+
+// ── UTILS ─────────────────────────────────────────────────
+function setNavActive(id) {
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  const el = document.getElementById(id);
+  if (el) el.classList.add('active');
+}
+
+function setSidebarActive(key) {
+  document.querySelectorAll('.artist-item').forEach(el => el.classList.remove('active'));
+  const el = document.getElementById('sb_' + key);
+  if (el) { el.classList.add('active'); el.scrollIntoView({ block: 'nearest' }); }
+}
+
+let toastTimer;
+function showToast(msg) {
+  let t = document.getElementById('toast');
+  if (!t) {
+    t = document.createElement('div');
+    t.id = 'toast';
+    t.style.cssText = 'position:fixed;bottom:110px;left:50%;transform:translateX(-50%);background:var(--accent);color:#000;font-size:.82rem;font-weight:600;padding:8px 18px;border-radius:30px;z-index:999;opacity:0;transition:opacity .2s;pointer-events:none;';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  t.style.opacity = '1';
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.style.opacity = '0', 1800);
+}
+
+// ── INIT ──────────────────────────────────────────────────
+buildSidebar();
+loadArtists();
+    </script>
+</body>
+
+</html>
