@@ -901,7 +901,7 @@
                 grid-template-columns: 1fr;
                 grid-template-rows: 56px 1fr var(--player-h);
                 overflow: hidden;
-                --player-h: 80px;
+                --player-h: 110px;
             }
             .sidebar {
                 grid-column: 1;
@@ -1011,9 +1011,9 @@
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
-                padding: 8px 12px;
+                padding: 6px 12px 10px;
                 gap: 6px;
-                height: auto;
+                min-height: 110px;
             }
             .player-song {
                 width: 100%;
@@ -1053,7 +1053,8 @@
             .player-progress {
                 width: 100%;
                 max-width: 100%;
-                gap: 5px;
+                gap: 6px;
+                margin-top: 2px;
             }
             .progress-track {
                 flex: 1;
