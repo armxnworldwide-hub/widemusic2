@@ -779,7 +779,6 @@
         .progress-track:hover .progress-fill::after {
             opacity: 1;
         }
-        /* Right side */
         
         .player-right {
             display: flex;
@@ -821,7 +820,6 @@
         #volumeSlider {
             width: 80px;
         }
-        /* ─── EMPTY / NO RESULT ─── */
         
         .empty-state {
             display: flex;
@@ -840,7 +838,6 @@
         .empty-state p {
             font-size: 0.95rem;
         }
-        /* ─── EQUALIZER ANIMATION (playing indicator) ─── */
         
         .eq-bars {
             display: flex;
@@ -877,9 +874,21 @@
                 height: 14px;
             }
         }
-        /* ─── MOBILE ─── */
         
         @media (max-width: 768px) {
+            .player-center {
+                width: 100%;
+            }
+            .player-progress {
+                width: 100%;
+                max-width: 100%;
+            }
+            .progress-track {
+                width: 100%;
+            }
+            .back-row {
+                margin-top: 10px;
+            }
             body {
                 grid-template-columns: 1fr;
                 grid-template-rows: 56px 1fr var(--player-h);
@@ -1036,7 +1045,7 @@
 
 <body>
 
-    <!-- SIDEBAR -->
+
     <aside class="sidebar">
         <div class="logo-wrap">
             <div class="logo">
@@ -1049,7 +1058,7 @@
             <input type="text" id="searchBar" placeholder="Search artist or song…" oninput="globalSearch()">
         </div>
 
-        <!-- mobile fav btn -->
+
         <button class="fav-mobile-btn" onclick="showLikedSongs()" title="Favorites">❤️</button>
 
         <div class="sidebar-nav">
@@ -1066,12 +1075,12 @@
         <div class="artists-list" id="sidebarArtists"></div>
     </aside>
 
-    <!-- MAIN -->
+
     <main class="main" id="mainArea">
-        <!-- content rendered here -->
+
     </main>
 
-    <!-- PLAYER -->
+
     <footer class="player">
         <div class="player-song">
             <img class="player-poster" id="poster" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='54' height='54' viewBox='0 0 54 54'%3E%3Crect width='54' height='54' fill='%2318181e'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-size='22' fill='%23555560'%3E♫%3C/text%3E%3C/svg%3E">
@@ -1110,7 +1119,6 @@
     <audio id="audio"></audio>
 
     <script>
-        // ── DATA ──────────────────────────────────────────────────
         const artists = {
             prem: {
                 name: "PREM DHILLON",
@@ -2142,7 +2150,6 @@
             }
         }
 
-        // ── STATE ─────────────────────────────────────────────────
         const audio = document.getElementById('audio');
         const progressBar = document.getElementById('progressBar');
         const playBtn = document.getElementById('playBtn');
@@ -2159,7 +2166,6 @@
         let queue = [];
         let likedSongs = JSON.parse(localStorage.getItem('equify_liked') || '{}');
 
-        // ── SIDEBAR ───────────────────────────────────────────────
         function buildSidebar() {
             const sb = document.getElementById('sidebarArtists');
             sb.innerHTML = '';
@@ -2172,7 +2178,6 @@
             }
         }
 
-        // ── ARTISTS GRID ──────────────────────────────────────────
         function loadArtists() {
             setNavActive('navHome');
             document.getElementById('mainArea').innerHTML = `
@@ -2198,7 +2203,7 @@
     </div>`;
 }
 
-// ── ARTIST SONGS ──────────────────────────────────────────
+
 function openArtist(key) {
   currentArtistKey = key;
   const a = artists[key];
@@ -2255,7 +2260,7 @@ function refreshSongRows() {
   list.innerHTML = a.songs.map((s, i) => songRowHTML(s, i, a.name)).join('');
 }
 
-// ── PLAYBACK ──────────────────────────────────────────────
+
 function playSong(index) {
   if (!currentSongs[index]) return;
   currentIndex = index;
@@ -2264,7 +2269,7 @@ function playSong(index) {
   posterEl.src = song.poster;
   playerTitle.textContent = song.title;
 
-  // find artist name
+  
   const artistKey = Object.keys(artists).find(k => artists[k].songs === currentSongs);
   playerArtist.textContent = artistKey ? artists[artistKey].name : '';
 
@@ -2321,7 +2326,6 @@ function addToQueue(index) {
   showToast('Added to queue');
 }
 
-// ── CONTROLS ──────────────────────────────────────────────
 function toggleShuffle() {
   isShuffle = !isShuffle;
   document.getElementById('shuffleBtn').classList.toggle('on', isShuffle);
@@ -2333,7 +2337,6 @@ function toggleRepeat() {
   document.getElementById('repeatBtn').classList.toggle('on', isRepeat);
 }
 
-// ── LIKES ─────────────────────────────────────────────────
 function toggleLike(fileId, rowIndex) {
   if (likedSongs[fileId]) delete likedSongs[fileId];
   else likedSongs[fileId] = true;
@@ -2352,7 +2355,7 @@ function updatePlayerLikeBtn(fileId) {
   document.getElementById('playerLikeBtn').textContent = likedSongs[fileId] ? '❤️' : '🤍';
 }
 
-// ── LIKED SONGS ───────────────────────────────────────────
+
 function showLikedSongs() {
   setNavActive('navFav');
   currentSongs = [];
@@ -2412,7 +2415,7 @@ function toggleLikeFav(fileId, btn) {
   setTimeout(() => showLikedSongs(), 300);
 }
 
-// ── SEARCH ────────────────────────────────────────────────
+
 function globalSearch() {
   const q = document.getElementById('searchBar').value.toLowerCase().trim();
   if (!q) { loadArtists(); return; }
@@ -2463,7 +2466,7 @@ function openArtistAndPlay(key, index) {
   playSong(index);
 }
 
-// ── AUDIO EVENTS ──────────────────────────────────────────
+
 audio.addEventListener('timeupdate', () => {
   if (!audio.duration) return;
   const pct = (audio.currentTime / audio.duration) * 100;
@@ -2483,7 +2486,7 @@ function fmt(s) {
   return m + ':' + String(sec).padStart(2, '0');
 }
 
-// ── UTILS ─────────────────────────────────────────────────
+
 function setNavActive(id) {
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
   const el = document.getElementById(id);
@@ -2511,7 +2514,6 @@ function showToast(msg) {
   toastTimer = setTimeout(() => t.style.opacity = '0', 1800);
 }
 
-// ── INIT ──────────────────────────────────────────────────
 buildSidebar();
 loadArtists();
     </script>
