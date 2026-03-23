@@ -1084,6 +1084,66 @@
                 display: block;
             }
         }
+        
+        .logo img {
+            height: 45px;
+            width: 45px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 2px solid #1db954;
+            padding: 3px;
+            background: black;
+        }
+        
+        .logo {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: bold;
+            font-size: 22px;
+            letter-spacing: 1px;
+            color: white;
+            z-index: 1000;
+        }
+        
+        .logo img {
+            height: 42px;
+            width: 42px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 2px solid #1db954;
+            padding: 3px;
+            background: black;
+        }
+        
+        .logo span {
+            color: white;
+        }
+        
+        .logo span::first-letter {
+            color: #1db954;
+        }
+        
+        @media (max-width:768px) {
+            .logo {
+                font-size: 18px;
+                right: 15px;
+            }
+            .logo img {
+                height: 34px;
+                width: 34px;
+            }
+        }
+        
+        @media (max-width:768px) {
+            .logo img {
+                height: 35px;
+                width: 35px;
+            }
+        }
     </style>
 </head>
 
@@ -1093,8 +1153,8 @@
     <aside class="sidebar">
         <div class="logo-wrap">
             <div class="logo">
-                <div class="logo-dot"></div>
-                <span>EQU</span>IFY
+                <img src="images/equify.jpeg" alt="Equify">
+                <span>EQUIFY</span>
             </div>
         </div>
 
