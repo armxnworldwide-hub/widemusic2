@@ -79,6 +79,53 @@
             animation: blink 2s ease-in-out infinite;
         }
         
+        #fullscreenPlayer {
+            position: fixed;
+            inset: 0;
+            background: #0a0a0c;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            z-index: 9998;
+        }
+        
+        #fullscreenPlayer img {
+            width: 260px;
+            height: 260px;
+            border-radius: 20px;
+        }
+        
+        #fsTitle {
+            font-family: 'Bebas Neue';
+            letter-spacing: 2px;
+        }
+        
+        .fsControls {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .fsControls button {
+            font-size: 20px;
+            background: #c8f542;
+            border: none;
+            border-radius: 50%;
+            width: 55px;
+            height: 55px;
+        }
+        
+        #closePlayer {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 28px;
+        }
+        
         @keyframes blink {
             0%,
             100% {
@@ -1285,6 +1332,25 @@
             </div>
         </div>
     </footer>
+    <div id="fullscreenPlayer">
+
+        <button onclick="closeFullPlayer()" id="closePlayer">⌄</button>
+
+        <img id="fsPoster">
+
+        <h2 id="fsTitle"></h2>
+
+        <div class="fsControls">
+
+            <button onclick="previous()">⏮</button>
+
+            <button onclick="togglePlay()">▶</button>
+
+            <button onclick="next()">⏭</button>
+
+        </div>
+
+    </div>
 
     <audio id="audio"></audio>
 
@@ -2728,8 +2794,24 @@ function showToast(msg) {
 
 
 buildSidebar();
-loadArtists();
+loadArtists();const fsPlayer = document.getElementById("fullscreenPlayer");
+const fsPoster = document.getElementById("fsPoster");
+const fsTitle = document.getElementById("fsTitle");
+
+document.querySelector(".player").onclick = () => {
+
+    fsPoster.src = poster.src;
+    fsTitle.innerText = playerTitle.innerText;
+
+    fsPlayer.style.display="flex";
+}
+
+
+function closeFullPlayer(){
+    fsPlayer.style.display = "none";
+}
     </script>
+
 </body>
 
 </html>
