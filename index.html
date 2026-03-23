@@ -1332,25 +1332,6 @@
             </div>
         </div>
     </footer>
-    <div id="fullscreenPlayer">
-
-        <button onclick="closeFullPlayer()" id="closePlayer">⌄</button>
-
-        <img id="fsPoster">
-
-        <h2 id="fsTitle"></h2>
-
-        <div class="fsControls">
-
-            <button onclick="previous()">⏮</button>
-
-            <button onclick="togglePlay()">▶</button>
-
-            <button onclick="next()">⏭</button>
-
-        </div>
-
-    </div>
 
     <audio id="audio"></audio>
 
@@ -2794,24 +2775,24 @@ function showToast(msg) {
 
 
 buildSidebar();
-loadArtists();const fsPlayer = document.getElementById("fullscreenPlayer");
-const fsPoster = document.getElementById("fsPoster");
-const fsTitle = document.getElementById("fsTitle");
-
-document.querySelector(".player").onclick = () => {
-
-    fsPoster.src = poster.src;
-    fsTitle.innerText = playerTitle.innerText;
-
-    fsPlayer.style.display="flex";
-}
-
-
-function closeFullPlayer(){
-    fsPlayer.style.display = "none";
-}
+loadArtists();
     </script>
+    <div id="fullscreenPlayer">
 
+        <button onclick="closeFullPlayer()" id="closePlayer">⌄</button>
+
+        <img id="fsPoster">
+
+        <h2 id="fsTitle">Song Name</h2>
+        <p id="fsArtist">Artist</p>
+
+        <div class="fsControls">
+            <button onclick="previous()">⏮</button>
+            <button onclick="togglePlay()" id="fsPlay">▶</button>
+            <button onclick="next()">⏭</button>
+        </div>
+
+    </div>
 </body>
 
 </html>
