@@ -1250,7 +1250,6 @@
                 visibility: hidden;
             }
         }
-        /* ── PLAYLIST STYLES (inside Favorites page) ── */
         
         .playlist-create-wrap {
             background: var(--surface);
@@ -1534,7 +1533,7 @@
 
     <audio id="audio"></audio>
 
-    <!-- Fullscreen Player -->
+
     <div id="fullscreenPlayer">
         <button onclick="closeFullPlayer()" id="closePlayer">⌄</button>
         <img id="fsPoster">
@@ -2601,18 +2600,49 @@
                     file: "Arjan Dhillon/Taj Mahal.mp3",
                     poster: "images/Hawa Banke.jpeg"
                 }, {
-                    title: "Tatoo",
+                    title: "Tattoo",
                     file: "Arjan Dhillon/Tatoo.mp3",
                     poster: "images/Hawa Banke.jpeg"
                 }, {
                     title: "Trucker (Alt)",
                     file: "Arjan Dhillon/trucker.mp3",
                     poster: "images/Hawa Banke.jpeg"
+                }, {
+                    title: "2-2 Asle",
+                    file: "Arjan Dhillon/2 2 Asle.mp3",
+                    poster: "images/youngsters.jpeg"
+
+                }, {
+                    title: "Greatest",
+                    file: "Arjan Dhillon/Greatest.mp3",
+                    poster: "images/youngsters.jpeg"
+
+                }, {
+                    title: "ILzaam",
+                    file: "Arjan Dhillon/ILzaam.mp3",
+                    poster: "images/youngsters.jpeg"
+
+                }, {
+                    title: "Kalli Sohni ",
+                    file: "Arjan Dhillon/Kalli Sohni.mp3",
+                    poster: "images/sohni.jpeg"
+                }, {
+                    title: "Kath",
+                    file: "Arjan Dhillon/Kath.mp3",
+                    poster: "images/kath.jpeg"
+                }, {
+                    title: "Never Ever",
+                    file: "Arjan Dhillon/Never Ever.mp3",
+                    poster: "images/youngsters.jpeg"
+                }, {
+                    title: "Setting",
+                    file: "Arjan Dhillon/Setting.mp3",
+                    poster: "images/setting.jpeg"
                 }]
             }
         };
 
-        // ─── CORE PLAYER SETUP ──────────────────────────────────────────────────────
+
         const audio = document.getElementById('audio');
         const progressBar = document.getElementById('progressBar');
         const playBtn = document.getElementById('playBtn');
@@ -2674,7 +2704,6 @@
                 </div>`;
         }
 
-        // ─── ARTIST SONGS PAGE ──────────────────────────────────────────────────────
         function openArtist(key) {
             currentArtistKey = key;
             const a = artists[key];
@@ -2730,7 +2759,6 @@
             list.innerHTML = a.songs.map((s, i) => songRowHTML(s, i, a.name)).join('');
         }
 
-        // ─── PLAYBACK ───────────────────────────────────────────────────────────────
         function playSong(index) {
             if (!currentSongs[index]) return;
             currentIndex = index;
@@ -2802,8 +2830,6 @@
             audio.loop = isRepeat;
             document.getElementById('repeatBtn').classList.toggle('on', isRepeat);
         }
-
-        // ─── LIKES ──────────────────────────────────────────────────────────────────
         function toggleLike(fileId, rowIndex) {
             if (likedSongs[fileId]) delete likedSongs[fileId];
             else likedSongs[fileId] = true;
@@ -2822,7 +2848,6 @@
             document.getElementById('playerLikeBtn').textContent = likedSongs[fileId] ? '❤️' : '🤍';
         }
 
-        // ─── FAVORITES PAGE (with Playlists built in) ───────────────────────────────
         function showLikedSongs() {
             setNavActive('navFav');
             setMobileBack(true);
@@ -2927,7 +2952,6 @@
             setTimeout(() => showLikedSongs(), 300);
         }
 
-        // ─── PLAYLIST FUNCTIONS ──────────────────────────────────────────────────────
         function createPlaylistFromFav() {
             const input = document.getElementById('newPlaylistInput');
             const name = input.value.trim();
@@ -3057,7 +3081,7 @@
             openPlaylist(playlistName);
         }
 
-        // ─── SEARCH ─────────────────────────────────────────────────────────────────
+        
         function globalSearch() {
             const q = document.getElementById('searchBar').value.toLowerCase().trim();
             if (!q) { loadArtists(); return; }
@@ -3109,7 +3133,6 @@
             playSong(index);
         }
 
-        // ─── AUDIO EVENTS ───────────────────────────────────────────────────────────
         audio.addEventListener('timeupdate', () => {
             if (!audio.duration) return;
             const pct = (audio.currentTime / audio.duration) * 100;
@@ -3124,7 +3147,6 @@
 
         volumeSlider.addEventListener('input', () => { audio.volume = volumeSlider.value; });
 
-        // ─── UTILITIES ──────────────────────────────────────────────────────────────
         function fmt(s) {
             const m = Math.floor(s / 60), sec = Math.floor(s % 60);
             return m + ':' + String(sec).padStart(2, '0');
@@ -3147,7 +3169,6 @@
             if (el) { el.classList.add('active'); el.scrollIntoView({ block: 'nearest' }); }
         }
 
-        // Safe HTML display (for showing names in UI text nodes)
         function escHtml(str) {
             return String(str)
                 .replace(/&/g, '&amp;')
@@ -3156,7 +3177,6 @@
                 .replace(/"/g, '&quot;');
         }
 
-        // Safe attribute value (for onclick strings using single-quote delimiters)
         function escAttr(str) {
             return String(str).replace(/\\/g, '\\\\').replace(/'/g, "\\'");
         }
@@ -3176,7 +3196,6 @@
             toastTimer = setTimeout(() => t.style.opacity = '0', 1800);
         }
 
-        // ─── INIT ───────────────────────────────────────────────────────────────────
         buildSidebar();
         loadArtists();
     </script>
