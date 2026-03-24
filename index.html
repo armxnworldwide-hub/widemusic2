@@ -2629,14 +2629,13 @@
         let queue = [];
         let likedSongs = JSON.parse(localStorage.getItem('equify_liked') || '{}');
 
-        // ─── PLAYLIST STORAGE ───────────────────────────────────────────────────────
+
         let playlists = JSON.parse(localStorage.getItem('equify_playlists') || '{}');
 
         function savePlaylists() {
             localStorage.setItem('equify_playlists', JSON.stringify(playlists));
         }
 
-        // ─── SIDEBAR ────────────────────────────────────────────────────────────────
         function buildSidebar() {
             const sb = document.getElementById('sidebarArtists');
             sb.innerHTML = '';
@@ -2649,7 +2648,6 @@
             }
         }
 
-        // ─── ARTISTS GRID ───────────────────────────────────────────────────────────
         function loadArtists() {
             setNavActive('navHome');
             setMobileBack(false);
