@@ -1655,12 +1655,12 @@
     <script type="module">
 
 
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"; import { getAuth, GoogleAuthProvider, signInWithPopup, signOut as fbSignOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"; import { getAuth, GoogleAuthProvider, signInWithPopup, signOut as fbSignOut, onAuthStateChanged, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";;
         import { getFirestore, doc, getDoc, setDoc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"; const firebaseConfig = {apiKey: "AIzaSyC2YVyJE2WEdMoOpSJ7TvBKWNbv2H_45hg", authDomain: "equify-f1c8e.firebaseapp.com",
-        projectId: "equify-f1c8e", storageBucket: "equify-f1c8e.appspot.com", messagingSenderId: "543566532156", appId: "1:543566532156:web:ecd7952d4387caeceafd39" }; const app = initializeApp(firebaseConfig); const auth = getAuth(app); const db = getFirestore(app);
-        window.signInWithGoogle = async () => { try { const provider = new GoogleAuthProvider(); const result = await signInWithPopup(auth, provider); console.log("LOGIN SUCCESS", result.user); } catch (error) { console.error("LOGIN ERROR", error); alert(error.message);
-        } };; window.signOut = () => fbSignOut(auth); onAuthStateChanged(auth, user => { if(user){ document.getElementById("authOverlay").classList.add("hidden"); document.getElementById("userBar").style.display="flex"; document.getElementById("userDisplayName").textContent
-        = user.displayName; document.getElementById("userEmail").textContent = user.email; document.getElementById("userAvatar").src = user.photoURL; } });
+        projectId: "equify-f1c8e", storageBucket: "equify-f1c8e.appspot.com", messagingSenderId: "543566532156", appId: "1:543566532156:web:ecd7952d4387caeceafd39" }; const app = initializeApp(firebaseConfig); const auth = getAuth(app); const db = getFirestore(app);await
+        setPersistence(auth, browserLocalPersistence); window.signInWithGoogle = async () => { try { const provider = new GoogleAuthProvider(); const result = await signInWithPopup(auth, provider); console.log("LOGIN SUCCESS", result.user); } catch (error)
+        { console.error("LOGIN ERROR", error); alert(error.message); } };; window.signOut = () => fbSignOut(auth); onAuthStateChanged(auth, user => { if(user){ document.getElementById("authOverlay").classList.add("hidden"); document.getElementById("userBar").style.display="flex";
+        document.getElementById("userDisplayName").textContent = user.displayName; document.getElementById("userEmail").textContent = user.email; document.getElementById("userAvatar").src = user.photoURL; } });
 
     </script>
 
