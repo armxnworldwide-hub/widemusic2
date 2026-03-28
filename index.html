@@ -50,7 +50,6 @@
             grid-template-rows: 1fr var(--player-h);
             height: 100vh;
         }
-        /* noise overlay */
         
         body::before {
             content: '';
@@ -61,7 +60,6 @@
             z-index: 0;
             opacity: .4;
         }
-        /* ─── SPLASH ─── */
         
         #splash {
             position: fixed;
@@ -145,7 +143,6 @@
                 box-shadow: 0 0 90px rgba(200, 245, 66, .7)
             }
         }
-        /* ─── SIDEBAR ─── */
         
         .sidebar {
             grid-row: 1;
@@ -252,7 +249,6 @@
                 opacity: .3
             }
         }
-        /* Search */
         
         .search-wrap {
             padding: 14px 16px 10px;
@@ -294,7 +290,6 @@
         .search-box input::placeholder {
             color: var(--muted)
         }
-        /* Nav */
         
         .sidebar-nav {
             padding: 4px 12px 6px;
@@ -336,7 +331,6 @@
             width: 18px;
             flex-shrink: 0
         }
-        /* Artists list */
         
         .sidebar-section-label {
             padding: 12px 24px 6px;
@@ -399,7 +393,6 @@
             overflow: hidden;
             text-overflow: ellipsis
         }
-        /* Recent sidebar */
         
         .recent-section {
             padding: 0 10px 8px;
@@ -450,7 +443,6 @@
             font-size: .65rem;
             color: var(--muted2)
         }
-        /* User bar */
         
         .user-bar {
             display: flex;
@@ -509,7 +501,6 @@
             color: #ff5555;
             border-color: #ff5555
         }
-        /* Login btn */
         
         .google-btn {
             display: flex;
@@ -535,7 +526,6 @@
             background: var(--surface3);
             transform: translateY(-1px)
         }
-        /* ─── MAIN ─── */
         
         .main {
             grid-column: 2;
@@ -555,7 +545,6 @@
             background: var(--surface3);
             border-radius: 4px
         }
-        /* Header */
         
         .main-header {
             position: sticky;
@@ -590,7 +579,6 @@
             gap: 8px;
             align-items: center
         }
-        /* Buttons */
         
         .btn {
             padding: 8px 18px;
@@ -624,7 +612,6 @@
             transform: scale(1.04);
             box-shadow: 0 6px 24px rgba(200, 245, 66, .3)
         }
-        /* ─── HERO ARTIST HEADER ─── */
         
         .artist-hero {
             position: relative;
@@ -701,7 +688,6 @@
             align-items: center;
             margin-top: 10px
         }
-        /* ─── ARTISTS GRID ─── */
         
         .artists-grid {
             display: grid;
@@ -790,7 +776,6 @@
             opacity: 1;
             transform: scale(1) translateY(0)
         }
-        /* ─── SONGS TABLE ─── */
         
         .songs-section {
             padding: 0 28px 28px
@@ -928,7 +913,6 @@
             border-color: var(--accent);
             color: var(--accent)
         }
-        /* EQ bars */
         
         .eq-bars {
             display: flex;
@@ -966,7 +950,6 @@
                 height: 13px
             }
         }
-        /* ─── PLAYER ─── */
         
         .player {
             grid-column: 1/-1;
@@ -1043,7 +1026,6 @@
         .player-like:hover {
             transform: scale(1.2)
         }
-        /* Player center */
         
         .player-center {
             display: flex;
@@ -1165,7 +1147,6 @@
         .progress-track:hover .progress-fill::after {
             opacity: 1
         }
-        /* Player right */
         
         .player-right {
             display: flex;
@@ -1208,7 +1189,6 @@
         #volumeSlider {
             width: 80px
         }
-        /* ─── PLAYLISTS / FAVORITES ─── */
         
         .playlist-create-wrap {
             background: var(--surface);
@@ -1415,7 +1395,6 @@
             font-size: .76rem;
             color: var(--muted2)
         }
-        /* Empty state */
         
         .empty-state {
             display: flex;
@@ -1435,7 +1414,6 @@
         .empty-state p {
             font-size: .9rem
         }
-        /* Toast */
         
         #toast {
             position: fixed;
@@ -1460,7 +1438,6 @@
         .mobile-back-btn {
             display: none
         }
-        /* ─── FULLSCREEN PLAYER ─── */
         
         #fullscreenPlayer {
             position: fixed;
@@ -1516,7 +1493,6 @@
             font-size: 1.8rem;
             cursor: pointer;
         }
-        /* ─── MOBILE ─── */
         
         @media(max-width:768px) {
             body {
@@ -1718,7 +1694,7 @@
 
 <body>
 
-    <!-- SPLASH -->
+
     <div id="splash">
         <div class="splash-inner">
             <div class="splash-logo-wrap">
@@ -1729,7 +1705,7 @@
         </div>
     </div>
 
-    <!-- SIDEBAR -->
+
     <aside class="sidebar">
         <div class="logo-wrap">
             <div class="logo">
@@ -1788,7 +1764,7 @@
         </div>
     </aside>
 
-    <!-- MAIN -->
+
     <main class="main" id="mainArea"></main>
 
     <!-- PLAYER -->
@@ -1831,7 +1807,7 @@
     <audio id="audio"></audio>
     <div id="toast"></div>
 
-    <!-- FULLSCREEN PLAYER -->
+
     <div id="fullscreenPlayer">
         <button onclick="closeFullPlayer()" id="closePlayer">⌄</button>
         <img id="fsPoster">
@@ -1844,7 +1820,7 @@
         </div>
     </div>
 
-    <!-- FIREBASE AUTH -->
+
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"; import { getAuth, GoogleAuthProvider, signInWithRedirect, getRedirectResult, signOut as fbSignOut, onAuthStateChanged, setPersistence, browserLocalPersistence
         } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"; import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"; const firebaseConfig = { apiKey:"AIzaSyC2YVyJE2WEdMoOpSJ7TvBKWNbv2H_45hg",authDomain:"equify-f1c8e.firebaseapp.com",projectId:"equify-f1c8e",storageBucket:"equify-f1c8e.appspot.com",messagingSenderId:"543566532156",appId:"1:543566532156:web:ecd7952d4387caeceafd39"
@@ -1855,9 +1831,6 @@
     </script>
 
     <script>
-        /* ═══════════════════════════════════════════════════
-                                                                   DATA — ALL ARTISTS & SONGS (UNCHANGED)
-                                                                ═══════════════════════════════════════════════════ */
         const artists = {
             prem: {
                 name: "PREM DHILLON",
@@ -1878,6 +1851,26 @@
                     title: "Lying Anyway",
                     file: "Prem Dhillon/Lying Anyway.mp3",
                     poster: "images/Lying Anyway.jpeg"
+                }, {
+                    title: "By MoonLight",
+                    file: "Prem Dhillon/By Moonlight.mp3",
+                    poster: "images/Lying Anyway.jpeg"
+                }, {
+                    title: "Nah They Can'nt",
+                    file: "Prem Dhillon/Nah They Cant.mp3",
+                    poster: "images/neveragain.jpeg"
+                }, {
+                    title: "Move On",
+                    file: "Prem Dhillon/Move On.mp3",
+                    poster: "images/moveon.jpeg"
+                }, {
+                    title: "Badmashi",
+                    file: "Prem Dhillon/Badmashi.mp3",
+                    poster: "images/badmashi.jpeg"
+                }, {
+                    title: "Flowers & Saints",
+                    file: "Prem Dhillon/Flowersaints.mp3",
+                    poster: "images/flowersaints.jpeg"
                 }, {
                     title: "Cant Be Us",
                     file: "Prem Dhillon/Cant Be Us.mp3",
@@ -2978,7 +2971,7 @@
             }
         };
 
-        /* ═══════════════ STATE ═══════════════ */
+
         const audio = document.getElementById('audio');
         const progressBar = document.getElementById('progressBar');
         const playBtn = document.getElementById('playBtn');
@@ -3000,7 +2993,7 @@
             playlists = {},
             recentlyPlayed = [];
 
-        /* ═══════════════ PERSIST ═══════════════ */
+
         function loadState() {
             try {
                 likedSongs = JSON.parse(localStorage.getItem('eq_liked') || '{}')
@@ -3017,7 +3010,6 @@
         window._saveRecent = () => localStorage.setItem('eq_recent', JSON.stringify(recentlyPlayed));
         loadState();
 
-        /* ═══════════════ RECENTLY PLAYED ═══════════════ */
         function addToRecentlyPlayed(song, artistName) {
             recentlyPlayed = recentlyPlayed.filter(r => r.file !== song.file);
             recentlyPlayed.unshift({
@@ -3083,7 +3075,7 @@
     </div>`;
 }
 
-/* ═══════════════ SIDEBAR ═══════════════ */
+
 function buildSidebar(){
   const sb=document.getElementById('sidebarArtists');sb.innerHTML='';
   for(let key in artists){
@@ -3095,7 +3087,7 @@ function buildSidebar(){
   }
 }
 
-/* ═══════════════ LOAD ARTISTS ═══════════════ */
+
 function loadArtists(){
   setNavActive('navHome');setMobileBack(false);
   const keys=Object.keys(artists);
@@ -3120,7 +3112,6 @@ function loadArtists(){
     </div>`;
 }
 
-/* ═══════════════ OPEN ARTIST ═══════════════ */
 function openArtist(key){
   currentArtistKey=key;
   const a=artists[key];
@@ -3176,7 +3167,6 @@ function refreshSongRows(){
   list.innerHTML=artists[currentArtistKey].songs.map((s,i)=>songRowHTML(s,i,artists[currentArtistKey].name)).join('');
 }
 
-/* ═══════════════ PLAYBACK ═══════════════ */
 function playSong(index){
   if(!currentSongs[index]) return;
   currentIndex=index;
@@ -3191,14 +3181,14 @@ function playSong(index){
   updatePlayerLikeBtn(song.file);
   audio.play();
   playBtn.textContent='⏸';
-  // update fullscreen
+  
   document.getElementById('fsPoster').src=song.poster;
   document.getElementById('fsTitle').textContent=song.title;
   document.getElementById('fsArtist').textContent=artistName;
   document.getElementById('fsPlay').textContent='⏸';
   refreshSongRows();
   addToRecentlyPlayed(song,artistName);
-  // media session
+
   if('mediaSession' in navigator){
     navigator.mediaSession.metadata=new MediaMetadata({title:song.title,artist:artistName,artwork:[{src:song.poster}]});
   }
@@ -3258,7 +3248,7 @@ function toggleLike(fileId,rowIndex){
 function togglePlayerLike(){if(!currentSong) return;toggleLike(currentSong.file);}
 function updatePlayerLikeBtn(f){document.getElementById('playerLikeBtn').textContent=likedSongs[f]?'❤️':'🤍';}
 
-/* ═══════════════ FAVORITES / PLAYLISTS ═══════════════ */
+
 function showLikedSongs(){
   setNavActive('navFav');setMobileBack(true);currentSongs=[];
   const liked=[];
@@ -3408,7 +3398,6 @@ function removeFromPlaylist(pName,fileId){
   window._savePlaylists();showToast('Removed');openPlaylist(pName);
 }
 
-/* ═══════════════ SEARCH ═══════════════ */
 function globalSearch(){
   const q=document.getElementById('searchBar').value.toLowerCase().trim();
   if(!q){loadArtists();return;}setMobileBack(false);
@@ -3447,14 +3436,12 @@ function globalSearch(){
 
 function openArtistAndPlay(key,index){currentSongs=artists[key].songs;currentArtistKey=key;openArtist(key);playSong(index);}
 
-/* ═══════════════ FULLSCREEN ═══════════════ */
 function openFullPlayer(){
   if(!currentSong) return;
   document.getElementById('fullscreenPlayer').style.display='flex';
 }
 function closeFullPlayer(){document.getElementById('fullscreenPlayer').style.display='none';}
 
-/* ═══════════════ AUDIO EVENTS ═══════════════ */
 audio.addEventListener('timeupdate',()=>{
   if(!audio.duration) return;
   progressBar.style.width=(audio.currentTime/audio.duration*100)+'%';
@@ -3466,7 +3453,7 @@ audio.addEventListener('play',()=>{playBtn.textContent='⏸';if(document.getElem
 audio.addEventListener('pause',()=>{playBtn.textContent='▶';if(document.getElementById('fsPlay'))document.getElementById('fsPlay').textContent='▶';});
 volumeSlider.addEventListener('input',()=>{audio.volume=+volumeSlider.value;isMuted=audio.volume===0;});
 
-// Media session
+
 if('mediaSession' in navigator){
   navigator.mediaSession.setActionHandler('play',()=>{audio.play();});
   navigator.mediaSession.setActionHandler('pause',()=>{audio.pause();});
@@ -3474,7 +3461,7 @@ if('mediaSession' in navigator){
   navigator.mediaSession.setActionHandler('previoustrack',()=>previous());
 }
 
-/* ═══════════════ UTILS ═══════════════ */
+
 function fmt(s){return Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0');}
 function setMobileBack(show){const b=document.getElementById('mobileBackBtn');if(b)b.classList.toggle('hidden',!show);}
 function setNavActive(id){document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));const e=document.getElementById(id);if(e)e.classList.add('active');}
@@ -3489,12 +3476,12 @@ function showToast(msg){
   clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.style.opacity='0',1800);
 }
 
-/* ═══════════════ INIT ═══════════════ */
+
 buildSidebar();
 loadArtists();
 renderSidebarRecent();
 
-// expose mobile fav btn
+
 document.querySelector('.fav-mobile-btn') && (document.querySelector('.fav-mobile-btn').style.display='');
     </script>
 </body>
