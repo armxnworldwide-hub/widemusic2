@@ -1825,18 +1825,18 @@
     <script type="module">
 
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"; import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, signOut as fbSignOut, onAuthStateChanged, setPersistence, browserLocalPersistence
-        } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"; import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"; const firebaseConfig = { apiKey: "AIzaSyC2YVyJE2WEdMoOpSJ7TvBKWNbv2H_45hg",
+        } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"; import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"; const firebaseConfig = { apiKey: "AIzaSyC2YVyJE2WEdMoOpSJ7TvBKWNbv2H_45hg",
         authDomain: "equify-f1c8e.firebaseapp.com", projectId: "equify-f1c8e", storageBucket: "equify-f1c8e.appspot.com", messagingSenderId: "543566532156", appId: "1:543566532156:web:ecd7952d4387caeceafd39" }; const app = initializeApp(firebaseConfig);
         const auth = getAuth(app); const db = getFirestore(app); setPersistence(auth, browserLocalPersistence) .catch(e => console.log(e)); getRedirectResult(auth) .then(result => { if(result?.user){ console.log("login success"); } }) .catch(err => console.log(err));
         window.signInWithGoogle = async () => { const provider = new GoogleAuthProvider(); try{ await signInWithPopup(auth, provider); } catch(err){ if( err.code === "auth/popup-blocked" || err.code === "auth/popup-closed-by-user" || err.code === "auth/cancelled-popup-request"
-        ){ await signInWithRedirect(auth, provider); } else{ alert(err.message); } } }; window.signOut = async () => { await fbSignOut(auth); }; onAuthStateChanged(auth, user => { const loginBtn = document.getElementById("loginBtn"); const userBar = document.getElementById("userBar");
-        const syncDot = document.getElementById("syncDot"); const syncLabel = document.getElementById("syncLabel"); if(user){ loginBtn.style.display = "none"; userBar.style.display = "flex"; document.getElementById("userDisplayName").textContent = user.displayName
-        || "User"; document.getElementById("userEmail").textContent = user.email || ""; document.getElementById("userAvatar").src = user.photoURL || ""; syncDot.className = "sync-dot synced"; syncLabel.textContent = "Synced"; } else{ loginBtn.style.display
-        = "block"; userBar.style.display = "none"; syncDot.className = "sync-dot"; syncLabel.textContent = "Offline"; } });
-
+        ){ await signInWithRedirect(auth, provider); } else{ alert(err.message); } } }; window.signOut = async () => { await fbSignOut(auth); }; async function saveUserData(){ if(!auth.currentUser) return; await setDoc( doc(db,"users",auth.currentUser.uid),
+        { likedSongs:Array.from(likedSongs), playlists:playlists }, {merge:true} ); } async function loadUserData(){ if(!auth.currentUser) return; const snap = await getDoc( doc(db,"users",auth.currentUser.uid) ); if(snap.exists()){ likedSongs = new Set(
+        snap.data().likedSongs || [] ); playlists = snap.data().playlists || {}; renderLikedSongs(); renderPlaylists(); } } onAuthStateChanged(auth, async user => { const loginBtn = document.getElementById("loginBtn"); const userBar = document.getElementById("userBar");
+        const syncDot = document.getElementById("syncDot"); const syncLabel = document.getElementById("syncLabel"); if(user){ loginBtn.style.display="none"; userBar.style.display="flex"; document.getElementById("userDisplayName").textContent = user.displayName
+        || "User"; document.getElementById("userEmail").textContent = user.email || ""; document.getElementById("userAvatar").src = user.photoURL || ""; syncDot.className="sync-dot synced"; syncLabel.textContent="Synced"; await loadUserData(); } else{
+        loginBtn.style.display="block"; userBar.style.display="none"; syncDot.className="sync-dot"; syncLabel.textContent="Offline"; } }); window.saveLikedSongsToCloud = saveUserData; window.savePlaylistsToCloud = saveUserData;
 
     </script>
-
     <script>
         const artists = {
             prem: {
