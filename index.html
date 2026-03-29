@@ -3027,6 +3027,13 @@
             }
 
         }
+        localStorage.setItem("lastSong", JSON.stringify({
+            file: song.file,
+            title: song.title,
+            poster: song.poster,
+            artist: currentArtistKey,
+            time: 0
+        }));
 
         function loadState() {
             try {
