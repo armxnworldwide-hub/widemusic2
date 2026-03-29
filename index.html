@@ -2999,6 +2999,34 @@
             playlists = {},
             recentlyPlayed = [];
 
+        function updateMediaSession(song) {
+
+            if ("mediaSession" in navigator) {
+
+                navigator.mediaSession.metadata = new MediaMetadata({
+
+                    title: song.title,
+                    artist: currentArtist.name,
+
+                    artwork: [{
+                        src: song.poster,
+                        sizes: "96x96",
+                        type: "image/jpeg"
+                    }, {
+                        src: song.poster,
+                        sizes: "192x192",
+                        type: "image/jpeg"
+                    }, {
+                        src: song.poster,
+                        sizes: "512x512",
+                        type: "image/jpeg"
+                    }]
+
+                });
+
+            }
+
+        }
 
         function loadState() {
             try {
