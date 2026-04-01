@@ -4178,8 +4178,17 @@
                     </div>
                 </div>
                 ${recommendHTML}
-                <div class="songs-section" style="padding-top:20px">
+                <div class="songs-section" style="padding-top:20px"><select id="sortSelect" onchange="sortSongs()" 
+style="margin:10px 0 10px auto; display:block; background:#121224; color:white; border:1px solid #333; padding:6px 10px; border-radius:6px;">
+
+<option value="default">Sort</option>
+<option value="name">Name A-Z</option>
+
+<option value="liked">Liked First</option>
+
+</select>
                     <div class="songs-table-header">
+
                         <span class="th">#</span>
                         <span class="th">Title</span>
                         <span class="th"></span>
@@ -4304,6 +4313,7 @@
             else { audio.pause(); playBtn.textContent = '▶'; document.getElementById('fsPlay').textContent = '▶'; savePlaybackMemory(); }
         }
 
+
         function next() {
             if (queue.length > 0) {
                 const s = queue.shift();
@@ -4340,7 +4350,35 @@
             }
             playSong(currentIndex);
         }
+function sortSongs(){
 
+if(!currentSongs) return;
+
+let type = document.getElementById("sortSelect").value;
+
+
+if(type=="default"){
+currentSongs = artists[currentArtistKey].songs;
+}
+
+if(type=="name"){
+currentSongs = [...currentSongs].sort((a,b)=>
+a.title.localeCompare(b.title)
+);
+}
+
+if(type=="liked"){
+currentSongs = [...currentSongs].sort((a,b)=>
+(likedSongs[b.file]===true)-(likedSongs[a.file]===true)
+);
+}
+
+document.getElementById("songsList").innerHTML =
+currentSongs.map((s,i)=>
+songRowHTML(s,i,artists[currentArtistKey].name)
+).join("");
+
+}
         function previous() {
             if (!currentSongs.length) return;
             if (audio.currentTime > 3) { audio.currentTime = 0; return; }
