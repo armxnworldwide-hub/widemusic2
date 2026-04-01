@@ -2627,6 +2627,10 @@
                     file: "Sidhu Moosewala/Barota.mp3",
                     poster: "images/Barota.jpeg"
                 }, {
+                    title: "SCAPEGOAT",
+                    file: "Sidhu Moosewala/Scapegoat.mp3",
+                    poster: "images/scapegoat.jpeg"
+                }, {
                     title: "Never fold",
                     file: "Sidhu Moosewala/Neverfold.mp3",
                     poster: "images/Neverfold.jpeg"
@@ -4367,10 +4371,71 @@ a.title.localeCompare(b.title)
 );
 }
 
-if(type=="liked"){
-currentSongs = [...currentSongs].sort((a,b)=>
-(likedSongs[b.file]===true)-(likedSongs[a.file]===true)
+// Recently Added
+if(type=="recent"){
+currentSongs=[...currentSongs].sort((a,b)=>
+(likedSongs[b.file]?.time || 0) - (likedSongs[a.file]?.time || 0)
 );
+}
+
+
+// Title A-Z
+if(type=="title"){
+currentSongs=[...currentSongs].sort((a,b)=>
+a.title.localeCompare(b.title)
+);
+}
+
+
+// Artist A-Z
+if(type=="artist"){
+currentSongs=[...currentSongs].sort((a,b)=>
+(a.artistName || "").localeCompare(b.artistName || "")
+);
+}function sortLikedSongs(){
+
+let type=document.getElementById("sortSelect").value;
+
+
+// Recently Added
+if(type=="recent"){
+
+currentSongs=[...currentSongs].sort((a,b)=>
+(likedSongs[b.file]?.time || 0) -
+(likedSongs[a.file]?.time || 0)
+);
+
+}
+
+
+// Title A-Z
+if(type=="title"){
+
+currentSongs=[...currentSongs].sort((a,b)=>
+a.title.localeCompare(b.title)
+);
+
+}
+
+
+// Artist A-Z
+if(type=="artist"){
+
+currentSongs=[...currentSongs].sort((a,b)=>
+(a.artistName || "").localeCompare(b.artistName || "")
+);
+
+}
+
+
+document.getElementById("songsList").innerHTML=
+
+currentSongs.map((s,i)=>
+
+songRowHTML(s,i,s.artistName)
+
+).join("");
+
 }
 
 document.getElementById("songsList").innerHTML =
@@ -4524,7 +4589,10 @@ songRowHTML(s,i,artists[currentArtistKey].name)
         };
 
         function toggleLike(fileId, rowIndex) {
-            if (likedSongs[fileId]) delete likedSongs[fileId]; else likedSongs[fileId] = true;
+            if (likedSongs[fileId]) delete likedSongs[fileId]; else likedSongs[fileId] = {
+liked:true,
+time:Date.now()
+};
             window._saveLiked();
             if (rowIndex !== undefined) refreshSongRows();
             updatePlayerLikeBtn(fileId);
@@ -4540,10 +4608,30 @@ songRowHTML(s,i,artists[currentArtistKey].name)
             const liked = [];
             for (let key in artists) artists[key].songs.forEach(s => { if (likedSongs[s.file]) liked.push({...s, artistName: artists[key].name, artistKey: key}); });
             const pNames = Object.keys(playlists);
+document.getElementById('mainArea').innerHTML = `
+<<div class="main-header">
 
-            document.getElementById('mainArea').innerHTML = `
-                <div class="main-header">
-                    <div><div class="main-title">Favorites</div><div class="main-subtitle">${liked.length} LIKED</div></div>
+<div>
+
+<div class="main-title">Favorites</div>
+
+<div class="main-subtitle">${liked.length} LIKED</div>
+
+</div>
+
+
+<select id="sortSelect" onchange="sortLikedSongs()" class="btn-outline">
+
+<option value="recent">Recently Added</option>
+
+<option value="title">Title</option>
+
+<option value="artist">Artist</option>
+
+</select>
+
+
+</div>
                 </div>
                 <div class="songs-section" style="padding-top:20px">
                     <div class="playlist-create-wrap">
