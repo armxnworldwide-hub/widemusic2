@@ -1242,6 +1242,31 @@
             gap: 18px
         }
         
+        .queue-btn-player {
+            background: none;
+            border: 1px solid var(--border);
+            color: var(--muted2);
+            font-size: .7rem;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 8px;
+            font-family: 'Syne', sans-serif;
+            transition: all .2s;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        
+        .queue-btn-player:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+        
+        .queue-btn-player.active {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: var(--accent3);
+        }
+        
         .ctrl-btn {
             background: none;
             border: none;
@@ -1907,30 +1932,6 @@
             font-size: .82rem;
         }
         
-        .queue-btn-player {
-            background: none;
-            border: 1px solid var(--border);
-            color: var(--muted2);
-            font-size: .7rem;
-            cursor: pointer;
-            padding: 5px 10px;
-            border-radius: 8px;
-            font-family: 'Syne', sans-serif;
-            transition: all .2s;
-            white-space: nowrap;
-        }
-        
-        .queue-btn-player:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-        }
-        
-        .queue-btn-player.active {
-            border-color: var(--accent);
-            color: var(--accent);
-            background: var(--accent3);
-        }
-        
         .recommend-strip {
             padding: 0 30px 24px;
         }
@@ -2294,6 +2295,21 @@
                 padding: 8px 14px 12px;
                 gap: 6px;
                 grid-template-columns: unset;
+                height: var(--player-h);
+                min-height: var(--player-h);
+                max-height: var(--player-h);
+                width: 100%;
+                position: relative;
+                z-index: 30;
+            }
+            .main {
+                grid-column: 1;
+                grid-row: 2;
+                padding-bottom: var(--player-h);
+            }
+            .google-btn,
+            .user-bar {
+                display: none!important;
             }
             .player-song {
                 padding: 0;
@@ -2323,7 +2339,10 @@
                 gap: 6px
             }
             .player-right {
-                display: flex
+                display: none !important
+            }
+            .volume-wrap {
+                display: none !important
             }
             .play-btn {
                 width: 40px;
@@ -2331,7 +2350,13 @@
                 font-size: .95rem
             }
             .player-controls {
-                gap: 12px
+                gap: 8px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .queue-btn-player {
+                font-size: .65rem;
+                padding: 4px 8px;
             }
             .time-label {
                 font-size: .6rem;
@@ -2460,6 +2485,7 @@
                 <button class="play-btn" id="playBtn" onclick="togglePlay()">▶</button>
                 <button class="ctrl-btn" onclick="next()" title="Next">⏭</button>
                 <button class="ctrl-btn hide-mobile" id="repeatBtn" onclick="toggleRepeat()" title="Repeat">↻</button>
+                <button class="queue-btn-player" id="queueToggleBtn" onclick="toggleQueuePanel()" title="Queue">≡ Queue</button>
             </div>
             <div class="player-progress">
                 <span class="time-label" id="currentTime">0:00</span>
@@ -2471,7 +2497,6 @@
         </div>
 
         <div class="player-right">
-            <button class="queue-btn-player" id="queueToggleBtn" onclick="toggleQueuePanel()" title="Queue">≡ Queue</button>
             <div class="volume-wrap">
                 <span class="vol-icon" onclick="toggleMute()">🔊</span>
                 <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1">
@@ -3244,7 +3269,7 @@
                 name: "S.M.G",
                 image: "images/smg.jpeg",
                 songs: [{
-                    title: "N.Y.P.D",
+                    title: "NYPD",
                     file: "SMG/NYPD.mp3",
                     poster: "images/FATHER.JPEG"
                 }, {
