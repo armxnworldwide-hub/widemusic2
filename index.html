@@ -4831,7 +4831,6 @@ if(!currentSongs) return;
 
 let type = document.getElementById("sortSelect").value;
 
-
 if(type=="default"){
 currentSongs = artists[currentArtistKey].songs;
 }
@@ -4842,76 +4841,57 @@ a.title.localeCompare(b.title)
 );
 }
 
-// Recently Added
 if(type=="recent"){
 currentSongs=[...currentSongs].sort((a,b)=>
 (likedSongs[b.file]?.time || 0) - (likedSongs[a.file]?.time || 0)
 );
 }
 
-
-// Title A-Z
 if(type=="title"){
 currentSongs=[...currentSongs].sort((a,b)=>
 a.title.localeCompare(b.title)
 );
 }
 
-
-// Artist A-Z
 if(type=="artist"){
 currentSongs=[...currentSongs].sort((a,b)=>
 (a.artistName || "").localeCompare(b.artistName || "")
 );
-}function sortLikedSongs(){
-
-let type=document.getElementById("sortSelect").value;
-
-
-// Recently Added
-if(type=="recent"){
-
-currentSongs=[...currentSongs].sort((a,b)=>
-(likedSongs[b.file]?.time || 0) -
-(likedSongs[a.file]?.time || 0)
-);
-
-}
-
-
-// Title A-Z
-if(type=="title"){
-
-currentSongs=[...currentSongs].sort((a,b)=>
-a.title.localeCompare(b.title)
-);
-
-}
-
-
-// Artist A-Z
-if(type=="artist"){
-
-currentSongs=[...currentSongs].sort((a,b)=>
-(a.artistName || "").localeCompare(b.artistName || "")
-);
-
-}
-
-
-document.getElementById("songsList").innerHTML=
-
-currentSongs.map((s,i)=>
-
-songRowHTML(s,i,s.artistName)
-
-).join("");
-
 }
 
 document.getElementById("songsList").innerHTML =
 currentSongs.map((s,i)=>
 songRowHTML(s,i,artists[currentArtistKey].name)
+).join("");
+
+}
+
+function sortLikedSongs(){
+
+let type=document.getElementById("sortSelect").value;
+
+if(type=="recent"){
+currentSongs=[...currentSongs].sort((a,b)=>
+(likedSongs[b.file]?.time || 0) -
+(likedSongs[a.file]?.time || 0)
+);
+}
+
+if(type=="title"){
+currentSongs=[...currentSongs].sort((a,b)=>
+a.title.localeCompare(b.title)
+);
+}
+
+if(type=="artist"){
+currentSongs=[...currentSongs].sort((a,b)=>
+(a.artistName || "").localeCompare(b.artistName || "")
+);
+}
+
+document.getElementById("songsList").innerHTML=
+currentSongs.map((s,i)=>
+songRowHTML(s,i,s.artistName)
 ).join("");
 
 }
