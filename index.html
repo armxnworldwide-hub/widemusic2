@@ -15,7 +15,7 @@
             padding: 0
         }
         
-        :root {
+         :root {
             --bg: #07070f;
             --surface: #0d0d1c;
             --surface2: #121224;
@@ -3561,7 +3561,134 @@
                     file: "Arjan Dhillon/Setting.mp3",
                     poster: "images/setting.jpeg"
                 }]
-            }
+            },
+            apdhillon: {
+                name: "AP Dhillon",
+                image: "images/apdhillon.jpeg",
+                songs: [{
+                    title: "Excuses",
+                    file: "AP Dhillon/Excuses.mp3",
+                    poster: "images/excuses.jpeg"
+                }]
+            },
+            bohemia: {
+                name: "Bohemia",
+                image: "images/bohemia.jpeg",
+                songs: [{
+                    title: "Ek Tera Pyar",
+                    file: "Bohemia/Ek Tera Pyar.mp3",
+                    poster: "images/Ek Tera Pyar.jpeg"
+                }]
+            },
+            boss: {
+                name: "Boss",
+                image: "images/boss.jpeg",
+                songs: [{
+                    title: "BOSS",
+                    file: "Boss/Boss.mp3",
+                    poster: "images/Boss.jpeg"
+                }]
+            },
+            dhanda: {
+                name: "Dhanda",
+                image: "images/dhanda.jpeg",
+                songs: [{
+                    title: "Dhandha",
+                    file: "Dhandha/Dhandha.mp3",
+                    poster: "images/Dhandha.jpeg"
+                }]
+            },
+            dulla: {
+                name: "Dulla Bhatti",
+                image: "images/dulla.jpeg",
+                songs: [{
+                    title: "Dulla Bhatti",
+                    file: "Dulla Bhatti/Dulla Bhatti.mp3",
+                    poster: "images/Dulla Bhatti.jpeg"
+                }]
+            },
+            gursidhu: {
+                name: "Gursidhu",
+                image: "images/gursidhu.jpeg",
+                songs: [{
+                    title: "Gursidhu",
+                    file: "Gursidhu/Gursidhu.mp3",
+                    poster: "images/Gursidhu.jpeg"
+                }]
+            },
+            harkirataulakh: {
+                name: "Harkirat Aulakh",
+                image: "images/harkirat.jpeg",
+                songs: [{
+                    title: "Harkirat Aulakh",
+                    file: "Harkirat Aulakh/Harkirat Aulakh.mp3",
+                    poster: "images/Harkirat.jpeg"
+                }]
+            },
+            honey: {
+                name: " Yo Yo Honey Singh",
+                image: "images/honey.jpeg",
+                songs: [{
+                    title: "Yo Yo Honey Singh",
+                    file: "Yo Yo Honey Singh/Yo Yo Honey Singh.mp3",
+                    poster: "images/Yo Yo Honey Singh.jpeg"
+                }]
+
+            },
+            iqbal: {
+                name: "Iqbal Dhaliwal",
+                image: "images/iq.jpeg",
+                songs: [{
+                    title: "Iqbal Dhaliwal",
+                    file: "Iqbal Dhaliwal/Iqbal Dhaliwal.mp3",
+                    poster: "images/Iqbal.jpeg"
+                }]
+            },
+            jassi: {
+                name: "Jassi Gill",
+                image: "images/jassi.jpeg",
+                songs: [{
+                    title: "Jassi Gill",
+                    file: "Jassi Gill/Jassi Gill.mp3",
+                    poster: "images/Jassi.jpeg"
+                }]
+            },
+            jordansandhu: {
+                name: "Jordan Sandhu",
+                image: "images/jrdan.jpeg",
+                songs: [{
+                    title: "Jordan Sandhu",
+                    file: "Jordan Sandhu/Jordan Sandhu.mp3",
+                    poster: "images/Jordan.jpeg"
+                }]
+            },
+            nijjar: {
+                name: "Nijjar",
+                image: "images/nijjar.jpeg",
+                songs: [{
+                    title: "Nijjar",
+                    file: "Nijjar/Nijjar.mp3",
+                    poster: "images/Nijjar.jpeg"
+                }]
+            },
+            pardeep: {
+                name: "Pardeep Jeed",
+                image: "images/pardeep.jpeg",
+                songs: [{
+                    title: "Pardeep Jeed",
+                    file: "Pardeep Jeed/Pardeep Jeed.mp3",
+                    poster: "images/Pardeep.jpeg"
+                }]
+            },
+            saabi: {
+                name: "Saabi",
+                image: "images/saabi.jpeg",
+                songs: [{
+                    title: "Sabbir",
+                    file: "Sabbir/Sabbir.mp3",
+                    poster: "images/Sabbir.jpeg"
+                }]
+            },
         };
 
         const CACHE_NAME = 'equify-offline-v1';
@@ -3732,6 +3859,7 @@ let currentSongs=[],currentIndex=0,currentSong=null,currentArtistKey=null;
 let isShuffle=false,isRepeat=false,isMuted=false,prevVol=1;
 let queue=[],likedSongs=new Set(),playlists={};
 let shuffleHistory=[];
+let continueListening=[];
 let crossfadeTimer=null;
 let queuePanelOpen=false;
 let modalCallback=null;
@@ -3742,10 +3870,12 @@ function loadState(){
   try{playlists=JSON.parse(localStorage.getItem('eq_playlists')||'{}');}catch(e){}
   try{queue=JSON.parse(localStorage.getItem('eq_queue')||'[]');}catch(e){}
   try{shuffleHistory=JSON.parse(localStorage.getItem('eq_shuffle_history')||'[]');}catch(e){}
+  try{continueListening=JSON.parse(localStorage.getItem('eq_continue_listening')||'[]');}catch(e){}
 }
 
 function saveLiked(){localStorage.setItem('eq_liked',JSON.stringify([...likedSongs]));if(window._saveToCloud)window._saveToCloud();}
 function savePlaylists(){localStorage.setItem('eq_playlists',JSON.stringify(playlists));if(window._saveToCloud)window._saveToCloud();}
+function saveContinueListening(){localStorage.setItem('eq_continue_listening',JSON.stringify(continueListening));}
 
 function savePlaybackMemory(){
   if(!currentSong)return;
@@ -3955,6 +4085,20 @@ function buildSidebar(){
 function loadArtists(){
   setNavActive('navHome');setMobileBack(false);
   const keys=Object.keys(artists);
+  const continueHTML=continueListening.length>0?`
+    <div class="continue-strip">
+      <div class="continue-label">▶ Continue Listening</div>
+      <div class="continue-scroll">
+        ${continueListening.slice(0,5).map(s=>`
+          <div class="continue-card" onclick="playFromHistory('${escAttr(s.file)}','${escAttr(s.artistKey)}')">
+            <img src="${s.poster}" onerror="this.style.background='#16162a'" loading="lazy">
+            <div class="continue-card-info">
+              <div class="continue-card-title">${escHtml(s.title)}</div>
+              <div class="continue-card-artist">${escHtml(s.artistName)}</div>
+            </div>
+          </div>`).join('')}
+      </div>
+    </div>`:'' ;
   document.getElementById('mainArea').innerHTML=`
     <div class="main-header">
       <div><div class="main-title">Artists</div><div class="main-subtitle">${keys.length} ARTISTS IN YOUR LIBRARY</div></div>
@@ -3963,6 +4107,7 @@ function loadArtists(){
         <button class="btn btn-accent" onclick="showPlaylists()">🎶 Playlists</button>
       </div>
     </div>
+    ${continueHTML}
     <div class="artists-grid">
       ${keys.map(key=>{const a=artists[key];return`
         <div class="artist-card" onclick="openArtist('${key}')">
@@ -4116,6 +4261,12 @@ async function playSong(index){
   refreshSongRows();
   shuffleHistory.push(song.file);if(shuffleHistory.length>30)shuffleHistory=shuffleHistory.slice(-30);
   localStorage.setItem('eq_shuffle_history',JSON.stringify(shuffleHistory));
+  const songForHistory={file:song.file,title:song.title,poster:song.poster,artistKey:currentArtistKey,artistName:artistName,album:song.album};
+  const existingIdx=continueListening.findIndex(s=>s.file===song.file);
+  if(existingIdx>=0)continueListening.splice(existingIdx,1);
+  continueListening.unshift(songForHistory);
+  if(continueListening.length>10)continueListening=continueListening.slice(0,10);
+  saveContinueListening();
   savePlaybackMemory();renderQueuePanel();
   if('mediaSession' in navigator){navigator.mediaSession.metadata=new MediaMetadata({title:song.title,artist:artistName,artwork:[{src:song.poster}]});}
 }
@@ -4360,5 +4511,7 @@ loadPlaybackMemory();
 renderQueuePanel();
     </script>
 </body>
+
+</html>
 
 </html>
