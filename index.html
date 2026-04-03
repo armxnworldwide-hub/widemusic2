@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -2779,32 +2779,32 @@
             </div>
         </div>
 
-        <button class="mobile-back-btn hidden" id="mobileBackBtn" onclick="loadArtists()">‹</button>
+        <button class="mobile-back-btn hidden" id="mobileBackBtn" onclick="loadArtists()">â€¹</button>
 
         <div class="search-wrap">
             <div class="search-box">
-                <span class="search-icon">⌕</span>
-                <input type="text" id="searchBar" placeholder="Search artist or song…" oninput="globalSearch()">
+                <span class="search-icon">âŒ•</span>
+                <input type="text" id="searchBar" placeholder="Search artist or songâ€¦" oninput="globalSearch()">
             </div>
         </div>
 
-        <button class="fav-mobile-btn" onclick="showLikedSongs()" title="Favorites" style="display:none">❤️</button>
+        <button class="fav-mobile-btn" onclick="showLikedSongs()" title="Favorites" style="display:none">â¤ï¸</button>
 
         <div class="sidebar-nav">
             <button class="nav-btn active" id="navHome" onclick="loadArtists()">
-                <span class="nav-icon">⊞</span> Artists
+                <span class="nav-icon">âŠž</span> Artists
             </button>
             <button class="nav-btn" id="navFav" onclick="showLikedSongs()">
-                <span class="nav-icon">❤️</span> Favorites
+                <span class="nav-icon">â¤ï¸</span> Favorites
             </button>
             <button class="nav-btn" id="navRecent" onclick="showRecentlyPlayed()">
-                <span class="nav-icon">🕐</span> Recently Played
+                <span class="nav-icon">ðŸ•</span> Recently Played
             </button>
             <button class="nav-btn" id="navDownloads" onclick="showDownloads()">
-                <span class="nav-icon">⬇️</span> Downloads
+                <span class="nav-icon">â¬‡ï¸</span> Downloads
             </button>
             <button class="nav-btn" id="navPlaylists" onclick="showSamplePlaylist()">
-                <span class="nav-icon">📋</span> Playlists
+                <span class="nav-icon">ðŸ“‹</span> Playlists
             </button>
         </div>
 
@@ -2824,8 +2824,8 @@
         <div class="user-bar" id="userBar" style="display:none">
             <img id="userAvatar" src="" alt="User">
             <div class="user-bar-info">
-                <div class="user-bar-name" id="userDisplayName">—</div>
-                <div class="user-bar-email" id="userEmail">—</div>
+                <div class="user-bar-name" id="userDisplayName">â€”</div>
+                <div class="user-bar-email" id="userEmail">â€”</div>
             </div>
             <button class="signout-btn" onclick="signOut()">Sign out</button>
         </div>
@@ -2835,27 +2835,27 @@
 
     <footer class="player">
         <div class="player-song">
-            <img class="player-poster" id="poster" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='54' height='54'%3E%3Crect width='54' height='54' fill='%230d0d1c'/%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-size='22' fill='%233e3e62'%3E♫%3C/text%3E%3C/svg%3E"
+            <img class="player-poster" id="poster" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='54' height='54'%3E%3Crect width='54' height='54' fill='%230d0d1c'/%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-size='22' fill='%233e3e62'%3Eâ™«%3C/text%3E%3C/svg%3E"
                 onclick="openFullPlayer()">
             <div style="overflow:hidden;flex:1;min-width:0">
                 <div class="player-song-title" id="playerTitle">Nothing playing</div>
-                <div class="player-song-artist" id="playerArtist">—</div>
+                <div class="player-song-artist" id="playerArtist">â€”</div>
                 <div class="player-song-meta">
-                    <span class="offline-badge" id="offlineBadge">⬇ Offline</span>
+                    <span class="offline-badge" id="offlineBadge">â¬‡ Offline</span>
                 </div>
             </div>
-            <button class="player-like" id="playerLikeBtn" onclick="togglePlayerLike()">🤍</button>
-            <button class="player-dl-btn" id="playerDlBtn" onclick="downloadCurrentSong()" title="Download for offline">⬇</button>
+            <button class="player-like" id="playerLikeBtn" onclick="togglePlayerLike()">ðŸ¤</button>
+            <button class="player-dl-btn" id="playerDlBtn" onclick="downloadCurrentSong()" title="Download for offline">â¬‡</button>
         </div>
 
         <div class="player-center">
             <div class="player-controls">
-                <button class="ctrl-btn hide-mobile" id="shuffleBtn" onclick="toggleShuffle()" title="Shuffle">⇄</button>
-                <button class="ctrl-btn" onclick="previous()" title="Previous">⏮</button>
-                <button class="play-btn" id="playBtn" onclick="togglePlay()">▶</button>
-                <button class="ctrl-btn" onclick="next()" title="Next">⏭</button>
-                <button class="ctrl-btn hide-mobile" id="repeatBtn" onclick="toggleRepeat()" title="Repeat">↻</button>
-                <button class="queue-btn-player" id="queueToggleBtn" onclick="toggleQueuePanel()" title="Queue">≡ Queue</button>
+                <button class="ctrl-btn hide-mobile" id="shuffleBtn" onclick="toggleShuffle()" title="Shuffle">â‡„</button>
+                <button class="ctrl-btn" onclick="previous()" title="Previous">â®</button>
+                <button class="play-btn" id="playBtn" onclick="togglePlay()">â–¶</button>
+                <button class="ctrl-btn" onclick="next()" title="Next">â­</button>
+                <button class="ctrl-btn hide-mobile" id="repeatBtn" onclick="toggleRepeat()" title="Repeat">â†»</button>
+                <button class="queue-btn-player" id="queueToggleBtn" onclick="toggleQueuePanel()" title="Queue">â‰¡ Queue</button>
             </div>
             <div class="player-progress">
                 <span class="time-label" id="currentTime">0:00</span>
@@ -2868,7 +2868,7 @@
 
         <div class="player-right">
             <div class="volume-wrap">
-                <span class="vol-icon" onclick="toggleMute()">🔊</span>
+                <span class="vol-icon" onclick="toggleMute()">ðŸ”Š</span>
                 <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1">
             </div>
         </div>
@@ -2877,7 +2877,7 @@
     <div class="queue-panel" id="queuePanel">
         <div class="queue-panel-header">
             <div class="queue-panel-title">Queue</div>
-            <button class="queue-panel-close" onclick="toggleQueuePanel()">✕</button>
+            <button class="queue-panel-close" onclick="toggleQueuePanel()">âœ•</button>
         </div>
         <div class="queue-panel-body" id="queuePanelBody"></div>
     </div>
@@ -2887,14 +2887,14 @@
     <div id="toast"></div>
 
     <div id="fullscreenPlayer">
-        <button onclick="closeFullPlayer()" id="closePlayer">⌄</button>
+        <button onclick="closeFullPlayer()" id="closePlayer">âŒ„</button>
         <img id="fsPoster">
         <h2 id="fsTitle">Song Name</h2>
         <p id="fsArtist" style="color:var(--muted2);font-size:.85rem"></p>
         <div class="fsControls">
-            <button onclick="previous()">⏮</button>
-            <button onclick="togglePlay()" id="fsPlay">▶</button>
-            <button onclick="next()">⏭</button>
+            <button onclick="previous()">â®</button>
+            <button onclick="togglePlay()" id="fsPlay">â–¶</button>
+            <button onclick="next()">â­</button>
         </div>
     </div>
 
@@ -2908,17 +2908,17 @@
         = new Set(snap.data().likedSongs || []); playlists = snap.data().playlists || {}; renderLikedSongs(); renderPlaylists(); } } onAuthStateChanged(auth, async user => { const loginBtn = document.getElementById("loginBtn"); const userBar = document.getElementById("userBar");
         const syncDot = document.getElementById("syncDot"); const syncLabel = document.getElementById("syncLabel"); if (user) { loginBtn.style.display = "none"; userBar.style.display = "flex"; document.getElementById("userDisplayName").textContent = user.displayName
         || "User"; document.getElementById("userEmail").textContent = user.email || ""; document.getElementById("userAvatar").src = user.photoURL || ""; syncDot.className = "sync-dot synced"; syncLabel.textContent = "Synced"; await loadUserData(); } else
-        { loginBtn.style.display = "block"; userBar.style.display = "none"; syncDot.className = "sync-dot"; syncLabel.textContent = "Offline"; } }); window.saveLikedSongsToCloud = saveUserData; window.savePlaylistsToCloud = saveUserData; // Sample playlist
-        data const samplePlaylists = { 'vibes': { name: 'Summer Vibes', creator: 'EQUIFY', description: 'Good vibes only', coverImages: [ 'images/ShoesOff.jpeg', 'images/Get At Me.jpeg', 'images/Balenci.jpeg', 'images/We Rollin.jpeg' ], songs: [ { title:
-        'Shoes Off', artist: 'Prem Dhillon', album: 'EP', duration: '3:24', cover: 'images/ShoesOff.jpeg', date: 'Jul 15, 2024' }, { title: 'Get At Me', artist: 'Prem Dhillon', album: 'EP', duration: '3:45', cover: 'images/Get At Me.jpeg', date: 'Jul
-        10, 2024' }, { title: 'We Rollin', artist: 'Shubh', album: 'Album', duration: '2:58', cover: 'images/We Rollin.jpeg', date: 'Jul 5, 2024' }, { title: 'Balenci', artist: 'Shubh', album: 'Album', duration: '3:12', cover: 'images/Balenci.jpeg', date:
-        'Jun 28, 2024' }, { title: 'Buckle Up', artist: 'Shubh', album: 'Album', duration: '3:02', cover: 'images/We Rollin.jpeg', date: 'Jun 20, 2024' } ] } }; window.showPlaylist = function(playlistId) { const playlist = samplePlaylists[playlistId];
-        if (!playlist) return; const mainArea = document.getElementById('mainArea'); const songs = playlist.songs; const totalDuration = songs.reduce((sum, song) => { const parts = song.duration.split(':'); return sum + parseInt(parts[0]) * 60 + parseInt(parts[1]);
-        }, 0); const minutes = Math.floor(totalDuration / 60); let html = `
+        { loginBtn.style.display = "block"; userBar.style.display = "none"; syncDot.className = "sync-dot"; syncLabel.textContent = "Offline"; } }); window.saveLikedSongsToCloud = saveUserData; window.savePlaylistsToCloud = saveUserData; const samplePlaylists
+        = { 'vibes': { name: 'Summer Vibes', creator: 'EQUIFY', description: 'Good vibes only', coverImages: [ 'images/ShoesOff.jpeg', 'images/Get At Me.jpeg', 'images/Balenci.jpeg', 'images/We Rollin.jpeg' ], songs: [ { title: 'Shoes Off', artist: 'Prem
+        Dhillon', album: 'EP', duration: '3:24', cover: 'images/ShoesOff.jpeg', date: 'Jul 15, 2024' }, { title: 'Get At Me', artist: 'Prem Dhillon', album: 'EP', duration: '3:45', cover: 'images/Get At Me.jpeg', date: 'Jul 10, 2024' }, { title: 'We Rollin',
+        artist: 'Shubh', album: 'Album', duration: '2:58', cover: 'images/We Rollin.jpeg', date: 'Jul 5, 2024' }, { title: 'Balenci', artist: 'Shubh', album: 'Album', duration: '3:12', cover: 'images/Balenci.jpeg', date: 'Jun 28, 2024' }, { title: 'Buckle
+        Up', artist: 'Shubh', album: 'Album', duration: '3:02', cover: 'images/We Rollin.jpeg', date: 'Jun 20, 2024' } ] } }; window.showPlaylist = function(playlistId) { const playlist = samplePlaylists[playlistId]; if (!playlist) return; const mainArea
+        = document.getElementById('mainArea'); const songs = playlist.songs; const totalDuration = songs.reduce((sum, song) => { const parts = song.duration.split(':'); return sum + parseInt(parts[0]) * 60 + parseInt(parts[1]); }, 0); const minutes =
+        Math.floor(totalDuration / 60); let html = `
         <div class="playlist-page">
             <div class="playlist-header">
                 <div class="playlist-cover-collage">
-                    ${playlist.coverImages.slice(0, 4).map(img => `<img src="${img}" alt="cover" class="cover-item" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%230d0d1c%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 font-size=%2240%22 fill=%22%233e3e62%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3E♫%3C/text%3E%3C/svg%3E'">`).join('')}
+                    ${playlist.coverImages.slice(0, 4).map(img => `<img src="${img}" alt="cover" class="cover-item" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%230d0d1c%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 font-size=%2240%22 fill=%22%233e3e62%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3Eâ™«%3C/text%3E%3C/svg%3E'">`).join('')}
                 </div>
                 <div class="playlist-info">
                     <div class="playlist-type-label">Playlist</div>
@@ -2935,8 +2935,8 @@
                         </div>
                     </div>
                     <div class="playlist-actions">
-                        <button class="playlist-play-btn" onclick="playPlaylist('${playlistId}')" title="Play">▶</button>
-                        <button class="playlist-shuffle-btn" onclick="shufflePlaylist('${playlistId}')">⇄ Shuffle</button>
+                        <button class="playlist-play-btn" onclick="playPlaylist('${playlistId}')" title="Play">â–¶</button>
+                        <button class="playlist-shuffle-btn" onclick="shufflePlaylist('${playlistId}')">â‡„ Shuffle</button>
                     </div>
                 </div>
             </div>
@@ -2964,22 +2964,22 @@
                         <div class="playlist-song-date">${song.date}</div>
                         <div class="playlist-song-duration">${song.duration}</div>
                         <div class="playlist-song-controls">
-                            <button class="playlist-like-btn" onclick="event.stopPropagation(); togglePlaylistLike(this, '${song.title}')">🤍</button>
-                            <button class="playlist-dl-btn" onclick="event.stopPropagation(); downloadSong(this)">⬇</button>
+                            <button class="playlist-like-btn" onclick="event.stopPropagation(); togglePlaylistLike(this, '${song.title}')">ðŸ¤</button>
+                            <button class="playlist-dl-btn" onclick="event.stopPropagation(); downloadSong(this)">â¬‡</button>
                         </div>
                     </div>
-                    `).join('') : '
+                    `).join('') : `
                     <div class="playlist-empty">
-                        <div class="playlist-empty-icon">♫</div>
+                        <div class="playlist-empty-icon">â™«</div>
                         <div class="playlist-empty-text">No songs in this playlist</div>
-                    </div>'}
+                    </div>`}
                 </div>
             </div>
         </div>
         `; mainArea.innerHTML = html; document.getElementById('mobileBackBtn').classList.remove('hidden'); }; window.playPlaylist = function(playlistId) { const playlist = samplePlaylists[playlistId]; if (playlist && playlist.songs.length > 0) { const firstSong
         = playlist.songs[0]; playSong(firstSong.title, firstSong.artist); showToast(`Playing ${playlist.name}`); } }; window.shufflePlaylist = function(playlistId) { const playlist = samplePlaylists[playlistId]; if (playlist && playlist.songs.length >
         0) { const shuffled = [...playlist.songs].sort(() => Math.random() - 0.5); const firstSong = shuffled[0]; playSong(firstSong.title, firstSong.artist); showToast(`Shuffling ${playlist.name}`); } }; window.togglePlaylistLike = function(btn, songTitle)
-        { btn.classList.toggle('liked'); likedSongs.add(songTitle); saveUserData(); }; window.downloadSong = function(btn) { btn.classList.add('downloaded'); btn.textContent = '✓'; }; window.showSamplePlaylist = function() { window.showPlaylist('vibes');
+        { btn.classList.toggle('liked'); likedSongs.add(songTitle); saveUserData(); }; window.downloadSong = function(btn) { btn.classList.add('downloaded'); btn.textContent = 'âœ“'; }; window.showSamplePlaylist = function() { window.showPlaylist('vibes');
         };
     </script>
 
@@ -3258,6 +3258,10 @@
                     title: "We Rollin",
                     file: "Shubh/We Rollin.mp3",
                     poster: "images/We Rollin.jpeg"
+                }, {
+                    title: "Supreme",
+                    file: "Shubh/Supreme.mp3",
+                    poster: "images/Supreme.jpeg"
                 }, {
                     title: "Balenci",
                     file: "Shubh/Balenci.mp3",
@@ -4153,13 +4157,13 @@
         async function downloadSong(song, btn) {
             const url = 'songs/' + song.file;
             if (isDownloaded(song.file)) {
-                showToast('Already downloaded ✓');
+                showToast('Already downloaded âœ“');
                 return;
             }
 
             if (btn) {
                 btn.classList.add('downloading');
-                btn.textContent = '↻';
+                btn.textContent = 'â†»';
             }
 
             try {
@@ -4179,18 +4183,18 @@
                 if (btn) {
                     btn.classList.remove('downloading');
                     btn.classList.add('downloaded');
-                    btn.textContent = '✓';
+                    btn.textContent = 'âœ“';
                 }
 
                 updatePlayerDlBtn();
                 refreshSongRows();
-                showToast(`"${song.title}" saved for offline ✓`);
+                showToast(`"${song.title}" saved for offline âœ“`);
             } catch (err) {
                 if (btn) {
                     btn.classList.remove('downloading');
-                    btn.textContent = '⬇';
+                    btn.textContent = 'â¬‡';
                 }
-                showToast('Download failed — check connection');
+                showToast('Download failed â€” check connection');
             }
         }
 
@@ -4202,7 +4206,7 @@
                 saveDownloadedList();
                 refreshSongRows();
                 updatePlayerDlBtn();
-                showToast('Removed from offline ✓');
+                showToast('Removed from offline âœ“');
             } catch (e) {
                 showToast('Could not remove');
             }
@@ -4224,8 +4228,8 @@
             if (!currentSong) return;
             const dl = isDownloaded(currentSong.file);
             btn.classList.toggle('downloaded', dl);
-            btn.textContent = dl ? '✓' : '⬇';
-            btn.title = dl ? 'Downloaded — click to remove' : 'Download for offline';
+            btn.textContent = dl ? 'âœ“' : 'â¬‡';
+            btn.title = dl ? 'Downloaded â€” click to remove' : 'Download for offline';
             badge.classList.toggle('visible', dl);
         }
 
@@ -4238,7 +4242,7 @@
                 return;
             }
             const btn = document.getElementById('playerDlBtn');
-            btn.textContent = '↻';
+            btn.textContent = 'â†»';
             await downloadSong(currentSong, null);
             updatePlayerDlBtn();
         };
@@ -4261,11 +4265,11 @@
             document.getElementById('mainArea').innerHTML = `
                 <div class="main-header">
                     <div><div class="main-title">Downloads</div><div class="main-subtitle">${count} CACHED FOR OFFLINE</div></div>
-                    ${count > 0 ? `<div class="header-actions"><button class="btn btn-outline" onclick="clearAllDownloads()">🗑 Clear All</button></div>` : ''}
+                    ${count > 0 ? `<div class="header-actions"><button class="btn btn-outline" onclick="clearAllDownloads()">ðŸ—‘ Clear All</button></div>` : ''}
                 </div>
                 <div class="songs-section" style="padding-top:20px">
                 ${dlSongs.length === 0
-                    ? `<div class="empty-state"><div class="emoji">⬇️</div><p>No songs downloaded yet.</p><p style="font-size:.8rem;margin-top:8px;color:var(--muted)">Tap ⬇ on any song to save it for offline.</p></div>`
+                    ? `<div class="empty-state"><div class="emoji">â¬‡ï¸</div><p>No songs downloaded yet.</p><p style="font-size:.8rem;margin-top:8px;color:var(--muted)">Tap â¬‡ on any song to save it for offline.</p></div>`
                     : `<div>${dlSongs.map((s,i) => `
                         <div class="song-row" onclick="playDownloadedSong(${i})">
                             <div class="song-num">${i+1}</div>
@@ -4274,8 +4278,8 @@
                                 <div class="song-row-text"><h4>${escHtml(s.title)}</h4><p>${escHtml(s.artistName)}</p></div>
                             </div>
                             <div class="song-actions" style="opacity:1">
-                                <button class="like-btn ${isDownloaded(s.file) ? 'liked' : ''}" style="color:var(--accent);font-size:.75rem;border:1px solid rgba(200,245,66,.2);background:var(--accent3);border-radius:6px;padding:3px 7px;font-family:'Space Mono',monospace" onclick="event.stopPropagation()">⬇ Saved</button>
-                                <button class="queue-btn" onclick="event.stopPropagation();removeCachedSong('${escAttr(s.file)}')" title="Remove">✕</button>
+                                <button class="like-btn ${isDownloaded(s.file) ? 'liked' : ''}" style="color:var(--accent);font-size:.75rem;border:1px solid rgba(200,245,66,.2);background:var(--accent3);border-radius:6px;padding:3px 7px;font-family:'Space Mono',monospace" onclick="event.stopPropagation()">â¬‡ Saved</button>
+                                <button class="queue-btn" onclick="event.stopPropagation();removeCachedSong('${escAttr(s.file)}')" title="Remove">âœ•</button>
                             </div>
                         </div>`).join('')}</div>`}
                 </div>`;
@@ -4295,7 +4299,7 @@
             updatePlayerLikeBtn(s.file);
             updatePlayerDlBtn();
             audio.play();
-            playBtn.textContent = '⏸';
+            playBtn.textContent = 'â¸';
             addToRecentlyPlayed(s, s.artistName);
         };
 
@@ -4470,7 +4474,7 @@
                 </div>
                 <div class="songs-section" style="padding-top:20px">
                 ${recentlyPlayed.length === 0
-                    ? '<div class="empty-state"><div class="emoji">🕐</div><p>No recently played songs yet.</p></div>'
+                    ? '<div class="empty-state"><div class="emoji">ðŸ•</div><p>No recently played songs yet.</p></div>'
                     : `<div>${recentlyPlayed.map((s,i) => `
                         <div class="song-row" onclick="playRecentSong('${escAttr(s.file)}')">
                             <div class="song-num">${i+1}</div>
@@ -4479,8 +4483,8 @@
                                 <div class="song-row-text"><h4>${escHtml(s.title)}</h4><p>${escHtml(s.artistName)}</p></div>
                             </div>
                             <div class="song-actions">
-                                <button class="like-btn ${likedSongs[s.file] ? 'liked' : ''}" onclick="event.stopPropagation();toggleLike('${escAttr(s.file)}')">${likedSongs[s.file] ? '❤️' : '🤍'}</button>
-                                <button class="dl-btn ${isDownloaded(s.file) ? 'downloaded' : ''}" onclick="event.stopPropagation();handleDlBtn(this,'${escAttr(s.file)}')" title="${isDownloaded(s.file) ? 'Downloaded' : 'Download'}">${isDownloaded(s.file) ? '✓' : '⬇'}</button>
+                                <button class="like-btn ${likedSongs[s.file] ? 'liked' : ''}" onclick="event.stopPropagation();toggleLike('${escAttr(s.file)}')">${likedSongs[s.file] ? 'â¤ï¸' : 'ðŸ¤'}</button>
+                                <button class="dl-btn ${isDownloaded(s.file) ? 'downloaded' : ''}" onclick="event.stopPropagation();handleDlBtn(this,'${escAttr(s.file)}')" title="${isDownloaded(s.file) ? 'Downloaded' : 'Download'}">${isDownloaded(s.file) ? 'âœ“' : 'â¬‡'}</button>
                             </div>
                         </div>`).join('')}</div>`}
                 </div>`;
@@ -4502,7 +4506,7 @@
             if (!recentlyPlayed.length) return '';
             const items = recentlyPlayed.slice(0, 8);
             return `<div class="continue-strip">
-                <div class="continue-label">▶ Continue Listening</div>
+                <div class="continue-label">â–¶ Continue Listening</div>
                 <div class="continue-scroll">
                     ${items.map(r => `
                         <div class="continue-card" onclick="playRecentSong('${escAttr(r.file)}')">
@@ -4523,11 +4527,11 @@
                 return `<div class="resume-banner" onclick="resumeLastSong()">
                     <img src="${escHtml(lastSong.poster)}" onerror="this.style.background='#16162a'">
                     <div class="resume-banner-info">
-                        <div class="resume-banner-label">⏱ Last played</div>
+                        <div class="resume-banner-label">â± Last played</div>
                         <div class="resume-banner-title">${escHtml(lastSong.title)}</div>
                         <div class="resume-banner-artist">${escHtml(lastSong.artistName || '')}</div>
                     </div>
-                    <button class="resume-play-btn" onclick="event.stopPropagation();resumeLastSong()">▶</button>
+                    <button class="resume-play-btn" onclick="event.stopPropagation();resumeLastSong()">â–¶</button>
                 </div>`;
             } catch(e) { return ''; }
         }
@@ -4553,9 +4557,9 @@
                 audio.addEventListener('loadedmetadata', () => {
                     if (lastSong.currentTime > 0) audio.currentTime = Math.min(lastSong.currentTime, audio.duration - 1);
                     audio.play();
-                    playBtn.textContent = '⏸';
+                    playBtn.textContent = 'â¸';
                 }, { once: true });
-                showToast('Resuming from where you left off ▶');
+                showToast('Resuming from where you left off â–¶');
             } catch(e) {}
         };
 
@@ -4569,8 +4573,8 @@
                 <div class="main-header">
                     <div><div class="main-title">Artists</div><div class="main-subtitle">${keys.length} ARTISTS IN YOUR LIBRARY</div></div>
                     <div class="header-actions">
-                        <button class="btn btn-outline" onclick="showLikedSongs()">❤️ Favorites</button>
-                        <button class="btn btn-outline" onclick="showRecentlyPlayed()">🕐 Recent</button>
+                        <button class="btn btn-outline" onclick="showLikedSongs()">â¤ï¸ Favorites</button>
+                        <button class="btn btn-outline" onclick="showRecentlyPlayed()">ðŸ• Recent</button>
                     </div>
                 </div>
                 ${resumeHTML}
@@ -4583,7 +4587,7 @@
                                 <div class="artist-card-name">${a.name}</div>
                                 <div class="artist-card-count">${a.songs.length} tracks</div>
                             </div>
-                            <button class="card-play-btn" onclick="event.stopPropagation();playArtist('${key}')">▶</button>
+                            <button class="card-play-btn" onclick="event.stopPropagation();playArtist('${key}')">â–¶</button>
                         </div>`; }).join('')}
                 </div>`;
         }
@@ -4602,7 +4606,7 @@
             const recs = getRecommendations(artistKey, currentFile);
             if (!recs.length) return '';
             return `<div class="recommend-strip">
-                <div class="recommend-label">✦ You might also like</div>
+                <div class="recommend-label">âœ¦ You might also like</div>
                 <div class="recommend-scroll">
                     ${recs.map((s, i) => `
                         <div class="recommend-card" onclick="playRecommendation('${escAttr(s.file)}','${escAttr(s.artistKey)}')">
@@ -4642,8 +4646,8 @@
                             <div class="artist-hero-name">${a.name}</div>
                             <div class="artist-hero-count">${a.songs.length} songs</div>
                             <div class="artist-hero-actions">
-                                <button class="btn btn-accent" onclick="playArtist('${key}')">▶ Play All</button>
-                                <button class="btn btn-outline" onclick="shuffleArtist('${key}')">⇄ Shuffle</button>
+                                <button class="btn btn-accent" onclick="playArtist('${key}')">â–¶ Play All</button>
+                                <button class="btn btn-outline" onclick="shuffleArtist('${key}')">â‡„ Shuffle</button>
                             </div>
                         </div>
                     </div>
@@ -4679,20 +4683,20 @@ style="margin:10px 0 10px auto; display:block; background:#121224; color:white; 
                     <div class="song-row-text"><h4>${escHtml(song.title)}</h4><p>${escHtml(artistName)}</p></div>
                 </div>
                 <div class="song-actions">
-                    <button class="like-btn ${liked ? 'liked' : ''}" onclick="event.stopPropagation();toggleLike('${escAttr(song.file)}',${i})">${liked ? '❤️' : '🤍'}</button>
-                    <button class="dl-btn ${dl ? 'downloaded' : ''}" onclick="event.stopPropagation();handleDlBtn(this,'${escAttr(song.file)}')" title="${dl ? 'Downloaded — click to remove' : 'Download for offline'}">${dl ? '✓' : '⬇'}</button>
-                    <button class="queue-btn" onclick="event.stopPropagation();addToQueue(${i})" title="Add to queue">＋</button>
+                    <button class="like-btn ${liked ? 'liked' : ''}" onclick="event.stopPropagation();toggleLike('${escAttr(song.file)}',${i})">${liked ? 'â¤ï¸' : 'ðŸ¤'}</button>
+                    <button class="dl-btn ${dl ? 'downloaded' : ''}" onclick="event.stopPropagation();handleDlBtn(this,'${escAttr(song.file)}')" title="${dl ? 'Downloaded â€” click to remove' : 'Download for offline'}">${dl ? 'âœ“' : 'â¬‡'}</button>
+                    <button class="queue-btn" onclick="event.stopPropagation();addToQueue(${i})" title="Add to queue">ï¼‹</button>
                 </div>
             </div>`;
         }
 
         window.handleDlBtn = async (btn, fileId) => {
             if (isDownloaded(fileId)) {
-                btn.textContent = '↻';
+                btn.textContent = 'â†»';
                 btn.classList.add('downloading');
                 await removeCachedSong(fileId);
                 btn.classList.remove('downloading', 'downloaded');
-                btn.textContent = '⬇';
+                btn.textContent = 'â¬‡';
             } else {
                 let song = null;
                 for (let key in artists) {
@@ -4754,12 +4758,12 @@ style="margin:10px 0 10px auto; display:block; background:#121224; color:white; 
                 }, 50);
             }).catch(() => { audio.volume = targetVol; });
 
-            playBtn.textContent = '⏸';
+            playBtn.textContent = 'â¸';
 
             document.getElementById('fsPoster').src = song.poster;
             document.getElementById('fsTitle').textContent = song.title;
             document.getElementById('fsArtist').textContent = artistName;
-            document.getElementById('fsPlay').textContent = '⏸';
+            document.getElementById('fsPlay').textContent = 'â¸';
 
             refreshSongRows();
             addToRecentlyPlayed(song, artistName);
@@ -4780,8 +4784,8 @@ style="margin:10px 0 10px auto; display:block; background:#121224; color:white; 
         }
 
         function togglePlay() {
-            if (audio.paused) { audio.play(); playBtn.textContent = '⏸'; document.getElementById('fsPlay').textContent = '⏸'; }
-            else { audio.pause(); playBtn.textContent = '▶'; document.getElementById('fsPlay').textContent = '▶'; savePlaybackMemory(); }
+            if (audio.paused) { audio.play(); playBtn.textContent = 'â¸'; document.getElementById('fsPlay').textContent = 'â¸'; }
+            else { audio.pause(); playBtn.textContent = 'â–¶'; document.getElementById('fsPlay').textContent = 'â–¶'; savePlaybackMemory(); }
         }
 
 
@@ -4800,7 +4804,7 @@ style="margin:10px 0 10px auto; display:block; background:#121224; color:white; 
                 getAudioSrc('songs/' + s.file).then(src => {
                     audio.src = src;
                     audio.play();
-                    playBtn.textContent = '⏸';
+                    playBtn.textContent = 'â¸';
                 });
                 addToRecentlyPlayed(s, artistName);
                 savePlaybackMemory();
@@ -4935,14 +4939,14 @@ songRowHTML(s,i,artists[currentArtistKey].name)
             queue.push({...song, artistName});
             window._saveQueue();
             renderQueuePanel();
-            showToast('Added to queue ✓');
+            showToast('Added to queue âœ“');
         }
 
         function toggleShuffle() {
             isShuffle = !isShuffle;
             document.getElementById('shuffleBtn').classList.toggle('on', isShuffle);
             localStorage.setItem('eq_shuffle', isShuffle);
-            showToast(isShuffle ? 'Smart shuffle on ⇄' : 'Shuffle off');
+            showToast(isShuffle ? 'Smart shuffle on â‡„' : 'Shuffle off');
         }
 
         function toggleRepeat() {
@@ -4989,7 +4993,7 @@ songRowHTML(s,i,artists[currentArtistKey].name)
                             <div class="queue-item-title">${escHtml(s.title)}</div>
                             <div class="queue-item-artist">${escHtml(s.artistName || '')}</div>
                         </div>
-                        <button class="queue-item-remove" onclick="event.stopPropagation();removeFromQueue(${i})" title="Remove">✕</button>
+                        <button class="queue-item-remove" onclick="event.stopPropagation();removeFromQueue(${i})" title="Remove">âœ•</button>
                     </div>`;
                 });
                 html += `<div style="padding:10px 16px"><button onclick="clearQueue()" style="background:none;border:1px solid rgba(255,85,85,.2);color:rgba(255,85,85,.6);font-family:'Syne',sans-serif;font-size:.7rem;cursor:pointer;padding:5px 12px;border-radius:7px;transition:all .2s;width:100%">Clear Queue</button></div>`;
@@ -5012,7 +5016,7 @@ songRowHTML(s,i,artists[currentArtistKey].name)
             }
 
             if (!currentSong && !queue.length) {
-                html = `<div class="queue-empty"><div style="font-size:2rem;opacity:.4">≡</div><p>Your queue is empty</p><p style="font-size:.75rem;color:var(--muted);margin-top:4px">Tap ＋ next to any song to add it</p></div>`;
+                html = `<div class="queue-empty"><div style="font-size:2rem;opacity:.4">â‰¡</div><p>Your queue is empty</p><p style="font-size:.75rem;color:var(--muted);margin-top:4px">Tap ï¼‹ next to any song to add it</p></div>`;
             }
 
             body.innerHTML = html;
@@ -5034,7 +5038,7 @@ songRowHTML(s,i,artists[currentArtistKey].name)
             getAudioSrc('songs/' + s.file).then(src => {
                 audio.src = src;
                 audio.play();
-                playBtn.textContent = '⏸';
+                playBtn.textContent = 'â¸';
             });
             addToRecentlyPlayed(s, artistName);
             savePlaybackMemory();
@@ -5066,7 +5070,7 @@ time:Date.now()
         }
 
         function togglePlayerLike() { if (!currentSong) return; toggleLike(currentSong.file); }
-        function updatePlayerLikeBtn(f) { document.getElementById('playerLikeBtn').textContent = likedSongs[f] ? '❤️' : '🤍'; }
+        function updatePlayerLikeBtn(f) { document.getElementById('playerLikeBtn').textContent = likedSongs[f] ? 'â¤ï¸' : 'ðŸ¤'; }
 
         function showLikedSongs() {
             setNavActive('navFav');
@@ -5101,9 +5105,9 @@ document.getElementById('mainArea').innerHTML = `
 </div>
                 </div>
                 <div class="songs-section" style="padding-top:20px">
-                    <div class="fav-section-label">❤️ Liked Songs</div>
+                    <div class="fav-section-label">â¤ï¸ Liked Songs</div>
                     ${liked.length === 0
-                        ? '<div class="empty-state"><div class="emoji">🎵</div><p>No favorites yet. Like songs to see them here.</p></div>'
+                        ? '<div class="empty-state"><div class="emoji">ðŸŽµ</div><p>No favorites yet. Like songs to see them here.</p></div>'
                         : `<div>${liked.map((s,i) => `
                             <div class="song-row" onclick="playLikedSong(${i})">
                                 <div class="song-num">${i+1}</div>
@@ -5111,8 +5115,8 @@ document.getElementById('mainArea').innerHTML = `
                                     <div class="song-row-text"><h4>${escHtml(s.title)}</h4><p>${escHtml(s.artistName)}</p></div>
                                 </div>
                                 <div class="song-actions">
-                                    <button class="like-btn liked" onclick="event.stopPropagation();toggleLikeFav('${escAttr(s.file)}',this)">❤️</button>
-                                    <button class="dl-btn ${isDownloaded(s.file) ? 'downloaded' : ''}" onclick="event.stopPropagation();handleDlBtn(this,'${escAttr(s.file)}')" title="${isDownloaded(s.file) ? 'Downloaded' : 'Download'}">${isDownloaded(s.file) ? '✓' : '⬇'}</button>
+                                    <button class="like-btn liked" onclick="event.stopPropagation();toggleLikeFav('${escAttr(s.file)}',this)">â¤ï¸</button>
+                                    <button class="dl-btn ${isDownloaded(s.file) ? 'downloaded' : ''}" onclick="event.stopPropagation();handleDlBtn(this,'${escAttr(s.file)}')" title="${isDownloaded(s.file) ? 'Downloaded' : 'Download'}">${isDownloaded(s.file) ? 'âœ“' : 'â¬‡'}</button>
                                 </div>
                             </div>`).join('')}</div>`}
                 </div>`;
@@ -5128,7 +5132,7 @@ document.getElementById('mainArea').innerHTML = `
             playerArtist.textContent = s.artistName || '';
             updatePlayerLikeBtn(s.file);
             updatePlayerDlBtn();
-            audio.play(); playBtn.textContent = '⏸';
+            audio.play(); playBtn.textContent = 'â¸';
             addToRecentlyPlayed(s, s.artistName);
         }
 
@@ -5153,7 +5157,7 @@ document.getElementById('mainArea').innerHTML = `
                             <div class="artist-card-name">${a.name}</div>
                             <div class="artist-card-count">${a.songs.length} songs</div>
                         </div>
-                        <button class="card-play-btn" onclick="event.stopPropagation();playArtist('${key}')">▶</button>
+                        <button class="card-play-btn" onclick="event.stopPropagation();playArtist('${key}')">â–¶</button>
                     </div>`; ac++;
                 }
                 a.songs.forEach((s,i) => {
@@ -5165,8 +5169,8 @@ document.getElementById('mainArea').innerHTML = `
                                 <div class="song-row-text"><h4>${escHtml(s.title)}</h4><p>${escHtml(a.name)}</p></div>
                             </div>
                             <div class="song-actions" style="opacity:1">
-                                <button class="like-btn ${likedSongs[s.file] ? 'liked' : ''}" onclick="event.stopPropagation();toggleLike('${escAttr(s.file)}')">${likedSongs[s.file] ? '❤️' : '🤍'}</button>
-                                <button class="dl-btn ${isDownloaded(s.file) ? 'downloaded' : ''}" onclick="event.stopPropagation();handleDlBtn(this,'${escAttr(s.file)}')">${isDownloaded(s.file) ? '✓' : '⬇'}</button>
+                                <button class="like-btn ${likedSongs[s.file] ? 'liked' : ''}" onclick="event.stopPropagation();toggleLike('${escAttr(s.file)}')">${likedSongs[s.file] ? 'â¤ï¸' : 'ðŸ¤'}</button>
+                                <button class="dl-btn ${isDownloaded(s.file) ? 'downloaded' : ''}" onclick="event.stopPropagation();handleDlBtn(this,'${escAttr(s.file)}')">${isDownloaded(s.file) ? 'âœ“' : 'â¬‡'}</button>
                             </div>
                         </div>`; sc++;
                     }
@@ -5179,7 +5183,7 @@ document.getElementById('mainArea').innerHTML = `
                 </div>
                 ${ac > 0 ? `<div style="padding:20px 30px 0"><div style="font-family:'Space Mono',monospace;font-size:.6rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:14px">Artists</div><div class="artists-grid" style="padding:0">${artistHtml}</div></div>` : ''}
                 ${sc > 0 ? `<div class="songs-section" style="padding-top:20px"><div style="font-family:'Space Mono',monospace;font-size:.6rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:12px">Songs</div>${songHtml}</div>` : ''}
-                ${!total ? '<div class="empty-state"><div class="emoji">🔍</div><p>No results found.</p></div>' : ''}`;
+                ${!total ? '<div class="empty-state"><div class="emoji">ðŸ”</div><p>No results found.</p></div>' : ''}`;
         }
 
         function openArtistAndPlay(key, index) { currentSongs = artists[key].songs; currentArtistKey = key; openArtist(key); playSong(index); }
@@ -5214,15 +5218,15 @@ document.getElementById('mainArea').innerHTML = `
         audio.addEventListener('ended', () => { if (!isRepeat) next(); });
 
         audio.addEventListener('play', () => {
-            playBtn.textContent = '⏸';
+            playBtn.textContent = 'â¸';
             const fp = document.getElementById('fsPlay');
-            if (fp) fp.textContent = '⏸';
+            if (fp) fp.textContent = 'â¸';
         });
 
         audio.addEventListener('pause', () => {
-            playBtn.textContent = '▶';
+            playBtn.textContent = 'â–¶';
             const fp = document.getElementById('fsPlay');
-            if (fp) fp.textContent = '▶';
+            if (fp) fp.textContent = 'â–¶';
             savePlaybackMemory();
         });
 
