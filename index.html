@@ -539,25 +539,37 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 12px;
             width: calc(100% - 24px);
-            margin: 12px;
-            padding: 11px 16px;
-            background: var(--surface2);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            color: var(--text);
+            margin: 14px 12px;
+            padding: 12px 18px;
+            background: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 999px;
+            color: #111111;
             font-family: 'Syne', sans-serif;
-            font-size: .82rem;
-            font-weight: 700;
+            font-size: .84rem;
+            font-weight: 800;
+            letter-spacing: .2px;
             cursor: pointer;
-            transition: all .2s;
+            transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
         }
         
         .google-btn:hover {
-            border-color: rgba(200, 245, 66, .4);
-            background: var(--surface3);
+            background: #f7f7f7;
             transform: translateY(-1px);
+            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.34);
+        }
+        
+        .google-btn:active {
+            transform: translateY(0);
+        }
+        
+        .google-btn svg {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
         }
         
         .main {
@@ -2462,118 +2474,114 @@
                 border-radius: 50%;
                 object-fit: cover;
             }
-            .mobile-auth-modal {
+            .auth-dropdown {
                 position: fixed;
-                bottom: 0;
-                left: 0;
-                right: 0;
+                top: 56px;
+                right: 12px;
                 background: var(--surface2);
-                border-top: 1px solid var(--border);
-                z-index: 100;
-                animation: slideUp 0.3s ease-out;
-                max-height: 60vh;
-                overflow-y: auto;
+                border: 1px solid var(--border);
+                border-radius: 16px;
+                padding: 16px;
+                width: 280px;
+                z-index: 1000;
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+                animation: dropdownSlide 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+                backdrop-filter: blur(10px);
             }
-            @keyframes slideUp {
+            @keyframes dropdownSlide {
                 from {
-                    transform: translateY(100%);
+                    opacity: 0;
+                    transform: translateY(-12px) scale(0.95);
                 }
                 to {
-                    transform: translateY(0);
+                    opacity: 1;
+                    transform: translateY(0) scale(1);
                 }
             }
-            .mobile-auth-modal.hidden {
+            .auth-dropdown.hidden {
                 display: none;
             }
-            .mobile-auth-content {
-                padding: 20px;
-                display: flex;
-                flex-direction: column;
-                gap: 16px;
-            }
-            .mobile-auth-header {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                margin-bottom: 10px;
-            }
-            .mobile-auth-title {
-                font-size: 1.1rem;
-                font-weight: 700;
-                color: var(--text);
-            }
-            .mobile-auth-close {
-                background: none;
-                border: none;
-                font-size: 1.4rem;
-                cursor: pointer;
-                color: var(--muted2);
-                padding: 0;
-                width: 28px;
-                height: 28px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-            .mobile-user-info {
+            .auth-user-card {
                 display: flex;
                 gap: 12px;
                 align-items: center;
                 padding: 12px;
                 background: var(--surface3);
-                border-radius: var(--radius-sm);
-                margin-bottom: 10px;
+                border-radius: 12px;
+                margin-bottom: 12px;
             }
-            .mobile-user-avatar {
+            .auth-user-avatar {
                 width: 48px;
                 height: 48px;
                 border-radius: 50%;
                 object-fit: cover;
                 flex-shrink: 0;
+                border: 2px solid var(--accent);
             }
-            .mobile-user-details {
+            .auth-user-info {
                 flex: 1;
                 min-width: 0;
             }
-            .mobile-user-name {
-                font-size: 0.9rem;
+            .auth-user-name {
+                font-size: 0.85rem;
                 font-weight: 700;
                 color: var(--text);
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
             }
-            .mobile-user-email {
-                font-size: 0.75rem;
+            .auth-user-email {
+                font-size: 0.7rem;
                 color: var(--muted2);
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
+                margin-top: 2px;
             }
-            .mobile-auth-btn {
-                padding: 12px 20px;
-                border-radius: 12px;
+            .auth-btn-primary {
+                width: 100%;
+                padding: 10px 16px;
+                border-radius: 10px;
                 border: none;
+                background: var(--accent);
+                color: #000;
                 font-family: 'Syne', sans-serif;
-                font-size: 0.9rem;
+                font-size: 0.85rem;
                 font-weight: 700;
                 cursor: pointer;
                 transition: all 0.2s;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 6px;
+            }
+            .auth-btn-primary:hover {
+                background: var(--accent2);
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(200, 245, 66, 0.4);
+            }
+            .auth-btn-primary:active {
+                transform: translateY(0);
+            }
+            .auth-btn-danger {
                 width: 100%;
-            }
-            .mobile-auth-btn.login {
-                background: var(--accent);
-                color: #000;
-            }
-            .mobile-auth-btn.login:active {
-                transform: scale(0.98);
-            }
-            .mobile-auth-btn.logout {
-                background: transparent;
-                border: 1px solid var(--border);
+                padding: 10px 16px;
+                border-radius: 10px;
+                border: 1px solid rgba(255, 85, 85, 0.3);
+                background: rgba(255, 85, 85, 0.08);
                 color: #ff5555;
+                font-family: 'Syne', sans-serif;
+                font-size: 0.85rem;
+                font-weight: 700;
+                cursor: pointer;
+                transition: all 0.2s;
             }
-            .mobile-auth-btn.logout:active {
+            .auth-btn-danger:hover {
+                background: rgba(255, 85, 85, 0.15);
+                border-color: rgba(255, 85, 85, 0.6);
+                box-shadow: 0 4px 12px rgba(255, 85, 85, 0.2);
+            }
+            .auth-btn-danger:active {
                 transform: scale(0.98);
             }
             .mobile-back-btn {
@@ -2757,6 +2765,11 @@
             .playlist-song-list {
                 padding: 12px 14px 22px;
             }
+            .auth-dropdown {
+                width: 260px;
+                right: 8px;
+                top: 56px;
+            }
         }
     </style>
 </head>
@@ -2796,33 +2809,27 @@
         </div>
 
         <button class="fav-mobile-btn" onclick="showLikedSongs()" title="Favorites" style="display:none">❤</button>
-        <button class="mobile-profile-btn" id="mobileProfileBtn" onclick="toggleMobileAuthModal()" title="Account" style="display:none">
+        <button class="mobile-profile-btn" id="mobileProfileBtn" onclick="toggleAuthDropdown()" title="Account" style="display:none">
             <span id="mobileProfileIcon">👤</span>
             <img id="mobileProfileAvatar" class="mobile-profile-avatar" style="display:none">
         </button>
 
-        <div id="mobileAuthModal" class="mobile-auth-modal hidden">
-            <div class="mobile-auth-content">
-                <div class="mobile-auth-header">
-                    <div class="mobile-auth-title">Account</div>
-                    <button class="mobile-auth-close" onclick="toggleMobileAuthModal()">✕</button>
+        <div id="authDropdown" class="auth-dropdown hidden">
+            <div id="authLoginView">
+                <div style="font-size: 0.75rem; color: var(--muted2); text-align: center; line-height: 1.5;">
+                    Use the main Google sign-in button to sync your favorites and playlists.
                 </div>
-                <div id="mobileAuthLoginView">
-                    <div style="font-size: 0.85rem; color: var(--muted2); margin-bottom: 16px; text-align: center;">Sign in to sync your favorite songs and track your listening history</div>
-                    <button class="mobile-auth-btn login" onclick="signInWithGoogle()">
-                        <span style="font-size: 1rem; margin-right: 8px;">🔹</span>Sign in with Google
-                    </button>
-                </div>
-                <div id="mobileAuthUserView" style="display:none">
-                    <div class="mobile-user-info">
-                        <img id="mobileAuthAvatar" class="mobile-user-avatar" src="">
-                        <div class="mobile-user-details">
-                            <div class="mobile-user-name" id="mobileAuthName">—</div>
-                            <div class="mobile-user-email" id="mobileAuthEmail">—</div>
-                        </div>
+            </div>
+            <div id="authUserView" style="display:none">
+                <div class="auth-user-card">
+                    <img id="authAvatar" class="auth-user-avatar" src="">
+                    <div class="auth-user-info">
+                        <div class="auth-user-name" id="authName">—</div>
+                        <div class="auth-user-email" id="authEmail">—</div>
                     </div>
-                    <button class="mobile-auth-btn logout" onclick="signOut()">Sign out</button>
                 </div>
+                <hr style="border: none; border-top: 1px solid var(--border); margin: 8px 0;">
+                <button class="auth-btn-danger" onclick="signOut()">Sign out</button>
             </div>
         </div>
 
@@ -2876,7 +2883,7 @@
             </div>
             <div class="player-progress">
                 <span class="time-label" id="currentTime">0:00</span>
-                <div class="progress-track" id="progressTrack" onclick="seek(event)">
+                <div class="progress-track" id="progressTrack" onmousedown="startDrag(event)" ontouchstart="startDrag(event)">
                     <div class="progress-fill" id="progressBar"></div>
                 </div>
                 <span class="time-label" id="duration">0:00</span>
@@ -2964,7 +2971,7 @@
                     file: "Prem Dhillon/By Moonlight.mp3",
                     poster: "images/Lying Anyway.jpeg"
                 }, {
-                    title: "Nah They Can't",
+                    title: "Nah They Can'nt",
                     file: "Prem Dhillon/Nah They Cant.mp3",
                     poster: "images/neveragain.jpeg"
                 }, {
@@ -3097,6 +3104,10 @@
                     file: "Sidhu Moosewala/Ultimatum.mp3",
                     poster: "images/MOSSETAPE.jpeg"
                 }, {
+                    title: "TRAIL DAY SKIT",
+                    file: "Sidhu Moosewala/TrialDaySkit.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
                     title: "THESE DAYS",
                     file: "Sidhu Moosewala/TheseDays.mp3",
                     poster: "images/MOSSETAPE.jpeg"
@@ -3109,6 +3120,10 @@
                     file: "Sidhu Moosewala/Regret.mp3",
                     poster: "images/MOSSETAPE.jpeg"
                 }, {
+                    title: "REAL ONE SKIT",
+                    file: "Sidhu Moosewala/RealOneSkit.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
                     title: "RACKS AND ROUNDS",
                     file: "Sidhu Moosewala/RacksAndRounds.mp3",
                     poster: "images/MOSSETAPE.jpeg"
@@ -3117,8 +3132,40 @@
                     file: "Sidhu Moosewala/Power.mp3",
                     poster: "images/MOSSETAPE.jpeg"
                 }, {
+                    title: "PIND HOOD DAMN GOOD",
+                    file: "Sidhu Moosewala/PindHoodDamnGood.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
                     title: "MOSSEDRILLA",
                     file: "Sidhu Moosewala/MosseDrilla.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "ME AND MY GIRLFRIEND",
+                    file: "Sidhu Moosewala/MeAndMyGirlfriend.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "MALWA BLOCK",
+                    file: "Sidhu Moosewala/Malwa_Block.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "INVINICIBLE",
+                    file: "Sidhu Moosewala/Invincible.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "IDGAF",
+                    file: "Sidhu Moosewala/IDGAF.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "G SHIT",
+                    file: "Sidhu Moosewala/GShit.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "FACTS SKIT",
+                    file: "Sidhu Moosewala/FactsSkit.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "CHACHA HU SKIT",
+                    file: "Sidhu Moosewala/ChachaHuuSkit.mp3",
                     poster: "images/MOSSETAPE.jpeg"
                 }, {
                     title: "GOAT",
@@ -3145,12 +3192,24 @@
                     file: "Sidhu Moosewala/BrownShortie.mp3",
                     poster: "images/MOSSETAPE.jpeg"
                 }, {
+                    title: "BOO CALL SKIT",
+                    file: "Sidhu Moosewala/BooCallSkit.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
                     title: "BITCH I'M BACK",
                     file: "Sidhu Moosewala/Bitch I M Back.mp3",
                     poster: "images/MOSSETAPE.jpeg"
                 }, {
+                    title: "B W",
+                    file: "Sidhu Moosewala/B W.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
                     title: "AROMA",
                     file: "Sidhu Moosewala/Aroma.mp3",
+                    poster: "images/MOSSETAPE.jpeg"
+                }, {
+                    title: "AMLI TALK SKIT",
+                    file: "Sidhu Moosewala/Amli Talk Skit.mp3",
                     poster: "images/MOSSETAPE.jpeg"
                 }]
             },
@@ -3360,6 +3419,46 @@
                     file: "Navaan Sandhu/Sit Down Son.mp3",
                     poster: "images/Sit Down Son.jpeg"
                 }, {
+                    title: "Culture Clicks",
+                    file: "Navaan Sandhu/Culture Clicks.mp3",
+                    poster: "images/Navior.jpeg"
+                }, {
+                    title: "Dapper Dan",
+                    file: "Navaan Sandhu/Dapper Dan.mp3",
+                    poster: "images/Navior.jpeg"
+                }, {
+                    title: "Eyes On Us",
+                    file: "Navaan Sandhu/Eyes On Us.mp3",
+                    poster: "images/Navior.jpeg"
+                }, {
+                    title: "Levels N Graphs",
+                    file: "Navaan Sandhu/Levels N Graphs.mp3",
+                    poster: "images/Navior.jpeg"
+                }, {
+                    title: "Navior",
+                    file: "Navaan Sandhu/Navior.mp3",
+                    poster: "images/Navior.jpeg"
+                }, {
+                    title: "Racks On Racks",
+                    file: "Navaan Sandhu/Racks On Racks.mp3",
+                    poster: "images/Navior.jpeg"
+                }, {
+                    title: "Regret",
+                    file: "Navaan Sandhu/Regret.mp3",
+                    poster: "images/Navior.jpeg"
+                }, {
+                    title: "Sajda",
+                    file: "Navaan Sandhu/Sajda.mp3",
+                    poster: "images/Navior.jpeg"
+                }, {
+                    title: "Tabaah",
+                    file: "Navaan Sandhu/Tabaah.mp3",
+                    poster: "images/Navior.jpeg"
+                }, {
+                    title: "Deewane",
+                    file: "Navaan Sandhu/Deewane.mp3",
+                    poster: "images/Navior.jpeg"
+                }, {
                     title: "Raah",
                     file: "Navaan Sandhu/Raah.mp3",
                     poster: "images/Raah.jpeg"
@@ -3372,9 +3471,17 @@
                     file: "Navaan Sandhu/241.mp3",
                     poster: "images/241.jpeg"
                 }, {
+                    title: "Black Life Original",
+                    file: "Navaan Sandhu/Black Life Original.mp3",
+                    poster: "images/Black Life Original.jpeg"
+                }, {
                     title: "Black Life",
                     file: "Navaan Sandhu/Black Life.mp3",
                     poster: "images/Black Life.jpeg"
+                }, {
+                    title: "Do Asle",
+                    file: "Navaan Sandhu/Do Asle.mp3",
+                    poster: "images/Do Asle.jpeg"
                 }, {
                     title: "Do Pal",
                     file: "Navaan Sandhu/Do Pal.mp3",
@@ -3388,6 +3495,10 @@
                     file: "Navaan Sandhu/Hero.mp3",
                     poster: "images/Hero.jpeg"
                 }, {
+                    title: "Hirni",
+                    file: "Navaan Sandhu/Hirni.mp3",
+                    poster: "images/Hirni.jpeg"
+                }, {
                     title: "In Demand",
                     file: "Navaan Sandhu/In Demand.mp3",
                     poster: "images/In Demand.jpeg"
@@ -3396,17 +3507,57 @@
                     file: "Navaan Sandhu/Majha Forever.mp3",
                     poster: "images/Majha Forever.jpeg"
                 }, {
+                    title: "Mann Di Nahi",
+                    file: "Navaan Sandhu/Mann Di Nahi.mp3",
+                    poster: "images/Mann Di Nahi.jpeg"
+                }, {
+                    title: "NO MIDMAN",
+                    file: "Navaan Sandhu/NO MIDMAN.mp3",
+                    poster: "images/NO MIDMAN.jpeg"
+                }, {
+                    title: "Picture Perfect",
+                    file: "Navaan Sandhu/Picture Perfect.mp3",
+                    poster: "images/Picture Perfect.jpeg"
+                }, {
+                    title: "Plug Talk",
+                    file: "Navaan Sandhu/Plug Talk.mp3",
+                    poster: "images/Plug Talk.jpeg"
+                }, {
                     title: "Sandhu Takeover",
                     file: "Navaan Sandhu/Sandhu Takeover.mp3",
                     poster: "images/Sandhu Takeover.jpeg"
+                }, {
+                    title: "Sherni Banke",
+                    file: "Navaan Sandhu/Sherni Banke.mp3",
+                    poster: "images/Sherni Banke.jpeg"
+                }, {
+                    title: "Sick Tone",
+                    file: "Navaan Sandhu/Sick Tone.mp3",
+                    poster: "images/Sick Tone.jpeg"
+                }, {
+                    title: "So Mean",
+                    file: "Navaan Sandhu/So Mean.mp3",
+                    poster: "images/So Mean.jpeg"
+                }, {
+                    title: "Unbothered",
+                    file: "Navaan Sandhu/Unbothered.mp3",
+                    poster: "images/Unbothered.jpeg"
                 }, {
                     title: "Taaz",
                     file: "Navaan Sandhu/Taaz.mp3",
                     poster: "images/Taaz.jpeg"
                 }, {
+                    title: "Waare Waare",
+                    file: "Navaan Sandhu/Waare Waare.mp3",
+                    poster: "images/Waare Waare.jpeg"
+                }, {
                     title: "Ziddi Generation",
                     file: "Navaan Sandhu/Ziddi Generation.mp3",
                     poster: "images/Ziddi Generation.jpeg"
+                }, {
+                    title: "Ziddi Generation (Alt)",
+                    file: "Navaan Sandhu/Ziddi_Generation.mp3",
+                    poster: "images/Zidddi Generation.jpeg"
                 }]
             },
             karan: {
@@ -3465,6 +3616,14 @@
                     file: "Karan Aujla/Goin Off.mp3",
                     poster: "images/Goin Off.jpeg"
                 }, {
+                    title: "HIM",
+                    file: "Karan Aujla/HIM.mp3",
+                    poster: "images/MF Gabhru.jpeg"
+                }, {
+                    title: "I Really Do",
+                    file: "Karan Aujla/I Really Do.mp3",
+                    poster: "images/MF Gabhru.jpeg"
+                }, {
                     title: "IDK How",
                     file: "Karan Aujla/IDK How.mp3",
                     poster: "images/IDK How.jpeg"
@@ -3489,6 +3648,10 @@
                     file: "Karan Aujla/On Top.mp3",
                     poster: "images/On Top.jpeg"
                 }, {
+                    title: "P POP CULTURE",
+                    file: "Karan Aujla/P POP CULTURE.mp3",
+                    poster: "images/MF Gabhru.jpeg"
+                }, {
                     title: "Soch",
                     file: "Karan Aujla/Soch.mp3",
                     poster: "images/Soch.jpeg"
@@ -3496,6 +3659,10 @@
                     title: "Take It Easy",
                     file: "Karan Aujla/Take It Easy.mp3",
                     poster: "images/52 Bars.jpeg"
+                }, {
+                    title: "Tareefan",
+                    file: "Karan Aujla/Tareefan.mp3",
+                    poster: "images/Nothing Lasts.jpeg"
                 }, {
                     title: "Wavy",
                     file: "Karan Aujla/Wavy.mp3",
@@ -3530,9 +3697,17 @@
                     file: "SMG/Bexley Road.mp3",
                     poster: "images/Bexley Road.jpeg"
                 }, {
+                    title: "C R E A M POSSE",
+                    file: "SMG/C R E A M POSSE.mp3",
+                    poster: "images/STIFF KIN.jpeg"
+                }, {
                     title: "G.O.D",
                     file: "SMG/G.O.D.mp3",
                     poster: "images/G.O.D.jpeg"
+                }, {
+                    title: "HIGH ROLLERZ",
+                    file: "SMG/HIGH ROLLERZ.mp3",
+                    poster: "images/STIFF KIN.jpeg"
                 }, {
                     title: "Intezaar",
                     file: "SMG/Intezaar.mp3",
@@ -3571,6 +3746,18 @@
                     file: "Jerry/Weakness.mp3",
                     poster: "images/Weakness.jpeg"
                 }, {
+                    title: "Vehnde Vehnde",
+                    file: "Jerry/Vehnde Vehnde.mp3",
+                    poster: "images/Vehnde Vehnde.jpeg"
+                }, {
+                    title: "Trippin",
+                    file: "Jerry/Trippin.mp3",
+                    poster: "images/Trippin.jpeg"
+                }, {
+                    title: "Tera Hassna",
+                    file: "Jerry/Tera Hassna.mp3",
+                    poster: "images/Tera Hassna.jpeg"
+                }, {
                     title: "Tease",
                     file: "Jerry/Tease.mp3",
                     poster: "images/Tease.jpeg"
@@ -3579,9 +3766,17 @@
                     file: "Jerry/Street Style.mp3",
                     poster: "images/Street Style.jpeg"
                 }, {
+                    title: "Step Off",
+                    file: "Jerry/Step Off.mp3",
+                    poster: "images/Step Off.jpeg"
+                }, {
                     title: "Statement",
                     file: "Jerry/Statement.mp3",
                     poster: "images/Statement.jpeg"
+                }, {
+                    title: "Sinner",
+                    file: "Jerry/Sinner.mp3",
+                    poster: "images/Sinner.jpeg"
                 }, {
                     title: "Showstopper",
                     file: "Jerry/Showstopper.mp3",
@@ -3591,13 +3786,41 @@
                     file: "Jerry/She S The One.mp3",
                     poster: "images/She S The One.jpeg"
                 }, {
+                    title: "Pyaar Na Di Cheez",
+                    file: "Jerry/Pyaar Na Di Cheez.mp3",
+                    poster: "images/Pyaar Na Di Cheez.jpeg"
+                }, {
+                    title: "Pta Ni",
+                    file: "Jerry/Pta Ni.mp3",
+                    poster: "images/Pta Ni.jpeg"
+                }, {
+                    title: "Pta Kro",
+                    file: "Jerry/Pta Kro.mp3",
+                    poster: "images/Statement.jpeg"
+                }, {
                     title: "Pricey",
                     file: "Jerry/Pricey.mp3",
                     poster: "images/Tease.jpeg"
                 }, {
+                    title: "President",
+                    file: "Jerry/President.mp3",
+                    poster: "images/Statement.jpeg"
+                }, {
+                    title: "Photo",
+                    file: "Jerry/Photo.mp3",
+                    poster: "images/Statement.jpeg"
+                }, {
                     title: "Palm Angels",
                     file: "Jerry/Palm Angels.mp3",
                     poster: "images/Palm Angels.jpeg"
+                }, {
+                    title: "One Of One",
+                    file: "Jerry/One Of One.mp3",
+                    poster: "images/Tease.jpeg"
+                }, {
+                    title: "Miami Flow",
+                    file: "Jerry/Miami Flow.mp3",
+                    poster: "images/Tease.jpeg"
                 }, {
                     title: "Mainu Nai Pehchaandi",
                     file: "Jerry/Mainu Nai Pehchaandi.mp3",
@@ -3606,6 +3829,10 @@
                     title: "LV",
                     file: "Jerry/LV.mp3",
                     poster: "images/LV.jpeg"
+                }, {
+                    title: "Link Up",
+                    file: "Jerry/Link Up.mp3",
+                    poster: "images/Tease.jpeg"
                 }, {
                     title: "January",
                     file: "Jerry/January.mp3",
@@ -3627,6 +3854,10 @@
                     file: "Jerry/Hanju.mp3",
                     poster: "images/Hanju.jpeg"
                 }, {
+                    title: "Hall Of Fame",
+                    file: "Jerry/Hall Of Fame.mp3",
+                    poster: "images/Statement.jpeg"
+                }, {
                     title: "Gunda Van",
                     file: "Jerry/Gunda Van.mp3",
                     poster: "images/Gunda Van.jpeg"
@@ -3639,6 +3870,18 @@
                     file: "Jerry/Gaani.mp3",
                     poster: "images/Gaani.jpeg"
                 }, {
+                    title: "Fidah",
+                    file: "Jerry/Fidah.mp3",
+                    poster: "images/Statement.jpeg"
+                }, {
+                    title: "Destiny",
+                    file: "Jerry/Destiny.mp3",
+                    poster: "images/Tease.jpeg"
+                }, {
+                    title: "Damn Good",
+                    file: "Jerry/Damn Good.mp3",
+                    poster: "images/Statement.jpeg"
+                }, {
                     title: "Culture",
                     file: "Jerry/Culture.mp3",
                     poster: "images/Culture.jpeg"
@@ -3646,6 +3889,14 @@
                     title: "Confess",
                     file: "Jerry/Confess.mp3",
                     poster: "images/Confess.jpeg"
+                }, {
+                    title: "College Dropout",
+                    file: "Jerry/College Dropout.mp3",
+                    poster: "images/Statement.jpeg"
+                }, {
+                    title: "Cheetah",
+                    file: "Jerry/Cheetah.mp3",
+                    poster: "images/Statement.jpeg"
                 }, {
                     title: "Casanova",
                     file: "Jerry/Casanova.mp3",
@@ -3663,6 +3914,22 @@
                     file: "Jerry/Badtmeeji.mp3",
                     poster: "images/Badtmeeji.jpeg"
                 }, {
+                    title: "Attwadi Dasde",
+                    file: "Jerry/Attwadi Dasde.mp3",
+                    poster: "images/Attwadi Dasde.jpeg"
+                }, {
+                    title: "Antisocial",
+                    file: "Jerry/Antisocial.mp3",
+                    poster: "images/Statement.jpeg"
+                }, {
+                    title: "Alpha",
+                    file: "Jerry/Alpha.mp3",
+                    poster: "images/Tease.jpeg"
+                }, {
+                    title: "Aint Gonna Stop",
+                    file: "Jerry/Aint Gonna Stop.mp3",
+                    poster: "images/Aint Gonna Stop.jpeg"
+                }, {
                     title: "Adore",
                     file: "Jerry/Adore.mp3",
                     poster: "images/Adore.jpeg"
@@ -3671,9 +3938,17 @@
                     file: "Jerry/999.mp3",
                     poster: "images/999.jpeg"
                 }, {
+                    title: "80 Lac",
+                    file: "Jerry/80 Lac.mp3",
+                    poster: "images/Statement.jpeg"
+                }, {
                     title: "38",
                     file: "Jerry/38.mp3",
                     poster: "images/38.jpeg"
+                }, {
+                    title: "9 2 11",
+                    file: "Jerry/9 2 11.mp3",
+                    poster: "images/Statement.jpeg"
                 }, {
                     title: "7 Saal",
                     file: "Jerry/7 Saal.mp3",
@@ -3788,12 +4063,20 @@
                     file: "Arjan Dhillon/Tatoo.mp3",
                     poster: "images/Hawa Banke.jpeg"
                 }, {
+                    title: "Trucker (Alt)",
+                    file: "Arjan Dhillon/trucker.mp3",
+                    poster: "images/Hawa Banke.jpeg"
+                }, {
                     title: "2-2 Asle",
                     file: "Arjan Dhillon/2 2 Asle.mp3",
                     poster: "images/youngsters.jpeg"
                 }, {
                     title: "Greatest",
                     file: "Arjan Dhillon/Greatest.mp3",
+                    poster: "images/youngsters.jpeg"
+                }, {
+                    title: "ILzaam",
+                    file: "Arjan Dhillon/ILzaam.mp3",
                     poster: "images/youngsters.jpeg"
                 }, {
                     title: "Kalli Sohni",
@@ -4369,18 +4652,35 @@ window.scrollContinue=(dir)=>{
   if(scroll){scroll.scrollBy({left:dir*150,behavior:'smooth'});}
 };
 
-// Mobile Authentication Modal
-function toggleMobileAuthModal(){
-  const modal=document.getElementById('mobileAuthModal');
-  modal.classList.toggle('hidden');
-}
-window.toggleMobileAuthModal=toggleMobileAuthModal;
+// Auth Dropdown Toggle
+function toggleAuthDropdown(){
+  const userView = document.getElementById('authUserView');
+  const dropdown = document.getElementById('authDropdown');
+  const isLoggedIn = userView.style.display !== 'none';
 
-// Update mobile auth UI based on login state
+  if (!isLoggedIn) {
+    signInWithGoogle();
+    return;
+  }
+
+  dropdown.classList.toggle('hidden');
+}
+window.toggleAuthDropdown=toggleAuthDropdown;
+
+// Close dropdown when clicking outside
+document.addEventListener('click',(e)=>{
+  const dropdown=document.getElementById('authDropdown');
+  const profileBtn=document.getElementById('mobileProfileBtn');
+  if(!dropdown.contains(e.target)&&!profileBtn.contains(e.target)&&!dropdown.classList.contains('hidden')){
+    dropdown.classList.add('hidden');
+  }
+});
+
+// Update auth UI based on login state
 function updateMobileAuthUI(user){
-  const modal=document.getElementById('mobileAuthModal');
-  const loginView=document.getElementById('mobileAuthLoginView');
-  const userView=document.getElementById('mobileAuthUserView');
+  const dropdown=document.getElementById('authDropdown');
+  const loginView=document.getElementById('authLoginView');
+  const userView=document.getElementById('authUserView');
   const profileBtn=document.getElementById('mobileProfileBtn');
   const profileIcon=document.getElementById('mobileProfileIcon');
   const profileAvatar=document.getElementById('mobileProfileAvatar');
@@ -4388,10 +4688,10 @@ function updateMobileAuthUI(user){
   if(user){
     loginView.style.display='none';
     userView.style.display='block';
-    document.getElementById('mobileAuthName').textContent=user.displayName||'User';
-    document.getElementById('mobileAuthEmail').textContent=user.email||'—';
+    document.getElementById('authName').textContent=user.displayName||'User';
+    document.getElementById('authEmail').textContent=user.email||'—';
     const photoURL=user.photoURL||'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2248%22 height=%2248%22%3E%3Crect width=%2248%22 height=%2248%22 fill=%22%230d0d1c%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-size=%2224%22 fill=%22%233e3e62%22%3E👤%3C/text%3E%3C/svg%3E';
-    document.getElementById('mobileAuthAvatar').src=photoURL;
+    document.getElementById('authAvatar').src=photoURL;
     profileAvatar.src=photoURL;
     profileAvatar.style.display='block';
     profileIcon.style.display='none';
@@ -4402,9 +4702,9 @@ function updateMobileAuthUI(user){
     profileAvatar.style.display='none';
   }
   
-  // Close modal when user logs out
-  if(!user&&!modal.classList.contains('hidden')){
-    toggleMobileAuthModal();
+  // Close dropdown when user logs out
+  if(!user&&!dropdown.classList.contains('hidden')){
+    dropdown.classList.add('hidden');
   }
 }
 
@@ -4661,6 +4961,19 @@ function previous(){
 
 function playArtist(key){currentSongs=artists[key].songs;currentArtistKey=key;currentIndex=0;playSong(0);}
 function shuffleArtist(key){currentSongs=artists[key].songs;currentArtistKey=key;currentIndex=Math.floor(Math.random()*currentSongs.length);playSong(currentIndex);}
+
+let isDragging=false;
+function startDrag(e){isDragging=true;updateProgress(e);}
+function updateProgress(e){
+  if(!isDragging||!audio.duration)return;
+  const r=document.getElementById('progressTrack').getBoundingClientRect();
+  const clientX=e.touches?e.touches[0].clientX:e.clientX;
+  audio.currentTime=Math.max(0,Math.min(((clientX-r.left)/r.width)*audio.duration,audio.duration));
+}
+window.addEventListener('mousemove',(e)=>{if(isDragging)updateProgress(e);});
+window.addEventListener('touchmove',(e)=>{if(isDragging)updateProgress(e);});
+window.addEventListener('mouseup',()=>{isDragging=false;});
+window.addEventListener('touchend',()=>{isDragging=false;});
 
 function seek(e){
   if(!audio.duration)return;
