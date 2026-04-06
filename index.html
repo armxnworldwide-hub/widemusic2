@@ -225,6 +225,125 @@
             }
         }
         
+        @keyframes shimmer {
+            0% {
+                transform: translateX(-100%)
+            }
+            100% {
+                transform: translateX(300%)
+            }
+        }
+        
+        .skeleton {
+            position: relative;
+            overflow: hidden;
+            background: var(--surface3);
+            border-radius: var(--radius-sm);
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        
+        .skeleton::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -150px;
+            height: 100%;
+            width: 150px;
+            background: linear-gradient(90deg, transparent, rgba(200, 245, 66, 0.1), transparent);
+            animation: shimmer 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0%,
+            100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.7;
+            }
+        }
+        
+        .skeleton-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 16px;
+            padding: 20px;
+        }
+        
+        .skeleton-card {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .skeleton-card .skeleton {
+            border-radius: var(--radius-sm);
+        }
+        
+        .skeleton-card .skeleton:first-child {
+            aspect-ratio: 1;
+        }
+        
+        .skeleton-card .skeleton:nth-child(2) {
+            height: 14px;
+            width: 80%;
+        }
+        
+        .skeleton-card .skeleton:nth-child(3) {
+            height: 12px;
+            width: 60%;
+        }
+        
+        .skeleton-song-row {
+            display: flex;
+            gap: 12px;
+            padding: 12px 0;
+            align-items: center;
+        }
+        
+        .skeleton-song-row .skeleton:first-child {
+            width: 40px;
+            height: 40px;
+            flex-shrink: 0;
+            border-radius: 6px;
+        }
+        
+        .skeleton-song-row .skeleton:nth-child(2) {
+            flex: 1;
+            height: 40px;
+            border-radius: 6px;
+        }
+        
+        .skeleton-song-row .skeleton:nth-child(3) {
+            width: 60px;
+            height: 16px;
+            border-radius: 4px;
+        }
+        
+        .skeleton-artist-hero {
+            height: 240px;
+            background: var(--surface3);
+            border-radius: var(--radius-sm);
+            margin-bottom: 20px;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        
+        .skeleton-artist-hero::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -150px;
+            height: 100%;
+            width: 150px;
+            background: linear-gradient(90deg, transparent, rgba(200, 245, 66, 0.1), transparent);
+            animation: shimmer 1.5s infinite;
+        }
+        
+        .skeleton {
+            position: relative;
+            overflow: hidden;
+        }
+        
         .sidebar {
             grid-row: 1;
             background: var(--surface);
@@ -589,6 +708,35 @@
         .main::-webkit-scrollbar-thumb {
             background: var(--surface3);
             border-radius: 4px
+        }
+        
+        .content-wrapper {
+            grid-column: 2;
+            grid-row: 1;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--surface3) transparent;
+            background: var(--bg);
+            position: relative;
+        }
+        
+        .skeleton-loader {
+            grid-column: 2;
+            grid-row: 1;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--surface3) transparent;
+            background: var(--bg);
+            position: relative;
+            display: none;
+        }
+        
+        body.loading .skeleton-loader {
+            display: block;
+        }
+        
+        body.loading .content-wrapper {
+            display: none;
         }
         
         .main-header {
@@ -2774,7 +2922,7 @@
     </style>
 </head>
 
-<body>
+<body class="loading">
 
     <div id="splash">
         <div class="splash-inner">
@@ -2814,24 +2962,7 @@
             <img id="mobileProfileAvatar" class="mobile-profile-avatar" style="display:none">
         </button>
 
-        <div id="authDropdown" class="auth-dropdown hidden">
-            <div id="authLoginView">
-                <div style="font-size: 0.75rem; color: var(--muted2); text-align: center; line-height: 1.5;">
-                    Use the main Google sign-in button to sync your favorites and playlists.
-                </div>
-            </div>
-            <div id="authUserView" style="display:none">
-                <div class="auth-user-card">
-                    <img id="authAvatar" class="auth-user-avatar" src="">
-                    <div class="auth-user-info">
-                        <div class="auth-user-name" id="authName">—</div>
-                        <div class="auth-user-email" id="authEmail">—</div>
-                    </div>
-                </div>
-                <hr style="border: none; border-top: 1px solid var(--border); margin: 8px 0;">
-                <button class="auth-btn-danger" onclick="signOut()">Sign out</button>
-            </div>
-        </div>
+
 
         <div class="sidebar-nav">
             <button class="nav-btn active" id="navHome" onclick="loadArtists()"><span class="nav-icon">🎤</span> Artists</button>
@@ -2858,7 +2989,42 @@
         </div>
     </aside>
 
-    <main class="main" id="mainArea"></main>
+    <div class="skeleton-loader" id="skeletonLoader">
+        <div class="skeleton-grid" id="skeletonGrid">
+            <div class="skeleton-card" style="display:flex; flex-direction:column; gap:10px;">
+                <div class="skeleton" style="aspect-ratio:1;"></div>
+                <div class="skeleton" style="height:14px; width:80%;"></div>
+                <div class="skeleton" style="height:12px; width:60%;"></div>
+            </div>
+            <div class="skeleton-card" style="display:flex; flex-direction:column; gap:10px;">
+                <div class="skeleton" style="aspect-ratio:1;"></div>
+                <div class="skeleton" style="height:14px; width:80%;"></div>
+                <div class="skeleton" style="height:12px; width:60%;"></div>
+            </div>
+            <div class="skeleton-card" style="display:flex; flex-direction:column; gap:10px;">
+                <div class="skeleton" style="aspect-ratio:1;"></div>
+                <div class="skeleton" style="height:14px; width:80%;"></div>
+                <div class="skeleton" style="height:12px; width:60%;"></div>
+            </div>
+            <div class="skeleton-card" style="display:flex; flex-direction:column; gap:10px;">
+                <div class="skeleton" style="aspect-ratio:1;"></div>
+                <div class="skeleton" style="height:14px; width:80%;"></div>
+                <div class="skeleton" style="height:12px; width:60%;"></div>
+            </div>
+            <div class="skeleton-card" style="display:flex; flex-direction:column; gap:10px;">
+                <div class="skeleton" style="aspect-ratio:1;"></div>
+                <div class="skeleton" style="height:14px; width:80%;"></div>
+                <div class="skeleton" style="height:12px; width:60%;"></div>
+            </div>
+            <div class="skeleton-card" style="display:flex; flex-direction:column; gap:10px;">
+                <div class="skeleton" style="aspect-ratio:1;"></div>
+                <div class="skeleton" style="height:14px; width:80%;"></div>
+                <div class="skeleton" style="height:12px; width:60%;"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="main content-wrapper" id="mainArea"></main>
 
     <footer class="player">
         <div class="player-song">
@@ -2942,7 +3108,32 @@
         } localStorage.setItem('eq_playlists',JSON.stringify(playlists)); } } } onAuthStateChanged(auth,async user=>{ const loginBtn=document.getElementById("loginBtn"); const userBar=document.getElementById("userBar"); const syncDot=document.getElementById("syncDot");
         const syncLabel=document.getElementById("syncLabel"); if(user){ loginBtn.style.display="none"; userBar.style.display="flex"; document.getElementById("userDisplayName").textContent=user.displayName||"User"; document.getElementById("userEmail").textContent=user.email||"";
         document.getElementById("userAvatar").src=user.photoURL||""; updateMobileAuthUI(user); syncDot.className="sync-dot syncing"; syncLabel.textContent="Syncing…"; await loadUserData(); syncDot.className="sync-dot synced"; syncLabel.textContent="Synced";
-        }else{ loginBtn.style.display="block"; userBar.style.display="none"; updateMobileAuthUI(null); syncDot.className="sync-dot"; syncLabel.textContent="Offline"; } });
+        }else{ userBar.style.display="none"; updateMobileAuthUI(null); syncDot.className="sync-dot"; syncLabel.textContent="Offline"; } });
+    </script>
+
+    <script>
+        // Skeleton Loading Animation
+        function initializeSkeletonLoader() {
+            // Remove loading class after 1.2 seconds (shows skeleton for 1.2s)
+            setTimeout(() => {
+                if (document.body.classList.contains('loading')) {
+                    document.body.classList.remove('loading');
+                }
+            }, 1200);
+        }
+
+        // Initialize on page load
+        window.addEventListener('load', initializeSkeletonLoader);
+
+        // Fallback if load event already fired
+        if (document.readyState === 'complete') {
+            initializeSkeletonLoader();
+        }
+
+        // Also remove loading when DOMContentLoaded fires (for faster perceived load)
+        document.addEventListener('DOMContentLoaded', () => {
+            // Keep skeleton visible until window.load fires
+        });
     </script>
 
     <script>
