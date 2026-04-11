@@ -2919,10 +2919,363 @@
                 top: 56px;
             }
         }
+        /* Download Queue UI */
+        
+        .download-queue-panel {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            width: 380px;
+            max-height: 450px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: 0 24px 80px rgba(0, 0, 0, 0.85);
+            display: flex;
+            flex-direction: column;
+            z-index: 999;
+            animation: slideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+        
+        .download-queue-panel.visible {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+        
+        @keyframes slideUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .queue-panel-header {
+            padding: 16px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+        
+        .queue-panel-title {
+            font-weight: 700;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+        
+        .queue-panel-close {
+            background: none;
+            border: none;
+            color: var(--muted2);
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 4px;
+            transition: color 0.2s;
+        }
+        
+        .queue-panel-close:hover {
+            color: var(--accent);
+        }
+        
+        .queue-stats {
+            padding: 12px 16px;
+            background: var(--surface2);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            gap: 16px;
+            font-size: 0.75rem;
+            flex-shrink: 0;
+        }
+        
+        .queue-stat-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .queue-stat-badge {
+            background: var(--accent3);
+            color: var(--accent);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.65rem;
+            min-width: 20px;
+            text-align: center;
+        }
+        
+        .queue-stat-badge.downloading {
+            background: rgba(245, 200, 66, 0.1);
+            color: #f5c842;
+        }
+        
+        .queue-stat-badge.error {
+            background: rgba(255, 100, 100, 0.1);
+            color: #ff6464;
+        }
+        
+        .queue-items {
+            flex: 1;
+            overflow-y: auto;
+            padding: 8px;
+        }
+        
+        .queue-item {
+            padding: 12px;
+            background: var(--surface2);
+            border-radius: 10px;
+            margin-bottom: 8px;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            transition: all 0.2s;
+            border: 1px solid transparent;
+        }
+        
+        .queue-item:hover {
+            background: var(--surface3);
+            border-color: var(--border);
+        }
+        
+        .queue-item.downloading {
+            background: rgba(200, 245, 66, 0.05);
+            border-color: rgba(200, 245, 66, 0.15);
+        }
+        
+        .queue-item.completed {
+            opacity: 0.7;
+        }
+        
+        .queue-item.error {
+            background: rgba(255, 100, 100, 0.05);
+            border-color: rgba(255, 100, 100, 0.15);
+        }
+        
+        .queue-item-poster {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            object-fit: cover;
+            flex-shrink: 0;
+            background: var(--surface);
+        }
+        
+        .queue-item-info {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .queue-item-title {
+            font-weight: 600;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 4px;
+        }
+        
+        .queue-item-artist {
+            font-size: 0.7rem;
+            color: var(--muted2);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 6px;
+        }
+        
+        .queue-item-status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.65rem;
+            font-family: 'Space Mono', monospace;
+            color: var(--muted2);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .queue-status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--muted);
+        }
+        
+        .queue-item.downloading .queue-status-dot {
+            background: #f5c842;
+            animation: blink 0.7s infinite;
+        }
+        
+        .queue-item.completed .queue-status-dot {
+            background: var(--accent);
+        }
+        
+        .queue-item.error .queue-status-dot {
+            background: #ff6464;
+        }
+        
+        .queue-item-progress {
+            width: 100%;
+            height: 3px;
+            background: var(--surface);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: 6px;
+        }
+        
+        .queue-item-progress-bar {
+            height: 100%;
+            background: var(--accent);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .queue-item-actions {
+            display: flex;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+        
+        .queue-item-remove {
+            background: none;
+            border: none;
+            color: var(--muted2);
+            cursor: pointer;
+            padding: 4px 6px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            transition: all 0.2s;
+        }
+        
+        .queue-item-remove:hover {
+            background: var(--surface3);
+            color: #ff6464;
+        }
+        
+        .queue-empty {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 32px 16px;
+            color: var(--muted2);
+            text-align: center;
+        }
+        
+        .queue-empty-icon {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+            opacity: 0.5;
+        }
+        
+        .queue-empty-text {
+            font-size: 0.8rem;
+            line-height: 1.5;
+        }
+        
+        .queue-panel-actions {
+            padding: 12px 16px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+        
+        .queue-action-btn {
+            flex: 1;
+            padding: 8px 12px;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 600;
+            font-family: 'Syne', sans-serif;
+        }
+        
+        .queue-action-btn:hover {
+            background: var(--surface3);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+        
+        .queue-action-btn.danger:hover {
+            background: rgba(255, 100, 100, 0.1);
+            border-color: #ff6464;
+            color: #ff6464;
+        }
+        /* Download queue toggle button */
+        
+        .dl-queue-btn {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            color: var(--muted2);
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s;
+            position: relative;
+        }
+        
+        .dl-queue-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: var(--accent3);
+        }
+        
+        .dl-queue-badge {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            background: #f5c842;
+            color: #000;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.65rem;
+            font-weight: 700;
+            font-family: 'Space Mono', monospace;
+        }
+        
+        .dl-queue-badge.hidden {
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .download-queue-panel {
+                width: calc(100% - 40px);
+                bottom: 120px;
+                right: 20px;
+                left: 20px;
+            }
+        }
     </style>
 </head>
 
 <body class="loading">
+
+    <script src="downloadQueue.js"></script>
 
     <div id="splash">
         <div class="splash-inner">
@@ -3026,6 +3379,45 @@
 
     <main class="main content-wrapper" id="mainArea"></main>
 
+
+    <div class="download-queue-panel" id="downloadQueuePanel">
+        <div class="queue-panel-header">
+            <div class="queue-panel-title">📥 Download Queue</div>
+            <button class="queue-panel-close" onclick="toggleDownloadQueue()">✕</button>
+        </div>
+
+        <div class="queue-stats" id="queueStats">
+            <div class="queue-stat-item">
+                <span>Total</span>
+                <span class="queue-stat-badge" id="queueStatTotal">0</span>
+            </div>
+            <div class="queue-stat-item">
+                <span>Queued</span>
+                <span class="queue-stat-badge" id="queueStatQueued">0</span>
+            </div>
+            <div class="queue-stat-item">
+                <span>Downloading</span>
+                <span class="queue-stat-badge downloading" id="queueStatDownloading">0</span>
+            </div>
+            <div class="queue-stat-item">
+                <span>Completed</span>
+                <span class="queue-stat-badge" id="queueStatCompleted">0</span>
+            </div>
+        </div>
+
+        <div class="queue-items" id="queueItems">
+            <div class="queue-empty">
+                <div class="queue-empty-icon">📥</div>
+                <div class="queue-empty-text">Queue is empty<br><small style="opacity: 0.6;">Add songs to start downloading</small></div>
+            </div>
+        </div>
+
+        <div class="queue-panel-actions">
+            <button class="queue-action-btn" onclick="pauseDownloadQueue()" id="pauseQueueBtn">Pause</button>
+            <button class="queue-action-btn danger" onclick="clearDownloadQueue()">Clear</button>
+        </div>
+    </div>
+
     <footer class="player">
         <div class="player-song">
             <img class="player-poster" id="poster" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='54' height='54'%3E%3Crect width='54' height='54' fill='%230d0d1c'/%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-size='22' fill='%233e3e62'%3E♪%3C/text%3E%3C/svg%3E"
@@ -3056,6 +3448,10 @@
             </div>
         </div>
         <div class="player-right">
+            <button class="dl-queue-btn" id="dlQueueBtn" onclick="toggleDownloadQueue()" title="Download Queue">
+                📥
+                <span class="dl-queue-badge hidden" id="dlQueueBadge">0</span>
+            </button>
             <div class="volume-wrap">
                 <span class="vol-icon" onclick="toggleMute()">🔊</span>
                 <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1">
@@ -5385,11 +5781,219 @@ function escAttr(s){return String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'")}
 let toastTimer;
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.opacity='1';clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.style.opacity='0',1900);}
 
+/* ========== DOWNLOAD QUEUE SYSTEM ========== */
+let downloadQueue;
+let queuePaused = false;
+
+function initializeDownloadQueue() {
+    downloadQueue = new DownloadQueue(CACHE_NAME, handleQueueStatusChange);
+}
+
+function handleQueueStatusChange(event) {
+    // Update UI based on queue status changes
+    const { type, data, queue, stats } = event;
+    
+    switch(type) {
+        case 'statusChange':
+            updateQueueItemUI(data);
+            updateQueueStats(stats);
+            break;
+        case 'itemRemoved':
+            removeQueueItemUI(data.id);
+            updateQueueStats(stats);
+            break;
+        case 'queueEmpty':
+            updateQueueStats(stats);
+            if(queue.length === 0) {
+                renderQueueEmpty();
+                document.getElementById('downloadQueuePanel').classList.remove('visible');
+            }
+            break;
+        case 'progressChange':
+            updateQueueItemUI(data);
+            break;
+    }
+}
+
+function updateQueueStats(stats) {
+    document.getElementById('queueStatTotal').textContent = stats.total;
+    document.getElementById('queueStatQueued').textContent = stats.queued;
+    document.getElementById('queueStatDownloading').textContent = stats.downloading;
+    document.getElementById('queueStatCompleted').textContent = stats.completed;
+    
+    // Update badge on main download queue button
+    const badge = document.getElementById('dlQueueBadge');
+    if(stats.total > 0) {
+        badge.textContent = stats.downloading > 0 ? '⏳' : stats.total;
+        badge.classList.remove('hidden');
+    } else {
+        badge.classList.add('hidden');
+    }
+}
+
+function updateQueueItemUI(queueItem) {
+    let itemEl = document.getElementById('queue-item-' + queueItem.id);
+    if(!itemEl) {
+        // Create new item element
+        renderQueueItem(queueItem);
+        return;
+    }
+    
+    // Update existing item
+    const statusEl = itemEl.querySelector('.queue-item-status');
+    const progressBar = itemEl.querySelector('.queue-item-progress-bar');
+    
+    // Update status indicator
+    const statusDot = statusEl.querySelector('.queue-status-dot');
+    const statusText = statusEl.querySelector('span:last-child');
+    statusText.textContent = queueItem.status;
+    
+    // Update classes
+    itemEl.classList.remove('queued', 'downloading', 'completed', 'error');
+    itemEl.classList.add(queueItem.status);
+    
+    // Update progress bar
+    if(progressBar) {
+        progressBar.style.width = queueItem.progress + '%';
+    }
+}
+
+function renderQueueItem(queueItem) {
+    const itemsContainer = document.getElementById('queueItems');
+    
+    // Remove empty state if exists
+    const emptyState = itemsContainer.querySelector('.queue-empty');
+    if(emptyState) {
+        emptyState.remove();
+    }
+    
+    const itemEl = document.createElement('div');
+    itemEl.id = 'queue-item-' + queueItem.id;
+    itemEl.className = 'queue-item ' + queueItem.status;
+    
+    const statusDot = document.createElement('div');
+    statusDot.className = 'queue-status-dot';
+    
+    const statusSpan = document.createElement('span');
+    statusSpan.textContent = queueItem.status;
+    
+    itemEl.innerHTML = `
+        <img src="${queueItem.song.poster}" onerror="this.style.background='var(--surface)'" class="queue-item-poster" loading="lazy">
+        <div class="queue-item-info">
+            <div class="queue-item-title">${escHtml(queueItem.song.title)}</div>
+            <div class="queue-item-artist">${escHtml(queueItem.song.artistName || 'Unknown Artist')}</div>
+            <div class="queue-item-status">
+                <div class="queue-status-dot"></div>
+                <span>${queueItem.status}</span>
+            </div>
+            <div class="queue-item-progress">
+                <div class="queue-item-progress-bar" style="width: ${queueItem.progress}%"></div>
+            </div>
+        </div>
+        <div class="queue-item-actions">
+            <button class="queue-item-remove" onclick="removeQueueItem('${escAttr(queueItem.id)}')" title="Remove from queue">✕</button>
+        </div>
+    `;
+    
+    itemsContainer.appendChild(itemEl);
+}
+
+function renderQueueEmpty() {
+    const itemsContainer = document.getElementById('queueItems');
+    itemsContainer.innerHTML = `
+        <div class="queue-empty">
+            <div class="queue-empty-icon">📥</div>
+            <div class="queue-empty-text">Queue is empty<br><small style="opacity: 0.6;">Add songs to start downloading</small></div>
+        </div>
+    `;
+}
+
+function toggleDownloadQueue() {
+    const panel = document.getElementById('downloadQueuePanel');
+    panel.classList.toggle('visible');
+}
+
+function addToDownloadQueue(song) {
+    // Check if already downloaded
+    if(isDownloaded(song.file)) {
+        showToast('Already downloaded ✓');
+        return false;
+    }
+    
+    // Add to queue and show panel
+    const queueId = downloadQueue.addToQueue(song);
+    if(queueId) {
+        document.getElementById('downloadQueuePanel').classList.add('visible');
+        showToast(`"${song.title}" added to download queue`);
+        return true;
+    } else {
+        showToast('Already in queue');
+        return false;
+    }
+}
+
+function removeQueueItem(queueItemId) {
+    downloadQueue.removeFromQueue(queueItemId);
+}
+
+function clearDownloadQueue() {
+    if(!confirm('Clear all items from download queue?')) return;
+    downloadQueue.clearQueue();
+    renderQueueEmpty();
+}
+
+function pauseDownloadQueue() {
+    queuePaused = !queuePaused;
+    const btn = document.getElementById('pauseQueueBtn');
+    if(queuePaused) {
+        btn.textContent = 'Resume';
+        showToast('Download queue paused');
+    } else {
+        btn.textContent = 'Pause';
+        showToast('Download queue resumed');
+        // Resume processing if items are in queue
+        if(downloadQueue.queue.length > 0 && !downloadQueue.isDownloading) {
+            downloadQueue.processQueue();
+        }
+    }
+}
+
+window.handleDlBtn = async function(btn, fileId) {
+    const song = window.currentSongs?.find(s => s.file === fileId);
+    if(!song) return;
+    
+    if(isDownloaded(fileId)) {
+        // Remove downloaded file
+        if(confirm(`Remove "${song.title}" from offline cache?`)) {
+            await removeCachedSong(fileId);
+        }
+        return;
+    }
+    
+    // Add to download queue instead of downloading directly
+    addToDownloadQueue(song);
+};
+
+window.addSongsToQueue = function(songs) {
+    const added = downloadQueue.addMultipleToQueue(songs);
+    if(added.length > 0) {
+        document.getElementById('downloadQueuePanel').classList.add('visible');
+        showToast(`${added.length} songs added to download queue`);
+    }
+};
+
+// Override the downloadSong function to use the queue instead
+const originalDownloadSong = window.downloadSong;
+window.downloadSong = function(song, btn) {
+    addToDownloadQueue(song);
+};
+
 buildSidebar();
 loadArtists();
 document.querySelector('.fav-mobile-btn')&&(document.querySelector('.fav-mobile-btn').style.display='');
 loadPlaybackMemory();
 renderQueuePanel();
+initializeDownloadQueue();
     </script>
 </body>
 
