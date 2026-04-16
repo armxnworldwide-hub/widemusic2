@@ -2616,11 +2616,10 @@
         }
         /* ── MOBILE ── */
         
-        @media(max-width:768px) {
+        @media (max-width: 768px) {
             body {
                 grid-template-columns: 1fr;
-                grid-template-rows: 56px 1fr auto;
-                --player-h: auto;
+                grid-template-rows: auto 1fr var(--player-h);
                 overflow: hidden;
             }
             .sidebar {
@@ -2628,21 +2627,28 @@
                 grid-row: 1;
                 flex-direction: row;
                 align-items: center;
-                overflow: hidden;
+                justify-content: space-between;
+                padding: 10px 14px;
+                overflow-x: auto;
                 border-right: none;
                 border-bottom: 1px solid var(--border);
-                padding: 0 10px;
-                gap: 8px;
-                height: 56px;
+                height: auto;
             }
             .logo-wrap {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                width: 100%;
+                border: none;
                 padding: 0;
-                border-bottom: none;
                 flex-shrink: 0
             }
             .logo {
                 font-size: 1.2rem;
-                letter-spacing: 3px
+                letter-spacing: 3px;
+                display: flex;
+                align-items: center;
+                gap: 8px;
             }
             .logo-icon {
                 width: 28px;
@@ -2661,12 +2667,7 @@
                 display: none!important
             }
             .search-wrap {
-                flex: 1;
-                padding: 0
-            }
-            .search-box input {
-                font-size: .78rem;
-                padding: 7px 9px 7px 30px
+                display: none
             }
             .fav-mobile-btn {
                 display: block;
@@ -2698,7 +2699,18 @@
                 display: none!important
             }
             .google-btn {
-                display: none!important
+                display: flex!important;
+                margin: 0;
+                padding: 8px 14px;
+                font-size: .75rem;
+                width: auto;
+                white-space: nowrap;
+                border-radius: 20px;
+                flex-shrink: 0;
+            }
+            .google-btn svg {
+                width: 14px;
+                height: 14px;
             }
             .main {
                 grid-column: 1;
@@ -2719,9 +2731,12 @@
                 font-size: .7rem
             }
             .artists-grid {
-                grid-template-columns: repeat(auto-fill, minmax(125px, 1fr));
-                gap: 10px;
-                padding: 12px
+                grid-template-columns: repeat(2, 1fr);
+                padding: 16px;
+                gap: 12px
+            }
+            .artist-card {
+                min-width: unset
             }
             .artist-hero {
                 height: 160px;
@@ -5027,16 +5042,19 @@ function openArtist(key){
       </div>
     </div>
     <div class="songs-section" style="padding-top:18px">
-      <div style="display:flex;justify-content:flex-end;margin-bottom:9px">
+      <div style="display:flex;justify-content:flex-end;margin-bottom:9px;gap:8px;align-items:center">
+        <label style="font-size:.76rem;color:var(--muted2);">Sort by:</label>
         <select id="sortSelect" onchange="sortSongs()" style="background:var(--surface2);color:var(--text);border:1px solid var(--border);padding:5px 9px;border-radius:8px;font-family:'Syne',sans-serif;font-size:.76rem;outline:none;cursor:pointer">
           <option value="default">Default order</option>
-          <option value="name">Title</option>
+          <option value="title">Title A-Z</option>
           <option value="liked">Liked first</option>
+          <option value="liked_title">Liked first, then Title</option>
+          <option value="title_liked">Title A-Z, Liked first</option>
         </select>
       </div>
       <div class="songs-table-header"><span class="th">#</span><span class="th">Title</span><span class="th"></span></div>
       <div id="songsList">${a.songs.map((s,i)=>songRowHTML(s,i,a.name)).join('')}</div>
-    </div>`;
+    </div>`
 }
 
 function songRowHTML(song,i,artistName){
@@ -5059,17 +5077,28 @@ window.handleDlBtn=async(btn,fileId)=>{
   else{let song=null;for(let k in artists){song=artists[k].songs.find(s=>s.file===fileId);if(song){song={...song,artistName:artists[k].name};break;}}if(song)addToDlQueue(song);}
 };
 
+let currentSortType='default';
 function refreshSongRows(){
   if(!currentArtistKey)return;const list=document.getElementById('songsList');if(!list)return;
-  list.innerHTML=artists[currentArtistKey].songs.map((s,i)=>songRowHTML(s,i,artists[currentArtistKey].name)).join('');
+  list.innerHTML=currentSongs.map((s,i)=>songRowHTML(s,i,artists[currentArtistKey].name)).join('');
 }
 
 window.sortSongs=()=>{
   if(!currentSongs||!currentArtistKey)return;
-  const type=document.getElementById('sortSelect').value;
-  if(type==='default')currentSongs=artists[currentArtistKey].songs;
-  else if(type==='name')currentSongs=[...currentSongs].sort((a,b)=>a.title.localeCompare(b.title));
-  else if(type==='liked')currentSongs=[...currentSongs].sort((a,b)=>(likedSongs.has(b.file)?1:0)-(likedSongs.has(a.file)?1:0));
+  currentSortType=document.getElementById('sortSelect').value;
+  const original=artists[currentArtistKey].songs;
+  if(currentSortType==='default')currentSongs=original.slice();
+  else if(currentSortType==='title')currentSongs=[...original].sort((a,b)=>a.title.localeCompare(b.title));
+  else if(currentSortType==='liked')currentSongs=[...original].sort((a,b)=>(likedSongs.has(b.file)?1:0)-(likedSongs.has(a.file)?1:0));
+  else if(currentSortType==='liked_title')currentSongs=[...original].sort((a,b)=>{
+    const aLiked=likedSongs.has(a.file)?0:1,bLiked=likedSongs.has(b.file)?0:1;
+    return aLiked!==bLiked?aLiked-bLiked:a.title.localeCompare(b.title);
+  });
+  else if(currentSortType==='title_liked')currentSongs=[...original].sort((a,b)=>{
+    const cmp=a.title.localeCompare(b.title);
+    if(cmp!==0)return cmp;
+    return(likedSongs.has(b.file)?1:0)-(likedSongs.has(a.file)?1:0);
+  });
   document.getElementById('songsList').innerHTML=currentSongs.map((s,i)=>songRowHTML(s,i,artists[currentArtistKey].name)).join('');
 };
 
@@ -5109,7 +5138,7 @@ async function playSong(index){
   audio.play().then(()=>{let v=0;const fi=setInterval(()=>{v=Math.min(targetVol,v+targetVol/15);audio.volume=v;if(v>=targetVol){audio.volume=targetVol;clearInterval(fi);}},50);}).catch(()=>{audio.volume=targetVol;});
   playBtn.textContent='⏸';
   document.getElementById('fsPoster').src=song.poster;document.getElementById('fsTitle').textContent=song.title;document.getElementById('fsArtist').textContent=artistName;document.getElementById('fsPlay').textContent='⏸';
-  refreshSongRows();
+  if(currentArtistKey)refreshSongRows();
   shuffleHistory.push(song.file);if(shuffleHistory.length>30)shuffleHistory=shuffleHistory.slice(-30);
   localStorage.setItem('eq_shuffle_history',JSON.stringify(shuffleHistory));
   const sh={file:song.file,title:song.title,poster:song.poster,artistKey:currentArtistKey,artistName};
@@ -5131,7 +5160,7 @@ function next(){
     getAudioSrc('songs/'+s.file).then(src=>{audio.src=src;audio.play();playBtn.textContent='⏸';});
     savePlaybackMemory();renderQueuePanel();return;
   }
-  if(!currentSongs.length)return;
+  if(!currentSongs.length)return;`  `   
   if(isShuffle){
     const recent=new Set(shuffleHistory.slice(-Math.min(shuffleHistory.length,Math.floor(currentSongs.length*.5))));
     const avail=currentSongs.map((_,i)=>i).filter(i=>!recent.has(currentSongs[i].file));
@@ -5146,8 +5175,9 @@ function previous(){
   currentIndex=(currentIndex-1+currentSongs.length)%currentSongs.length;playSong(currentIndex);
 }
 
-function playArtist(key){currentSongs=artists[key].songs;currentArtistKey=key;currentIndex=0;playSong(0);}
-function shuffleArtist(key){currentSongs=artists[key].songs;currentArtistKey=key;currentIndex=Math.floor(Math.random()*currentSongs.length);playSong(currentIndex);}
+function applySortToSongs(original){let sorted=[...original];const sortType=currentSortType||'default';if(sortType==='title')sorted.sort((a,b)=>a.title.localeCompare(b.title));else if(sortType==='liked')sorted.sort((a,b)=>(likedSongs.has(b.file)?1:0)-(likedSongs.has(a.file)?1:0));else if(sortType==='liked_title')sorted.sort((a,b)=>{const aLiked=likedSongs.has(a.file)?0:1,bLiked=likedSongs.has(b.file)?0:1;return aLiked!==bLiked?aLiked-bLiked:a.title.localeCompare(b.title);});else if(sortType==='title_liked')sorted.sort((a,b)=>{const cmp=a.title.localeCompare(b.title);if(cmp!==0)return cmp;return(likedSongs.has(b.file)?1:0)-(likedSongs.has(a.file)?1:0);});return sorted;}
+function playArtist(key){const original=artists[key].songs;currentSongs=applySortToSongs(original);currentArtistKey=key;currentIndex=0;playSong(0);}
+function shuffleArtist(key){const original=artists[key].songs;currentSongs=applySortToSongs(original);currentArtistKey=key;currentIndex=Math.floor(Math.random()*currentSongs.length);playSong(currentIndex);}
 window.playFromHistory=async(fileId,artistKey)=>{if(!artists[artistKey])return;currentArtistKey=artistKey;currentSongs=artists[artistKey].songs;const idx=currentSongs.findIndex(s=>s.file===fileId);if(idx>=0)await playSong(idx);};
 
 // ── PROGRESS ──
@@ -5199,21 +5229,42 @@ function updatePlayerLikeBtn(f){const btn=document.getElementById('playerLikeBtn
 
 function showLikedSongs(){
   setNavActive('navFav');setMobileBack(true);
+  window.__favSortType='artist';
+  refreshLikedDisplay();
+}
+function refreshLikedDisplay(){
   const liked=[];
   for(let key in artists)artists[key].songs.forEach(s=>{if(likedSongs.has(s.file))liked.push({...s,artistName:artists[key].name,artistKey:key});});
-  document.getElementById('mainArea').innerHTML=`
+  const type=document.getElementById('favSortSelect')?.value||'artist';
+  let sorted=[...liked];
+  if(type==='title')sorted.sort((a,b)=>a.title.localeCompare(b.title));
+  else if(type==='artist')sorted.sort((a,b)=>a.artistName.localeCompare(b.artistName)||a.title.localeCompare(b.title));
+  else if(type==='recent')sorted.reverse();
+  window.__likedList=sorted;
+  const html=`
     <div class="main-header">
       <div><div class="main-title">Favorites</div><div class="main-subtitle">${liked.length} LIKED</div></div>
     </div>
     <div class="songs-section" style="padding-top:18px">
-      <div class="fav-section-label">❤ Liked Songs</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:9px">
+        <div class="fav-section-label">❤ Liked Songs</div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <label style="font-size:.76rem;color:var(--muted2);">Sort by:</label>
+          <select id="favSortSelect" onchange="refreshLikedDisplay()" style="background:var(--surface2);color:var(--text);border:1px solid var(--border);padding:5px 9px;border-radius:8px;font-family:'Syne',sans-serif;font-size:.76rem;outline:none;cursor:pointer">
+            <option value="artist">Artist A-Z</option>
+            <option value="title">Title A-Z</option>
+            <option value="recent">Recently liked</option>
+          </select>
+        </div>
+      </div>
       ${liked.length===0?'<div class="empty-state"><div class="emoji">🎵</div><p>No favorites yet. Like songs to see them here.</p></div>'
-        :`<div id="songsList">${liked.map((s,i)=>`<div class="song-row" onclick="playLikedSong(${i})"><div class="song-num">${i+1}</div><div class="song-row-info"><img src="${s.poster}" onerror="this.style.background='#16162a'" loading="lazy"><div class="song-row-text"><h4>${escH(s.title)}</h4><p>${escH(s.artistName)}</p></div></div><div class="song-actions"><button class="like-btn liked" onclick="event.stopPropagation();toggleLikeFav('${escA(s.file)}',this)">❤</button><button class="dl-btn${isDownloaded(s.file)?' downloaded':''}" onclick="event.stopPropagation();handleDlBtn(this,'${escA(s.file)}')">${isDownloaded(s.file)?'✓':'⬇'}</button></div></div>`).join('')}</div>`}
+        :`<div class="songs-table-header"><span class="th">#</span><span class="th">Title</span><span class="th"></span></div><div id="favSongsList">${sorted.map((s,i)=>`<div class="song-row" onclick="playLikedSong(${i})"><div class="song-num">${i+1}</div><div class="song-row-info"><img src="${s.poster}" onerror="this.style.background='#16162a'" loading="lazy"><div class="song-row-text"><h4>${escH(s.title)}</h4><p>${escH(s.artistName)}</p></div></div><div class="song-actions"><button class="like-btn liked" onclick="event.stopPropagation();toggleLikeFav('${escA(s.file)}',this)">❤</button><button class="dl-btn${isDownloaded(s.file)?' downloaded':''}" onclick="event.stopPropagation();handleDlBtn(this,'${escA(s.file)}')">${isDownloaded(s.file)?'✓':'⬇'}</button></div></div>`).join('')}</div>`}
     </div>`;
-  window.__likedList=liked;
+  document.getElementById('mainArea').innerHTML=html;
 }
-window.playLikedSong=(i)=>{const s=window.__likedList[i];currentSongs=window.__likedList;currentArtistKey=null;currentIndex=i;playSong(i);};
-window.toggleLikeFav=(fileId,btn)=>{likedSongs.delete(fileId);saveLiked();btn.closest('.song-row').style.opacity='0';btn.closest('.song-row').style.transition='opacity .3s';setTimeout(()=>showLikedSongs(),300);};
+window.playLikedSong=(i)=>{const s=window.__likedList[i];currentSongs=window.__likedList;currentArtistKey=null;currentIndex=i;playSong(i);document.querySelectorAll('#favSongsList .song-row').forEach((row,idx)=>{row.classList.toggle('playing',idx===i);});};
+window.toggleLikeFav=(fileId,btn)=>{likedSongs.delete(fileId);saveLiked();btn.closest('.song-row').style.opacity='0';btn.closest('.song-row').style.transition='opacity .3s';setTimeout(()=>refreshLikedDisplay(),300);};
+window.refreshLikedDisplay=refreshLikedDisplay;
 
 // ── SEARCH ──
 function globalSearch(){
@@ -5278,7 +5329,7 @@ function showToast(msg){const t=document.getElementById('toast');t.textContent=m
 window.playSong=playSong;window.next=next;window.previous=previous;
 window.togglePlay=togglePlay;window.toggleShuffle=toggleShuffle;window.toggleRepeat=toggleRepeat;window.toggleMute=toggleMute;
 window.toggleQueuePanel=toggleQueuePanel;window.addToQueue=addToQueue;
-window.openArtist=openArtist;window.loadArtists=loadArtists;window.showLikedSongs=showLikedSongs;window.showDownloads=showDownloads;window.showPlaylists=showPlaylists;
+window.openArtist=openArtist;window.loadArtists=loadArtists;window.showLikedSongs=showLikedSongs;window.showDownloads=showDownloads;window.showPlaylists=showPlaylists;window.refreshLikedDisplay=refreshLikedDisplay;
 window.playArtist=playArtist;window.shuffleArtist=shuffleArtist;window.toggleLike=toggleLike;window.globalSearch=globalSearch;
 
 // ── INIT ──
