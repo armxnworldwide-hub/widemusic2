@@ -519,7 +519,7 @@
         }
         
         .topbar-actions {
-            display: flex;
+            display: none;
             align-items: center;
             gap: 8px;
             margin-left: auto
@@ -2901,8 +2901,8 @@
         @media (max-width: 768px) {
             /* ── ROOT TWEAKS ── */
              :root {
-                --player-h: 140px;
-                /* taller player for mobile */
+                --player-h: 165px;
+                /* taller player for mobile - accommodate all controls */
             }
             /* ── GRID: stack vertically ── */
             body {
@@ -2919,8 +2919,8 @@
                 grid-row: 1;
                 flex-direction: row;
                 align-items: center;
-                padding: 12px 16px;
-                gap: 12px;
+                padding: 12px 12px;
+                gap: 8px;
                 border-bottom: 1px solid var(--border);
                 height: auto;
                 min-height: 60px;
@@ -2930,6 +2930,7 @@
                 position: sticky;
                 top: 0;
                 z-index: 50;
+                justify-content: space-between;
             }
             /* Hide all sidebar sections except logo + account */
             .sidebar-nav-block,
@@ -2939,12 +2940,13 @@
             .sidebar-logo-block {
                 display: flex;
                 align-items: center;
-                justify-content: space-between;
-                width: 100%;
+                justify-content: flex-start;
+                width: auto;
                 background: none;
                 padding: 0;
                 border-radius: 0;
                 flex-shrink: 0;
+                gap: 8px;
             }
             .sidebar-account-block {
                 display: flex !important;
@@ -2955,6 +2957,8 @@
                 flex-shrink: 0;
                 gap: 0;
                 overflow: visible;
+                margin-left: auto;
+                order: 10;
             }
             /* Logo styling */
             .logo {
@@ -3014,6 +3018,7 @@
                 height: 36px;
                 border-radius: 50%;
                 transition: background .15s;
+                order: -1;
             }
             .mobile-back-btn.hidden {
                 display: none !important;
@@ -3303,7 +3308,7 @@
                 -webkit-backdrop-filter: blur(30px);
                 border-top: 1px solid var(--border);
                 position: relative;
-                overflow: hidden;
+                overflow: visible;
                 grid-template-columns: unset;
             }
             /* Subtle blurred album art background */
@@ -3324,6 +3329,8 @@
                 padding: 0;
                 overflow: visible;
                 width: 100%;
+                max-height: 50px;
+                flex-shrink: 0;
             }
             .player-poster {
                 width: 46px;
@@ -3446,8 +3453,8 @@
             .player-controls {
                 display: flex;
                 align-items: center;
-                justify-content: space-between;
-                gap: 0;
+                justify-content: space-around;
+                gap: 2px;
                 width: 100%;
                 order: 2;
                 padding: 0 4px;
@@ -3462,6 +3469,7 @@
                 align-items: center;
                 justify-content: center;
                 transition: color .15s, background .15s;
+                flex-shrink: 0;
             }
             .ctrl-btn:hover,
             .ctrl-btn:active {
@@ -3742,6 +3750,28 @@
             }
         }
         /* end @media (max-width: 768px) */
+        /* ═══════════════════════════════════════════
+           DESKTOP ONLY — Hide mobile-specific elements
+           ═══════════════════════════════════════════ */
+        
+        @media (min-width: 769px) {
+            .topbar-actions {
+                display: none !important;
+            }
+            .player-right {
+                display: block !important;
+            }
+            .mobile-back-btn {
+                display: none !important;
+            }
+            .mobile-bottom-nav {
+                display: none !important;
+            }
+            .fav-mobile-btn {
+                display: none !important;
+            }
+        }
+        /* end @media (min-width: 769px) */
     </style>
 </head>
 
