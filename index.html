@@ -5872,16 +5872,17 @@
 
     function playArtist(key){currentSongs=artists[key].songs.slice();currentArtistKey=key;currentIndex=0;playSong(0);}
     function shuffleArtist(key){currentSongs=artists[key].songs.slice();currentArtistKey=key;currentIndex=Math.floor(Math.random()*currentSongs.length);playSong(currentIndex);}
-    window.playFromHistory=async(fileId,artistKey)=>{if(!artists[artistKey])return;currentArtistKey=artistKey;currentSongs=artists[artistKey].songs;const idx=currentSongs.findIndex(s=>s.file===fileId);if(idx>=0)await playSong(idx);};
+    window.playFromHistory=async(fileId,artistKey)=>{if(artistKey&&artists[artistKey]){currentArtistKey=artistKey;currentSongs=artists[artistKey].songs;const idx=currentSongs.findIndex(s=>s.file===fileId);if(idx>=0)await playSong(idx);}else{for(let key in artists){const idx=artists[key].songs.findIndex(s=>s.file===fileId);if(idx>=0){currentArtistKey=key;currentSongs=artists[key].songs;await playSong(idx);break;}}};};
 
     // ── PROGRESS ──
     let isDragging=false;
     function startDrag(e){isDragging=true;updateProgressFromEvent(e);}
-    function updateProgressFromEvent(e){if(!isDragging||!audio.duration)return;const r=document.getElementById('progressTrack').getBoundingClientRect();const cx=e.touches?e.touches[0].clientX:e.clientX;audio.currentTime=Math.max(0,Math.min(((cx-r.left)/r.width)*audio.duration,audio.duration));}
+    function updateProgressFromEvent(e){if(!isDragging||!audio.duration)return;const r=document.getElementById('progressTrack').getBoundingClientRect();const cx=e.touches?e.touches[0].clientX:e.clientX;const newTime=Math.max(0,Math.min(((cx-r.left)/r.width)*audio.duration,audio.duration));audio.currentTime=newTime;progressBar.style.width=(newTime/audio.duration*100)+'%';}
     window.addEventListener('mousemove',e=>{if(isDragging)updateProgressFromEvent(e);});
     window.addEventListener('touchmove',e=>{if(isDragging)updateProgressFromEvent(e);},{passive:true});
-    window.addEventListener('mouseup',()=>isDragging=false);
-    window.addEventListener('touchend',()=>isDragging=false);
+    function endDrag(){isDragging=false;}
+    window.addEventListener('mouseup',endDrag);
+    window.addEventListener('touchend',endDrag);
 
     // ── QUEUE ──
     function addToQueue(index){const song=currentSongs[index];if(!song)return;const artistKey=currentArtistKey||Object.keys(artists).find(k=>artists[k].songs===currentSongs);const artistName=artistKey?artists[artistKey].name:'';queue.push({...song,artistName});localStorage.setItem('eq_queue',JSON.stringify(queue));renderQueuePanel();showToast('Added to queue ✓');}
