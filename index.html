@@ -3319,30 +3319,71 @@
                 touch-action: none;
                 -webkit-user-select: none;
                 user-select: none;
+                overflow: visible;
+                transition: height .16s ease, background .2s ease;
+            }
+            .progress-track::before {
+                content: '';
+                position: absolute;
+                left: 0;
+                right: 0;
+                top: -10px;
+                bottom: -10px;
             }
             .progress-track.dragging {
-                height: 8px;
+                height: 9px;
+                background: rgba(255, 255, 255, .24);
             }
             .progress-fill {
                 background: linear-gradient(90deg, #98cb28, var(--accent));
+                box-shadow: 0 0 14px rgba(200, 245, 66, .45);
+                transition: width .12s linear;
+            }
+            .progress-track.dragging .progress-fill {
+                transition: none;
             }
             .progress-fill::after {
                 opacity: 1;
-                width: 13px;
-                height: 13px;
+                width: 14px;
+                height: 14px;
+                background: #fff;
+                box-shadow: 0 0 0 2px rgba(200, 245, 66, .45), 0 2px 10px rgba(0, 0, 0, .45);
+                transition: transform .15s ease;
+            }
+            .progress-track.dragging .progress-fill::after {
+                transform: translateY(-50%) scale(1.16);
             }
             .mfp-progress-track {
                 height: 6px;
                 touch-action: none;
                 -webkit-user-select: none;
                 user-select: none;
+                overflow: visible;
+                transition: height .16s ease, background .2s ease;
+            }
+            .mfp-progress-track::before {
+                content: '';
+                position: absolute;
+                left: 0;
+                right: 0;
+                top: -10px;
+                bottom: -10px;
             }
             .mfp-progress-track.dragging {
-                height: 8px;
+                height: 9px;
+                background: rgba(255, 255, 255, .24);
+            }
+            .mfp-progress-track.dragging .mfp-progress-fill {
+                transition: none;
             }
             .mfp-progress-fill::after {
-                width: 13px;
-                height: 13px;
+                width: 14px;
+                height: 14px;
+                box-shadow: 0 0 0 2px rgba(200, 245, 66, .45), 0 2px 10px rgba(0, 0, 0, .45);
+                transition: transform .15s ease;
+            }
+            .mfp-progress-track.dragging .mfp-progress-fill::after {
+                transform: translateY(-50%) scale(1.16);
             }
             .mobile-fullscreen-player .mfp-artwork {
                 width: min(78vw, 320px);
@@ -5479,7 +5520,7 @@
 
         function playArtist(key) { currentSongs=artists[key].songs.slice(); currentArtistKey=key; currentIndex=0; playSong(0); }
         function shuffleArtist(key) { currentSongs=artists[key].songs.slice(); currentArtistKey=key; currentIndex=Math.floor(Math.random()*currentSongs.length); playSong(currentIndex); }
-        window.playFromHistory = async(fileId,artistKey) => { if(!artists[artistKey])return; currentArtistKey=artistKey; currentSongs=artists[artistKey].songs; const idx=currentSongs.findIndex(s=>s.file===fileId); if(idx>=0)await playSong(idx); };
+        window.playFromHistory = async(fileId,artistKey) => { let ak=artistKey&&artists[artistKey]?artistKey:null; if(!ak){for(let k in artists){if(artists[k].songs.find(s=>s.file===fileId)){ak=k;break;}}} if(!ak)return; currentArtistKey=ak; currentSongs=artists[ak].songs; const idx=currentSongs.findIndex(s=>s.file===fileId); if(idx>=0)await playSong(idx); };
 
         // ── PROGRESS ──
         let isDragging = false;
