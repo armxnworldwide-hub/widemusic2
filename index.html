@@ -3314,11 +3314,35 @@
                 font-size: .95rem;
             }
             .progress-track {
-                height: 5px;
+                height: 6px;
                 background: rgba(255, 255, 255, .16);
+                touch-action: none;
+                -webkit-user-select: none;
+                user-select: none;
+            }
+            .progress-track.dragging {
+                height: 8px;
             }
             .progress-fill {
                 background: linear-gradient(90deg, #98cb28, var(--accent));
+            }
+            .progress-fill::after {
+                opacity: 1;
+                width: 13px;
+                height: 13px;
+            }
+            .mfp-progress-track {
+                height: 6px;
+                touch-action: none;
+                -webkit-user-select: none;
+                user-select: none;
+            }
+            .mfp-progress-track.dragging {
+                height: 8px;
+            }
+            .mfp-progress-fill::after {
+                width: 13px;
+                height: 13px;
             }
             .mobile-fullscreen-player .mfp-artwork {
                 width: min(78vw, 320px);
@@ -5459,12 +5483,48 @@
 
         // ── PROGRESS ──
         let isDragging = false;
-        function startDrag(e) { isDragging=true; document.getElementById('progressTrack').classList.add('dragging'); updateProgressFromEvent(e); }
-        function updateProgressFromEvent(e) { if(!isDragging||!audio.duration)return; const r=document.getElementById('progressTrack').getBoundingClientRect(); const cx=e.touches?e.touches[0].clientX:e.clientX; audio.currentTime=Math.max(0,Math.min(((cx-r.left)/r.width)*audio.duration,audio.duration)); }
-        window.addEventListener('mousemove',e=>{ if(isDragging)updateProgressFromEvent(e); });
-        window.addEventListener('touchmove',e=>{ if(isDragging)updateProgressFromEvent(e); },{passive:true});
-        window.addEventListener('mouseup',()=>{ isDragging=false; document.getElementById('progressTrack').classList.remove('dragging'); });
-        window.addEventListener('touchend',()=>{ isDragging=false; document.getElementById('progressTrack').classList.remove('dragging'); });
+        let activeDragTrack = null;
+
+        function getClientX(e) {
+            if (e.touches && e.touches[0]) return e.touches[0].clientX;
+            if (e.changedTouches && e.changedTouches[0]) return e.changedTouches[0].clientX;
+            return e.clientX;
+        }
+
+        function seekFromClientX(trackEl, clientX) {
+            if (!trackEl || !audio.duration) return;
+            const r = trackEl.getBoundingClientRect();
+            const ratio = Math.max(0, Math.min(1, (clientX - r.left) / r.width));
+            audio.currentTime = ratio * audio.duration;
+        }
+
+        function startDrag(e) {
+            const track = document.getElementById('progressTrack');
+            if (!track) return;
+            isDragging = true;
+            activeDragTrack = track;
+            track.classList.add('dragging');
+            seekFromClientX(track, getClientX(e));
+            if (e.cancelable) e.preventDefault();
+        }
+
+        function updateProgressFromEvent(e) {
+            if (!isDragging || !activeDragTrack) return;
+            seekFromClientX(activeDragTrack, getClientX(e));
+            if (e.cancelable) e.preventDefault();
+        }
+
+        function endDrag() {
+            isDragging = false;
+            document.getElementById('progressTrack')?.classList.remove('dragging');
+            document.getElementById('fsProgressTrack')?.classList.remove('dragging');
+            activeDragTrack = null;
+        }
+
+        window.addEventListener('mousemove', (e) => { if (isDragging) updateProgressFromEvent(e); });
+        window.addEventListener('touchmove', (e) => { if (isDragging) updateProgressFromEvent(e); }, { passive: false });
+        window.addEventListener('mouseup', endDrag);
+        window.addEventListener('touchend', endDrag);
 
         // ── QUEUE ──
         function addToQueue(index) { const song=currentSongs[index]; if(!song)return; const artistKey=currentArtistKey||Object.keys(artists).find(k=>artists[k].songs===currentSongs); const artistName=artistKey?artists[artistKey].name:''; queue.push({...song,artistName}); localStorage.setItem('eq_queue',JSON.stringify(queue)); renderQueuePanel(); showToast('Added to queue ✓'); }
@@ -5574,12 +5634,13 @@
             updateFullPlayerUI();
         }
         function startDragFullPlayer(e) {
-            e.preventDefault();
             const track = document.getElementById('fsProgressTrack');
-            if(!track || !audio.duration) return;
-            const rect = track.getBoundingClientRect();
-            const x = e.clientX || (e.touches && e.touches[0].clientX);
-            audio.currentTime = ((x - rect.left) / rect.width) * audio.duration;
+            if (!track) return;
+            isDragging = true;
+            activeDragTrack = track;
+            track.classList.add('dragging');
+            seekFromClientX(track, getClientX(e));
+            if (e.cancelable) e.preventDefault();
         }
 
         // ── AUDIO EVENTS ──
@@ -5651,9 +5712,10 @@
         }
 
         // MOBILE NAV CLICK HANDLER
-        (function setupMobileNav() {
+        function setupMobileNav() {
             const nav = document.getElementById('mobileNav');
-            if (!nav) return;
+            if (!nav || nav.dataset.bound === '1') return;
+            nav.dataset.bound = '1';
 
             nav.addEventListener('click', (e) => {
                 const btn = e.target.closest('.mnav-btn');
@@ -5667,14 +5729,15 @@
                     loadArtists();
                 } else if (tab === 'search') {
                     loadArtists();
-                    setTimeout(() => document.querySelector('.search-box input')?.focus(), 50);
+                    setTimeout(() => document.querySelector('.search-box input')?.focus(), 60);
                 } else if (tab === 'fav') {
                     showLikedSongs();
                 } else if (tab === 'library') {
                     showPlaylists();
                 }
             });
-        })();
+        }
+        document.addEventListener('DOMContentLoaded', setupMobileNav);
 
         window.syncMobileAuthUI = syncMobileAuthUI;
 
