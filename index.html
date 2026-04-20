@@ -911,63 +911,6 @@
             }
         }
         
-        .player {
-            grid-column: 1/-1;
-            grid-row: 2;
-            background: var(--surface);
-            border-top: 1px solid var(--border);
-            display: grid;
-            grid-template-columns: var(--sidebar-w) 1fr 280px;
-            align-items: center;
-            padding: 0 16px;
-            position: relative;
-            z-index: 20;
-        }
-        
-        .player-song {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 0 8px;
-            overflow: hidden;
-        }
-        
-        .player-poster {
-            width: 56px;
-            height: 56px;
-            border-radius: 6px;
-            object-fit: cover;
-            flex-shrink: 0;
-            cursor: pointer;
-            transition: transform .2s;
-        }
-        
-        .player-poster:hover {
-            transform: scale(1.05)
-        }
-        
-        .player-song-title {
-            font-size: .85rem;
-            font-weight: 600;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-width: 130px;
-        }
-        
-        .player-song-artist {
-            font-size: .75rem;
-            color: var(--text2);
-            margin-top: 3px;
-        }
-        
-        .player-song-meta {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            margin-top: 3px
-        }
-        
         .offline-badge {
             display: inline-flex;
             align-items: center;
@@ -2504,6 +2447,11 @@
         .mobile-fullscreen-player {
             display: none;
         }
+        /* MOBILE NAV DEFAULT HIDDEN (desktop) */
+        
+        .mobile-nav {
+            display: none;
+        }
         
         #closePlayer {
             background: none;
@@ -2586,7 +2534,72 @@
                 grid-template-rows: auto 1fr var(--player-h);
                 overflow: hidden
             }
-            /* ── Mobile Header / Sidebar ── */
+            /* MINI PLAYER (collapsed) */
+            .player {
+                height: 70px;
+                grid-template-columns: 1fr;
+                padding: 0 12px;
+            }
+            /* hide extra controls */
+            .player-song,
+            .player-right,
+            .ctrl-btn {
+                display: none;
+            }
+            /* only play button visible */
+            .player-controls {
+                justify-content: center;
+            }
+            /* thin progress bar */
+            .player-progress {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                max-width: none;
+            }
+            .progress-track {
+                height: 3px;
+            }
+            .mobile-nav {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                height: 60px;
+                background: var(--surface);
+                border-top: 1px solid var(--border);
+                display: flex;
+                justify-content: space-around;
+                align-items: center;
+                z-index: 70;
+                padding-bottom: var(--safe-bottom);
+            }
+            .main {
+                padding-bottom: 160px;
+            }
+            .mnav-btn {
+                background: none;
+                border: none;
+                color: var(--text2);
+                font-size: .7rem;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 2px;
+                cursor: pointer;
+                font-family: 'Inter', sans-serif;
+            }
+            .mnav-btn span {
+                font-size: 1.2rem;
+            }
+            .mnav-btn.active {
+                color: var(--accent);
+            }
+            /* content bottom space */
+            .main {
+                padding-bottom: 120px;
+            }
             .sidebar {
                 grid-column: 1;
                 grid-row: 1;
@@ -2868,7 +2881,7 @@
             /* The track container */
             .progress-track {
                 flex: 1;
-                height: 3px;
+                height: 12px;
                 background: rgba(255, 255, 255, .12);
                 border-radius: 100px;
                 cursor: pointer;
@@ -2878,7 +2891,7 @@
             /* Expand on touch/drag */
             .progress-track:active,
             .progress-track.dragging {
-                height: 5px;
+                height: 10px;
             }
             /* Filled portion with glow */
             .progress-fill {
@@ -2898,11 +2911,11 @@
             .progress-fill::after {
                 content: '';
                 position: absolute;
-                right: -5px;
+                right: -6px;
                 top: 50%;
                 transform: translateY(-50%);
-                width: 10px;
-                height: 10px;
+                width: 14px;
+                height: 14px;
                 background: #fff;
                 border-radius: 50%;
                 opacity: 1;
@@ -3234,6 +3247,82 @@
             }
             .player-song {
                 cursor: pointer;
+            }
+        }
+        /* MOBILE POLISH (Spotify-like feel) */
+        
+        @media (max-width: 768px) {
+             :root {
+                --player-h: 78px;
+            }
+            body {
+                background: linear-gradient(180deg, #151515 0%, #0a0a0a 100%);
+            }
+            .main {
+                padding-bottom: calc(158px + var(--safe-bottom));
+            }
+            .main-topbar {
+                background: rgba(18, 18, 18, .9);
+                backdrop-filter: blur(18px);
+                -webkit-backdrop-filter: blur(18px);
+                border-bottom: 1px solid rgba(255, 255, 255, .08);
+            }
+            .mobile-nav {
+                height: 70px;
+                background: rgba(20, 20, 20, .96);
+                backdrop-filter: blur(16px);
+                -webkit-backdrop-filter: blur(16px);
+                border-top: 1px solid rgba(255, 255, 255, .08);
+                padding: 6px 8px calc(6px + var(--safe-bottom));
+            }
+            .mnav-btn {
+                color: #9f9f9f;
+                font-size: .68rem;
+                font-weight: 600;
+                letter-spacing: .2px;
+            }
+            .mnav-btn span {
+                font-size: 1.08rem;
+            }
+            .mnav-btn.active {
+                color: var(--accent);
+            }
+            .player {
+                position: fixed;
+                left: 10px;
+                right: 10px;
+                bottom: calc(74px + var(--safe-bottom));
+                z-index: 85;
+                border-radius: 14px;
+                border: 1px solid rgba(255, 255, 255, .08);
+                background: linear-gradient(115deg, #252525 0%, #171717 100%);
+                box-shadow: 0 12px 32px rgba(0, 0, 0, .45);
+                padding: 8px 10px;
+            }
+            .player-song {
+                display: flex !important;
+            }
+            .player-controls .ctrl-btn {
+                display: flex !important;
+            }
+            .player-controls {
+                gap: 6px;
+            }
+            .play-btn {
+                width: 38px;
+                height: 38px;
+                font-size: .95rem;
+            }
+            .progress-track {
+                height: 5px;
+                background: rgba(255, 255, 255, .16);
+            }
+            .progress-fill {
+                background: linear-gradient(90deg, #98cb28, var(--accent));
+            }
+            .mobile-fullscreen-player .mfp-artwork {
+                width: min(78vw, 320px);
+                height: min(78vw, 320px);
             }
         }
     </style>
@@ -5481,7 +5570,7 @@
         }
         window.toggleFullPlayerLike = () => {
             if(!currentSong) return;
-            toggleLike(currentSongs.indexOf(currentSong));
+            toggleLike(currentSong.file);
             updateFullPlayerUI();
         }
         function startDragFullPlayer(e) {
@@ -5560,6 +5649,33 @@
                 if(mobileUserBtn) mobileUserBtn.style.display = 'none';
             }
         }
+
+        // MOBILE NAV CLICK HANDLER
+        (function setupMobileNav() {
+            const nav = document.getElementById('mobileNav');
+            if (!nav) return;
+
+            nav.addEventListener('click', (e) => {
+                const btn = e.target.closest('.mnav-btn');
+                if (!btn) return;
+
+                nav.querySelectorAll('.mnav-btn').forEach((b) => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const tab = btn.dataset.tab;
+                if (tab === 'home') {
+                    loadArtists();
+                } else if (tab === 'search') {
+                    loadArtists();
+                    setTimeout(() => document.querySelector('.search-box input')?.focus(), 50);
+                } else if (tab === 'fav') {
+                    showLikedSongs();
+                } else if (tab === 'library') {
+                    showPlaylists();
+                }
+            });
+        })();
+
         window.syncMobileAuthUI = syncMobileAuthUI;
 
         // ── EXPOSE ──
@@ -5586,11 +5702,30 @@
                     if(currentSong) openFullPlayer();
                 });
             }
-        }
-
-        // ── AFTER LOADING ──
+        } 
+        
+        // ── AFTER LOADING ──s
         setTimeout(() => { document.body.classList.remove('loading'); }, 100);
     </script>
+    <nav class="mobile-nav" id="mobileNav">
+        <button class="mnav-btn active" data-tab="home">
+            <span>🏠</span>
+            <small>Home</small>
+        </button>
+        <button class="mnav-btn" data-tab="search">
+            <span>🔍</span>
+            <small>Search</small>
+        </button>
+        <button class="mnav-btn" data-tab="fav">
+            <span>❤️</span>
+            <small>Fav</small>
+        </button>
+        <button class="mnav-btn" data-tab="library">
+            <span>🎵</span>
+            <small>Library</small>
+        </button>
+    </nav>
+
 </body>
 
 </html>
