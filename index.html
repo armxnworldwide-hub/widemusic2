@@ -2525,15 +2525,15 @@
             top: 4px;
             left: 0;
             right: 0;
-            height: 32px;
-            background: rgba(18, 18, 18, 0.98);
+            height: 48px;
+            background: rgba(18, 18, 18, 0.99);
             z-index: 9997;
             display: none;
             align-items: center;
-            padding: 0 16px;
-            gap: 10px;
+            padding: 0 12px;
+            gap: 12px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
             font-size: 0.75rem;
             opacity: 0;
             visibility: hidden;
@@ -2550,6 +2550,15 @@
             animation: nowPlayingPulse 1.5s infinite;
         }
         
+        .now-playing-poster {
+            width: 40px;
+            height: 40px;
+            border-radius: 4px;
+            object-fit: cover;
+            flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        }
+        
         .now-playing-dot {
             width: 6px;
             height: 6px;
@@ -2563,33 +2572,34 @@
             flex: 1;
             overflow: hidden;
             display: flex;
-            align-items: center;
-            gap: 8px;
+            flex-direction: column;
+            gap: 2px;
             min-width: 0;
         }
         
         .now-playing-song {
             color: var(--text);
             font-weight: 600;
+            font-size: 0.8rem;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            flex-shrink: 0;
         }
         
         .now-playing-artist {
             color: var(--text2);
+            font-size: 0.7rem;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            flex-shrink: 0;
         }
         
         .now-playing-divider {
             width: 1px;
-            height: 14px;
+            height: 20px;
             background: rgba(255, 255, 255, 0.1);
             flex-shrink: 0;
+            margin: 0 4px;
         }
         
         @keyframes nowPlayingBlink {
@@ -3634,10 +3644,10 @@
     <!-- NOW PLAYING BAR -->
     <div class="now-playing-bar" id="nowPlayingBar"></div>
     <div class="now-playing-indicator" id="nowPlayingIndicator">
+        <img class="now-playing-poster" id="nowPlayingPoster" src="" onerror="this.style.background='#282828'">
         <div class="now-playing-dot"></div>
         <div class="now-playing-text">
             <span class="now-playing-song" id="nowPlayingSong">—</span>
-            <span class="now-playing-divider"></span>
             <span class="now-playing-artist" id="nowPlayingArtist">—</span>
         </div>
     </div>
@@ -5576,10 +5586,12 @@
             const indicator = document.getElementById('nowPlayingIndicator');
             const songEl = document.getElementById('nowPlayingSong');
             const artistEl = document.getElementById('nowPlayingArtist');
+            const posterEl = document.getElementById('nowPlayingPoster');
             
             if (currentSong && !audio.paused) {
                 songEl.textContent = currentSong.title;
                 artistEl.textContent = playerArtist.textContent;
+                posterEl.src = currentSong.poster;
                 bar.classList.add('active');
                 indicator.classList.add('active', 'playing');
             } else {
