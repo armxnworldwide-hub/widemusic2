@@ -3426,7 +3426,6 @@
             .mfp-action-btn.liked {
                 color: var(--accent);
             }
-            /* Mobile mini-player - make clickable to expand */
             .player {
                 cursor: pointer;
             }
@@ -3439,7 +3438,7 @@
 
 <body class="loading">
 
-    <!-- SPLASH -->
+
     <div id="splash">
         <div class="splash-inner">
             <div class="splash-logo-wrap"><img src="images/falcon.jpeg" alt="FalconX"></div>
@@ -3451,31 +3450,31 @@
         </div>
     </div>
 
-    <!-- SIDEBAR -->
+
     <aside class="sidebar">
 
-        <!-- Logo -->
+
         <div class="sidebar-logo-block">
             <div class="logo">
                 <div class="logo-icon"><img src="images/falcon.jpeg" alt="FalconX"></div>
                 <div>F<b style="color:var(--accent)">a</b>lconX</div>
             </div>
-            <!-- Desktop sync pill (hidden on mobile via media query) -->
+
             <div class="sync-pill" id="syncBadge">
                 <div class="sync-dot" id="syncDot"></div>
                 <span id="syncLabel">Offline</span>
             </div>
         </div>
 
-        <!-- Mobile Back -->
+
         <button class="mobile-back-btn hidden" id="mobileBackBtn" onclick="loadArtists()">‹</button>
 
-        <!-- Mobile Favorites shortcut -->
+
         <button class="fav-mobile-btn" onclick="showLikedSongs()" title="Favorites">❤</button>
 
-        <!-- Mobile Google Sign In (top-right of header) — shown only on mobile -->
+
         <div id="mobileAuthArea" style="flex-shrink:0">
-            <!-- Sign In Button -->
+
             <button class="mobile-google-signin" id="mobileLoginBtn" onclick="signInWithGoogle()">
                 <span class="g-icon">
                     <svg viewBox="0 0 24 24">
@@ -3487,13 +3486,11 @@
                 </span>
                 Sign in
             </button>
-            <!-- Signed-in avatar (hidden by default) -->
             <button class="mobile-user-avatar-btn" id="mobileUserBtn" style="display:none" onclick="showMobileUserMenu()">
                 <img id="mobileUserAvatar" src="" alt="User">
             </button>
         </div>
 
-        <!-- Nav (desktop only) -->
         <div class="sidebar-nav-block">
             <button class="nav-btn active" id="navHome" onclick="loadArtists()">
                 <span class="nav-icon-wrap">🎤</span> Artists
@@ -3509,7 +3506,7 @@
             </button>
         </div>
 
-        <!-- Library (desktop only) -->
+
         <div class="sidebar-library-block">
             <div class="library-header">
                 <div class="library-title"><span>📚</span> Your Library</div>
@@ -3517,7 +3514,7 @@
             <div class="artists-list" id="sidebarArtists"></div>
         </div>
 
-        <!-- Account -->
+
 
         <div class="sidebar-account-block">
 
@@ -3550,7 +3547,7 @@
 
     </aside>
 
-    <!-- SKELETON -->
+
     <div class="skeleton-loader" id="skeletonLoader">
         <div style="height:57px;background:rgba(18,18,18,.85);border-bottom:1px solid rgba(255,255,255,.06);"></div>
         <div class="skeleton-grid">
@@ -3587,10 +3584,10 @@
         </div>
     </div>
 
-    <!-- MAIN -->
+
     <main class="main" id="mainArea"></main>
 
-    <!-- DOWNLOAD PANEL -->
+
     <div class="download-panel" id="downloadPanel">
         <div class="dp-header">
             <div class="dp-title">📥 Download Queue</div>
@@ -3610,7 +3607,7 @@
         </div>
     </div>
 
-    <!-- PLAYER -->
+
     <footer class="player">
         <div class="player-song">
             <img class="player-poster" id="poster" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56'%3E%3Crect width='56' height='56' fill='%23282828' rx='6'/%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-size='22' fill='%23535353'%3E♪%3C/text%3E%3C/svg%3E"
@@ -3651,7 +3648,7 @@
         </div>
     </footer>
 
-    <!-- NOW PLAYING BAR -->
+
     <div class="now-playing-bar" id="nowPlayingBar"></div>
     <div class="now-playing-indicator" id="nowPlayingIndicator">
         <img class="now-playing-poster" id="nowPlayingPoster" src="" onerror="this.style.background='#282828'">
@@ -3662,7 +3659,7 @@
         </div>
     </div>
 
-    <!-- QUEUE PANEL -->
+
     <div class="queue-panel" id="queuePanel">
         <div class="qp-header">
             <div class="qp-title">Queue</div>
@@ -3675,7 +3672,7 @@
     <audio id="audioFade"></audio>
     <div id="toast"></div>
 
-    <!-- FULLSCREEN PLAYER -->
+
     <div id="fullscreenPlayer" class="mobile-fullscreen-player">
         <!-- Header -->
         <div class="mfp-header">
@@ -3684,18 +3681,16 @@
             <div style="width: 32px;"></div>
         </div>
 
-        <!-- Album Artwork -->
+
         <div class="mfp-artwork-wrap">
             <img id="fsPoster" class="mfp-artwork">
         </div>
 
-        <!-- Song Info -->
         <div class="mfp-song-info">
             <h2 id="fsTitle" class="mfp-song-title">Song Name</h2>
             <p id="fsArtist" class="mfp-song-artist">Artist</p>
         </div>
 
-        <!-- Progress Bar -->
         <div class="mfp-progress-section">
             <div class="mfp-progress-track" id="fsProgressTrack" onmousedown="startDragFullPlayer(event)" ontouchstart="startDragFullPlayer(event)">
                 <div class="mfp-progress-fill" id="fsProgressBar"></div>
@@ -3706,7 +3701,6 @@
             </div>
         </div>
 
-        <!-- Controls -->
         <div class="mfp-controls">
             <button class="mfp-ctrl-btn" id="fsShuffle" onclick="toggleShuffle()" title="Shuffle">⤮</button>
             <button class="mfp-prev-btn" onclick="previous()" title="Previous">⏮</button>
@@ -3715,13 +3709,13 @@
             <button class="mfp-ctrl-btn" id="fsRepeat" onclick="toggleRepeat()" title="Repeat">↻</button>
         </div>
 
-        <!-- Bottom Actions -->
+
         <div class="mfp-actions">
             <button class="mfp-action-btn" id="fsLikeBtn" onclick="toggleFullPlayerLike()" title="Like">♡</button>
         </div>
     </div>
 
-    <!-- MODAL -->
+
     <div id="modalOverlay" class="modal-overlay" style="display:none" onclick="closeModalOnOverlay(event)">
         <div class="modal">
             <div class="modal-title" id="modalTitle">Create Playlist</div>
@@ -3733,14 +3727,14 @@
         </div>
     </div>
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"; import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"; const app = initializeApp({ apiKey: "AIzaSyC2YVyJE2WEdMoOpSJ7TvBKWNbv2H_45hg", authDomain: "equify-f1c8e.firebaseapp.com", projectId:
-        "equify-f1c8e", storageBucket: "equify-f1c8e.appspot.com", messagingSenderId: "543566532156", appId: "1:543566532156:web:ecd7952d4387caeceafd39" }); const auth = getAuth(app); const db = getFirestore(app); await setPersistence(auth, browserLocalPersistence);
-        window.signInWithGoogle = async () => { const provider = new GoogleAuthProvider(); await signInWithPopup(auth, provider); }; window.signOut = async () => { await signOut(auth); }; onAuthStateChanged(auth, (user) => { const loginBtn = document.getElementById("loginBtn");
-        const userBar = document.getElementById("userBar"); const name = document.getElementById("userDisplayName"); const email = document.getElementById("userEmail"); const avatar = document.getElementById("userAvatar"); if (user) { loginBtn.style.display
-        = "none"; userBar.style.display = "flex"; if (name) name.textContent = user.displayName || "User"; if (email) email.textContent = user.email || ""; if (avatar) avatar.src = user.photoURL || ""; } else { userBar.style.display = "none"; loginBtn.style.display
-        = "block"; } });
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"; import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"; const
+        firebaseConfig = { apiKey: "AIzaSyBGByQV7o655YvsCa8_c16P6zIaMGr7Uq0", authDomain: "falconx-f1016.firebaseapp.com", projectId: "falconx-f1016", storageBucket: "falconx-f1016.firebasestorage.app", messagingSenderId: "357270984794", appId: "1:357270984794:web:93a4c9e3502eeeeca42063"
+        }; const app = initializeApp(firebaseConfig); const auth = getAuth(app); window.signInWithGoogle = async () => { const provider = new GoogleAuthProvider(); await signInWithPopup(auth, provider); }; window.signOut = async () => { await signOut(auth);
+        }; onAuthStateChanged(auth, (user) => { const loginBtn = document.getElementById("loginBtn"); const userBar = document.getElementById("userBar"); const name = document.getElementById("userDisplayName"); const email = document.getElementById("userEmail");
+        const avatar = document.getElementById("userAvatar"); if (user) { loginBtn.style.display = "none"; userBar.style.display = "flex"; if (name) name.textContent = user.displayName || "User"; if (email) email.textContent = user.email || ""; if (avatar)
+        avatar.src = user.photoURL || ""; } else { userBar.style.display = "none"; loginBtn.style.display = "block"; } });
     </script>
+    >
     <script>
         window.addEventListener('load', () => setTimeout(() => document.body.classList.remove('loading'), 1000));
         if (document.readyState === 'complete') setTimeout(() => document.body.classList.remove('loading'), 1000);
