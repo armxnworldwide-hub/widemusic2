@@ -3734,7 +3734,7 @@
         const avatar = document.getElementById("userAvatar"); if (user) { loginBtn.style.display = "none"; userBar.style.display = "flex"; if (name) name.textContent = user.displayName || "User"; if (email) email.textContent = user.email || ""; if (avatar)
         avatar.src = user.photoURL || ""; } else { userBar.style.display = "none"; loginBtn.style.display = "block"; } });
     </script>
-    >
+
     <script>
         window.addEventListener('load', () => setTimeout(() => document.body.classList.remove('loading'), 1000));
         if (document.readyState === 'complete') setTimeout(() => document.body.classList.remove('loading'), 1000);
