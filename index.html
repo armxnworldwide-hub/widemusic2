@@ -3455,7 +3455,7 @@
     <div id="splash">
         <div class="splash-inner">
             <div class="splash-logo-wrap"><img src="images/falcon.jpeg" alt="FalconX"></div>
-            <div class="splash-name">F<span>al</span>conX</div>
+            <div class="splash-name">F<span>a</span>lconX</div>
             <div class="splash-tagline">HEAR THE SPEED OF SOUND</div>
             <div class="splash-bar">
                 <div class="splash-bar-fill"></div>
@@ -3859,11 +3859,11 @@
                 }, {
                     title: "Levels",
                     file: "Sidhu Moosewala/Levels.mp3",
-                    poster: "images/Levels.jpeg"
+                    poster: "images/levels.jpeg"
                 }, {
                     title: "Legend",
                     file: "Sidhu Moosewala/Legend.mp3",
-                    poster: "images/Legend.jpeg"
+                    poster: "images/legend.jpeg"
                 }, {
                     title: "410",
                     file: "Sidhu Moosewala/410.mp3",
@@ -5358,8 +5358,8 @@
                 isRepeat = false;
                 audio.loop = false;
                 localStorage.removeItem('eq_repeat');
-                document.getElementById('repeatBtn')?.classList.remove('on');
-                document.getElementById('fsRepeat')?.classList.remove('active');
+                document.getElementById('repeatBtn') ? .classList.remove('on');
+                document.getElementById('fsRepeat') ? .classList.remove('active');
                 const last = JSON.parse(localStorage.getItem('eq_last_song') || 'null');
                 if (!last) return;
                 currentSong = {
