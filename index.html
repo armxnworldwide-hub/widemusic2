@@ -3490,9 +3490,7 @@
                 </span>
                 Sign in
             </button>
-            <button class="mobile-user-avatar-btn" id="mobileUserBtn" style="display:none" onclick="showMobileUserMenu()">
-                <img id="mobileUserAvatar" src="" alt="User">
-            </button>
+
         </div>
 
         <div class="sidebar-nav-block">
@@ -3734,9 +3732,11 @@
         await setDoc(ref,{likedSongs:Array.from(likedSongs),playlists:playlists},{merge:true}); }; async function loadUserData(){ if(!auth.currentUser)return; const snap=await getDoc(doc(db,"users",auth.currentUser.uid)); if(snap.exists()){ const data=snap.data();
         if(data.likedSongs){likedSongs=new Set(data.likedSongs);} if(data.playlists){ playlists={...playlists}; for(const id in data.playlists){ if(!playlists[id]){playlists[id]=data.playlists[id];} else{playlists[id]={...playlists[id],...data.playlists[id]};}
         } localStorage.setItem('eq_playlists',JSON.stringify(playlists)); } } } onAuthStateChanged(auth,async user=>{ const loginBtn=document.getElementById("loginBtn"); const userBar=document.getElementById("userBar"); const syncDot=document.getElementById("syncDot");
-        const syncLabel=document.getElementById("syncLabel"); if(user){ loginBtn.style.display="none"; userBar.style.display="flex"; document.getElementById("userDisplayName").textContent=user.displayName||"User"; document.getElementById("userEmail").textContent=user.email||"";
-        document.getElementById("userAvatar").src=user.photoURL||""; syncDot.className="sync-dot syncing"; syncLabel.textContent="Syncing…"; await loadUserData(); syncDot.className="sync-dot synced"; syncLabel.textContent="Synced"; }else{ userBar.style.display="none";
-        syncDot.className="sync-dot"; syncLabel.textContent="Offline"; } });
+        const syncLabel=document.getElementById("syncLabel"); const userNameEl=document.getElementById("userDisplayNameMain"); const userEmailEl=document.getElementById("userEmailMain"); const userAvatarEl=document.getElementById("userAvatarMain"); const
+        mobileLoginBtn=document.getElementById("mobileLoginBtn"); const mobileUserBtn=document.getElementById("mobileUserBtn"); const mobileUserAvatar=document.getElementById("mobileUserAvatar"); if(user){ loginBtn.style.display="none"; userBar.style.display="flex";
+        if(userNameEl)userNameEl.textContent=user.displayName||"User"; if(userEmailEl)userEmailEl.textContent=user.email||""; if(userAvatarEl)userAvatarEl.src=user.photoURL||""; if(mobileLoginBtn)mobileLoginBtn.style.display="none"; if(mobileUserBtn)mobileUserBtn.style.display="flex";
+        if(mobileUserAvatar)mobileUserAvatar.src=user.photoURL||""; syncDot.className="sync-dot syncing"; syncLabel.textContent="Syncing…"; await loadUserData(); syncDot.className="sync-dot synced"; syncLabel.textContent="Synced"; }else{ userBar.style.display="none";
+        if(loginBtn)loginBtn.style.display="block"; if(mobileLoginBtn)mobileLoginBtn.style.display="flex"; if(mobileUserBtn)mobileUserBtn.style.display="none"; syncDot.className="sync-dot"; syncLabel.textContent="Offline"; } });
     </script>
     <script>
         window.addEventListener('load', () => setTimeout(() => document.body.classList.remove('loading'), 1000));
@@ -5802,7 +5802,7 @@
         // ── MOBILE USER MENU ──
         window.showMobileUserMenu = () => {
             // Show simple options: signed in as X + sign out
-            const name = document.getElementById('userDisplayName')?.textContent || 'User';
+            const name = document.getElementById('userDisplayNameMain')?.textContent || 'User';
             if(confirm(`Signed in as ${name}\n\nSign out?`)) signOut();
         };
 
