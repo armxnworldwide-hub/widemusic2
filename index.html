@@ -9,7 +9,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>FalconX</title>
     <link rel="icon" type="image/jpeg" href="images/falcon.jpeg">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
         *,
         *::before,
@@ -21,87 +21,74 @@
         }
         
          :root {
-            /* Core Colors - Professional Dark Theme */
             --bg: #0a0a0a;
             --bg2: #121212;
             --surface: #181818;
             --surface2: #1f1f1f;
             --surface3: #282828;
             --surface4: #333333;
-            --surface5: #3a3a3a;
-            /* Neon Lime Accent */
             --accent: #c8f542;
             --accent2: #a8d930;
             --accent3: rgba(200, 245, 66, .08);
-            --accent-glow: rgba(200, 245, 66, .3);
-            --accent-glow-strong: rgba(200, 245, 66, .6);
-            /* Typography */
+            --accent-glow: rgba(200, 245, 66, .2);
             --text: #ffffff;
-            --text-primary: #f8fafc;
-            --text-secondary: #cbd5e1;
-            --text-muted: #94a3b8;
-            --text-dim: #64748b;
-            /* Borders */
-            --border: rgba(255, 255, 255, .08);
-            --border2: rgba(255, 255, 255, .12);
-            --border-hover: rgba(255, 255, 255, .2);
-            --player-h: 90px;
-            --sidebar-w: 300px;
-            --radius: 16px;
-            --radius-sm: 12px;
-            --radius-full: 9999px;
+            --text2: #b3b3b3;
+            --muted: #535353;
+            --muted2: #727272;
+            --border: rgba(255, 255, 255, .06);
+            --border2: rgba(255, 255, 255, .1);
+            --player-h: 88px;
+            --sidebar-w: 280px;
+            --radius: 12px;
+            --radius-sm: 8px;
             --safe-bottom: env(safe-area-inset-bottom, 0px);
-            body {
-                background: radial-gradient(circle at top, #1a1a1a 0%, #0a0a0a 60%);
-            }
-            html,
-            body {
-                height: 100%;
-                overflow: hidden;
-                background: var(--bg)
-            }
-            body {
-                font-family: 'Poppins', 'Manrope', 'Inter', sans-serif;
-                color: var(--text);
-                display: grid;
-                grid-template-columns: var(--sidebar-w) 1fr;
-                grid-template-rows: 1fr var(--player-h);
-                height: 100dvh;
-                font-weight: 400;
-                line-height: 1.45;
-                letter-spacing: .01em;
-                text-rendering: optimizeLegibility;
-                -webkit-font-smoothing: antialiased;
-            }
-            .sidebar {
-                grid-row: 1;
-                background: var(--bg);
-                display: flex;
-                flex-direction: column;
-                overflow: hidden;
-                position: relative;
-                z-index: 10;
-                gap: 8px;
-                padding: 8px;
-            }
-            .sidebar-logo-block {
-                background: var(--glass-bg);
-                backdrop-filter: var(--blur-light);
-                border: 1px solid var(--glass-border);
-                border-radius: var(--radius);
-                padding: 16px 18px;
-                flex-shrink: 0;
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                transition: all 0.3s var(--liquid-ease);
-                box-shadow: var(--glass-glow), var(--glass-shadow);
-            }
-            .logo {
-                display: flex;
-                box-shadow: var(--glass-glow), var(--glass-shadow-hover);
-                transform: translateY(-2px);
-            }
+        }
+        
+        body {
+            background: radial-gradient(circle at top, #1a1a1a 0%, #0a0a0a 60%);
+        }
+        
+        html,
+        body {
+            height: 100%;
+            overflow: hidden;
+            background: var(--bg)
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text);
+            display: grid;
+            grid-template-columns: var(--sidebar-w) 1fr;
+            grid-template-rows: 1fr var(--player-h);
+            height: 100dvh;
+            font-weight: 400;
+        }
+        
+        .sidebar {
+            grid-row: 1;
+            background: var(--bg);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+            z-index: 10;
+            gap: 8px;
+            padding: 8px;
+        }
+        
+        .sidebar-logo-block {
+            background: var(--surface);
+            border-radius: var(--radius);
+            padding: 16px 18px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .logo {
+            display: flex;
             align-items: center;
             gap: 10px;
             font-size: 1.3rem;
@@ -169,14 +156,10 @@
         }
         
         .sidebar-nav-block {
-            background: var(--glass-bg);
-            backdrop-filter: var(--blur-light);
-            border: 1px solid var(--glass-border);
+            background: var(--surface);
             border-radius: var(--radius);
             padding: 8px;
             flex-shrink: 0;
-            box-shadow: var(--glass-glow), var(--glass-shadow);
-            transition: all 0.3s var(--liquid-ease);
         }
         
         .nav-btn {
@@ -185,46 +168,21 @@
             gap: 12px;
             width: 100%;
             padding: 10px 12px;
-            border-radius: var(--radius-sm);
-            background: var(--glass-bg);
-            backdrop-filter: var(--blur-light);
-            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            background: none;
+            border: none;
             color: var(--text2);
-            font-family: 'Poppins', 'Manrope', 'Inter', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-size: .85rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all .25s var(--liquid-ease);
+            transition: all .15s;
             text-align: left;
-            box-shadow: var(--glass-glow);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .nav-btn::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: var(--glass-bg-hover);
-            opacity: 0;
-            transition: opacity 0.25s var(--liquid-ease);
         }
         
         .nav-btn:hover {
-            color: var(--text);
-            transform: translateX(4px);
-            box-shadow: var(--glass-shadow-hover);
-        }
-        
-        .nav-btn:hover::before {
-            opacity: 1;
-        }
-        
-        .nav-btn.active {
-            background: var(--glass-bg-active);
-            border-color: var(--accent);
-            color: var(--text);
-            box-shadow: 0 0 20px var(--accent-glow);
+            background: var(--surface2);
+            color: var(--text)
         }
         
         .nav-btn.active {
@@ -348,7 +306,7 @@
             background: none;
             border: none;
             color: var(--text);
-            font-family: 'Poppins', 'Manrope', 'Inter', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-size: .85rem;
             font-weight: 600;
             cursor: pointer;
@@ -429,7 +387,7 @@
             background: none;
             border: 1px solid var(--border2);
             color: var(--text2);
-            font-family: 'Poppins', 'Manrope', 'Inter', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-size: .7rem;
             cursor: pointer;
             padding: 5px 10px;
@@ -526,7 +484,7 @@
             border-radius: 500px;
             padding: 10px 16px 10px 40px;
             color: var(--text);
-            font-family: 'Poppins', 'Manrope', 'Inter', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-size: .88rem;
             outline: none;
             transition: all .2s;
@@ -1263,7 +1221,7 @@
             cursor: pointer;
             padding: 5px 10px;
             border-radius: 6px;
-            font-family: 'Poppins', 'Manrope', 'Inter', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-weight: 600;
             transition: all .2s;
         }
@@ -1569,7 +1527,7 @@
             cursor: pointer;
             transition: all .2s;
             font-weight: 600;
-            font-family: 'Poppins', 'Manrope', 'Inter', sans-serif
+            font-family: 'Inter', sans-serif
         }
         
         .dp-action-btn:hover {
@@ -1842,7 +1800,7 @@
             border-radius: var(--radius);
             cursor: pointer;
             color: var(--text2);
-            font-family: 'Poppins', 'Manrope', 'Inter', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-size: .85rem;
             font-weight: 600;
             transition: all .2s;
@@ -1972,7 +1930,7 @@
             border: 2px solid rgba(255, 255, 255, .3);
             border-radius: 500px;
             color: var(--text);
-            font-family: 'Poppins', 'Manrope', 'Inter', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-size: .82rem;
             font-weight: 700;
             cursor: pointer;
@@ -2174,7 +2132,7 @@
             padding: 8px 20px;
             border-radius: 500px;
             border: none;
-            font-family: 'Poppins', 'Manrope', 'Inter', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-size: .82rem;
             font-weight: 700;
             cursor: pointer;
@@ -2243,7 +2201,7 @@
             border-radius: 8px;
             padding: 12px 14px;
             color: var(--text);
-            font-family: 'Poppins', 'Manrope', 'Inter', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-size: .9rem;
             outline: none;
             transition: border-color .2s;
@@ -2264,7 +2222,7 @@
             background: none;
             border: 1px solid var(--border2);
             color: var(--text2);
-            font-family: 'Poppins', 'Manrope', 'Inter', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-size: .82rem;
             font-weight: 700;
             padding: 9px 18px;
@@ -2281,7 +2239,7 @@
             background: var(--accent);
             color: #000;
             border: none;
-            font-family: 'Poppins', 'Manrope', 'Inter', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-size: .82rem;
             font-weight: 700;
             padding: 9px 18px;
@@ -2301,7 +2259,7 @@
             transform: translateX(-50%);
             background: var(--surface3);
             color: var(--text);
-            font-family: 'Poppins', 'Manrope', 'Inter', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-size: .82rem;
             font-weight: 600;
             padding: 10px 22px;
@@ -2352,7 +2310,7 @@
             background: none;
             border: none;
             color: var(--text);
-            font-family: 'Poppins', 'Manrope', 'Inter', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-size: .82rem;
             cursor: pointer;
             transition: background .12s;
@@ -2676,7 +2634,7 @@
             background: none;
             border: none;
             color: var(--text2);
-            font-family: 'Poppins', 'Manrope', 'Inter', sans-serif;
+            font-family: 'Inter', sans-serif;
             cursor: pointer;
         }
         
@@ -2728,7 +2686,7 @@
             background: none;
             border: 1px solid rgba(255, 85, 85, .2);
             color: rgba(255, 85, 85, .6);
-            font-family: 'Poppins', 'Manrope', 'Inter', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-size: .7rem;
             cursor: pointer;
             padding: 4px 10px;
@@ -2751,12 +2709,9 @@
             border-bottom: 1px solid var(--border);
             margin-bottom: 8px;
         }
-        
-        @media (min-width: 769px) {
-            html {
-                zoom: .95;
-            }
-        }
+        /* ════════════════════════════════════════
+           MOBILE STYLES — DESKTOP UNTOUCHED
+           ════════════════════════════════════════ */
         
         @media (max-width: 768px) {
             body {
@@ -2853,7 +2808,7 @@
                 border: none;
                 border-radius: 22px;
                 cursor: pointer;
-                font-family: 'Poppins', 'Manrope', 'Inter', sans-serif;
+                font-family: 'Inter', sans-serif;
                 font-size: .7rem;
                 font-weight: 700;
                 color: #1a1a1a;
@@ -3491,7 +3446,7 @@
     <div id="splash">
         <div class="splash-inner">
             <div class="splash-logo-wrap"><img src="images/falcon.jpeg" alt="FalconX"></div>
-            <div class="splash-name">F<span>a</span>lconX</div>
+            <div class="splash-name">F<span>al</span>conX</div>
             <div class="splash-tagline">HEAR THE SPEED OF SOUND</div>
             <div class="splash-bar">
                 <div class="splash-bar-fill"></div>
@@ -3772,14 +3727,17 @@
         </div>
     </div>
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"; import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"; const
-        firebaseConfig = { apiKey: "AIzaSyBGByQV7o655YvsCa8_c16P6zIaMGr7Uq0", authDomain: "falconx-f1016.firebaseapp.com", projectId: "falconx-f1016", storageBucket: "falconx-f1016.firebasestorage.app", messagingSenderId: "357270984794", appId: "1:357270984794:web:93a4c9e3502eeeeca42063"
-        }; const app = initializeApp(firebaseConfig); const auth = getAuth(app); window.signInWithGoogle = async () => { const provider = new GoogleAuthProvider(); await signInWithPopup(auth, provider); }; window.signOut = async () => { await signOut(auth);
-        }; onAuthStateChanged(auth, (user) => { const loginBtn = document.getElementById("loginBtn"); const userBar = document.getElementById("userBar"); const name = document.getElementById("userDisplayNameMain"); const email = document.getElementById("userEmailMain");
-        const avatar = document.getElementById("userAvatarMain"); if (user) { loginBtn.style.display = "none"; userBar.style.display = "flex"; if (name) name.textContent = user.displayName || "User"; if (email) email.textContent = user.email || ""; if
-        (avatar && user.photoURL) { avatar.src = user.photoURL + "?t=" + Date.now(); } } else { userBar.style.display = "none"; loginBtn.style.display = "block"; } });
+        import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"; import{getAuth,GoogleAuthProvider,signInWithPopup,signInWithRedirect,getRedirectResult,signOut as fbSignOut,onAuthStateChanged,setPersistence,browserLocalPersistence}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+        import{getFirestore,doc,setDoc,getDoc,updateDoc}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"; const firebaseConfig={apiKey:"AIzaSyC2YVyJE2WEdMoOpSJ7TvBKWNbv2H_45hg",authDomain:"equify-f1c8e.firebaseapp.com",projectId:"equify-f1c8e",storageBucket:"equify-f1c8e.appspot.com",messagingSenderId:"543566532156",appId:"1:543566532156:web:ecd7952d4387caeceafd39"};
+        const app=initializeApp(firebaseConfig); const auth=getAuth(app); const db=getFirestore(app); await setPersistence(auth,browserLocalPersistence); await getRedirectResult(auth); window.signInWithGoogle=async()=>{ const provider=new GoogleAuthProvider();
+        try{await signInWithPopup(auth,provider);}catch(err){await signInWithRedirect(auth,provider);} }; window.signOut=async()=>{await fbSignOut(auth);}; window._saveToCloud=async()=>{ if(!auth.currentUser)return; const ref=doc(db,"users",auth.currentUser.uid);
+        await setDoc(ref,{likedSongs:Array.from(likedSongs),playlists:playlists},{merge:true}); }; async function loadUserData(){ if(!auth.currentUser)return; const snap=await getDoc(doc(db,"users",auth.currentUser.uid)); if(snap.exists()){ const data=snap.data();
+        if(data.likedSongs){likedSongs=new Set(data.likedSongs);} if(data.playlists){ playlists={...playlists}; for(const id in data.playlists){ if(!playlists[id]){playlists[id]=data.playlists[id];} else{playlists[id]={...playlists[id],...data.playlists[id]};}
+        } localStorage.setItem('eq_playlists',JSON.stringify(playlists)); } } } onAuthStateChanged(auth,async user=>{ const loginBtn=document.getElementById("loginBtn"); const userBar=document.getElementById("userBar"); const syncDot=document.getElementById("syncDot");
+        const syncLabel=document.getElementById("syncLabel"); if(user){ loginBtn.style.display="none"; userBar.style.display="flex"; document.getElementById("userDisplayName").textContent=user.displayName||"User"; document.getElementById("userEmail").textContent=user.email||"";
+        document.getElementById("userAvatar").src=user.photoURL||""; syncDot.className="sync-dot syncing"; syncLabel.textContent="Syncing…"; await loadUserData(); syncDot.className="sync-dot synced"; syncLabel.textContent="Synced"; }else{ userBar.style.display="none";
+        syncDot.className="sync-dot"; syncLabel.textContent="Offline"; } });
     </script>
-
     <script>
         window.addEventListener('load', () => setTimeout(() => document.body.classList.remove('loading'), 1000));
         if (document.readyState === 'complete') setTimeout(() => document.body.classList.remove('loading'), 1000);
@@ -5588,7 +5546,7 @@
             <div class="songs-section" style="padding-top:20px">
                 <div style="display:flex;justify-content:flex-end;margin-bottom:10px;gap:8px;align-items:center">
                     <label style="font-size:.78rem;color:var(--text2)">Sort:</label>
-                    <select id="sortSelect" onchange="sortSongs()" style="background:var(--surface3);color:var(--text);border:1px solid rgba(255,255,255,.1);padding:6px 10px;border-radius:8px;font-family:'Poppins', 'Manrope', 'Inter', sans-serif;font-size:.78rem;outline:none;cursor:pointer">
+                    <select id="sortSelect" onchange="sortSongs()" style="background:var(--surface3);color:var(--text);border:1px solid rgba(255,255,255,.1);padding:6px 10px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:.78rem;outline:none;cursor:pointer">
                         <option value="default">Default</option>
                         <option value="title">Title A-Z</option>
                         <option value="liked">Liked first</option>
@@ -5697,7 +5655,7 @@
         function toggleMute() { if(isMuted){audio.volume=prevVol;volumeSlider.value=prevVol;isMuted=false;}else{prevVol=audio.volume||1;audio.volume=0;volumeSlider.value=0;isMuted=true;} }
         function toggleQueuePanel() { queuePanelOpen=!queuePanelOpen; document.getElementById('queuePanel').classList.toggle('open',queuePanelOpen); document.getElementById('queueToggleBtn').classList.toggle('active',queuePanelOpen); if(queuePanelOpen)renderQueuePanel(); }
 
-        function renderQueuePanel() { const body=document.getElementById('queuePanelBody'); if(!body)return; let html=''; if(currentSong){html+=`<div class="qp-section">Now Playing</div><div class="qp-item"><img src="${escH(currentSong.poster)}" onerror="this.style.background='#282828'"><div class="qp-item-info"><div class="qp-item-title" style="color:var(--accent)">${escH(currentSong.title)}</div><div class="qp-item-artist">${escH(playerArtist.textContent)}</div></div></div>`;} if(queue.length>0){html+=`<div class="qp-section" style="margin-top:7px">Up Next (${queue.length})</div>`;queue.forEach((s,i)=>{html+=`<div class="qp-item" onclick="playFromQueue(${i})"><img src="${escH(s.poster)}" onerror="this.style.background='#282828'"><div class="qp-item-info"><div class="qp-item-title">${escH(s.title)}</div><div class="qp-item-artist">${escH(s.artistName||'')}</div></div><button class="qp-item-rm" onclick="event.stopPropagation();removeFromQueue(${i})">✕</button></div>`;});html+=`<div style="padding:8px 14px"><button onclick="clearQueue()" style="background:none;border:1px solid rgba(255,85,85,.2);color:rgba(255,85,85,.6);font-family:'Poppins', 'Manrope', 'Inter', sans-serif;font-size:.72rem;cursor:pointer;padding:5px 12px;border-radius:500px;width:100%">Clear Queue</button></div>`;} if(currentSong&&currentArtistKey&&currentSongs.length>1){const nl=currentSongs.slice(currentIndex+1,currentIndex+5);if(nl.length>0){html+=`<div class="qp-section" style="margin-top:7px">Next from ${escH(currentArtistKey&&artists[currentArtistKey]?artists[currentArtistKey].name:'')}</div>`;nl.forEach((s,i)=>{html+=`<div class="qp-item" onclick="playSong(${currentIndex+1+i})"><img src="${escH(s.poster)}" onerror="this.style.background='#282828'"><div class="qp-item-info"><div class="qp-item-title">${escH(s.title)}</div><div class="qp-item-artist">${escH(currentArtistKey&&artists[currentArtistKey]?artists[currentArtistKey].name:'')}</div></div></div>`;});}} if(!currentSong&&!queue.length){html=`<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:50px 20px;color:var(--text2);gap:10px;font-size:.85rem"><div style="font-size:2.5rem;opacity:.3">☰</div><p>Your queue is empty</p></div>`;} body.innerHTML=html; }
+        function renderQueuePanel() { const body=document.getElementById('queuePanelBody'); if(!body)return; let html=''; if(currentSong){html+=`<div class="qp-section">Now Playing</div><div class="qp-item"><img src="${escH(currentSong.poster)}" onerror="this.style.background='#282828'"><div class="qp-item-info"><div class="qp-item-title" style="color:var(--accent)">${escH(currentSong.title)}</div><div class="qp-item-artist">${escH(playerArtist.textContent)}</div></div></div>`;} if(queue.length>0){html+=`<div class="qp-section" style="margin-top:7px">Up Next (${queue.length})</div>`;queue.forEach((s,i)=>{html+=`<div class="qp-item" onclick="playFromQueue(${i})"><img src="${escH(s.poster)}" onerror="this.style.background='#282828'"><div class="qp-item-info"><div class="qp-item-title">${escH(s.title)}</div><div class="qp-item-artist">${escH(s.artistName||'')}</div></div><button class="qp-item-rm" onclick="event.stopPropagation();removeFromQueue(${i})">✕</button></div>`;});html+=`<div style="padding:8px 14px"><button onclick="clearQueue()" style="background:none;border:1px solid rgba(255,85,85,.2);color:rgba(255,85,85,.6);font-family:'DM Sans',sans-serif;font-size:.72rem;cursor:pointer;padding:5px 12px;border-radius:500px;width:100%">Clear Queue</button></div>`;} if(currentSong&&currentArtistKey&&currentSongs.length>1){const nl=currentSongs.slice(currentIndex+1,currentIndex+5);if(nl.length>0){html+=`<div class="qp-section" style="margin-top:7px">Next from ${escH(currentArtistKey&&artists[currentArtistKey]?artists[currentArtistKey].name:'')}</div>`;nl.forEach((s,i)=>{html+=`<div class="qp-item" onclick="playSong(${currentIndex+1+i})"><img src="${escH(s.poster)}" onerror="this.style.background='#282828'"><div class="qp-item-info"><div class="qp-item-title">${escH(s.title)}</div><div class="qp-item-artist">${escH(currentArtistKey&&artists[currentArtistKey]?artists[currentArtistKey].name:'')}</div></div></div>`;});}} if(!currentSong&&!queue.length){html=`<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:50px 20px;color:var(--text2);gap:10px;font-size:.85rem"><div style="font-size:2.5rem;opacity:.3">☰</div><p>Your queue is empty</p></div>`;} body.innerHTML=html; }
 
         window.playFromQueue = (i) => { if(!queue[i])return; const songs=queue.splice(0,i+1); const s=songs[songs.length-1]; localStorage.setItem('eq_queue',JSON.stringify(queue)); currentSong=s; const ak=Object.keys(artists).find(k=>artists[k].songs.some(x=>x.file===s.file)); const an=ak?artists[ak].name:(s.artistName||''); posterEl.src=s.poster; playerTitle.textContent=s.title; playerArtist.textContent=an; updatePlayerLikeBtn(s.file); updatePlayerDlBtn(); getAudioSrc('songs/'+s.file).then(src=>{audio.src=src;audio.play();playBtn.textContent='⏸';updateNowPlayingIndicator();}); savePlaybackMemory(); renderQueuePanel(); updateNowPlayingIndicator(); };
         window.removeFromQueue = (i) => { queue.splice(i,1); localStorage.setItem('eq_queue',JSON.stringify(queue)); renderQueuePanel(); showToast('Removed from queue'); };
@@ -5725,7 +5683,7 @@
                     <div class="fav-section-label">❤ Liked Songs</div>
                     <div style="display:flex;gap:8px;align-items:center">
                         <label style="font-size:.78rem;color:var(--text2)">Sort:</label>
-                        <select id="favSortSelect" onchange="refreshLikedDisplay()" style="background:var(--surface3);color:var(--text);border:1px solid rgba(255,255,255,.1);padding:6px 10px;border-radius:8px;font-family:'Poppins', 'Manrope', 'Inter', sans-serif;font-size:.78rem;outline:none;cursor:pointer">
+                        <select id="favSortSelect" onchange="refreshLikedDisplay()" style="background:var(--surface3);color:var(--text);border:1px solid rgba(255,255,255,.1);padding:6px 10px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:.78rem;outline:none;cursor:pointer">
                             <option value="artist">Artist A-Z</option>
                             <option value="title">Title A-Z</option>
                             <option value="recent">Recently liked</option>
@@ -5931,7 +5889,7 @@
             }
         }
 
-        
+        // ── AFTER LOADING ──
         setTimeout(() => { document.body.classList.remove('loading'); }, 100);
     </script>
 
