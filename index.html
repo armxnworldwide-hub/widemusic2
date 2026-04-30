@@ -2606,6 +2606,15 @@
             margin: 0 4px;
         }
         
+        @media (min-width: 769px) {
+            .now-playing-bar,
+            .now-playing-indicator {
+                display: none !important;
+                opacity: 0 !important;
+                visibility: hidden !important;
+            }
+        }
+
         @keyframes nowPlayingBlink {
             0%,
             100% {
@@ -5338,11 +5347,11 @@
                     isShuffle = true;
                     document.getElementById('shuffleBtn').classList.add('on');
                 }
-                if (localStorage.getItem('eq_repeat') === 'true') {
-                    isRepeat = true;
-                    audio.loop = true;
-                    document.getElementById('repeatBtn').classList.add('on');
-                }
+                isRepeat = false;
+                audio.loop = false;
+                localStorage.removeItem('eq_repeat');
+                document.getElementById('repeatBtn')?.classList.remove('on');
+                document.getElementById('fsRepeat')?.classList.remove('active');
                 const last = JSON.parse(localStorage.getItem('eq_last_song') || 'null');
                 if (!last) return;
                 currentSong = {
@@ -5651,7 +5660,7 @@
         function addToQueue(index) { const song=currentSongs[index]; if(!song)return; const artistKey=currentArtistKey||Object.keys(artists).find(k=>artists[k].songs===currentSongs); const artistName=artistKey?artists[artistKey].name:''; queue.push({...song,artistName}); localStorage.setItem('eq_queue',JSON.stringify(queue)); renderQueuePanel(); showToast('Added to queue ✓'); }
 
         function toggleShuffle() { isShuffle=!isShuffle; document.getElementById('shuffleBtn').classList.toggle('on',isShuffle); localStorage.setItem('eq_shuffle',isShuffle); showToast(isShuffle?'Shuffle on 🔀':'Shuffle off'); }
-        function toggleRepeat() { isRepeat=!isRepeat; audio.loop=isRepeat; document.getElementById('repeatBtn').classList.toggle('on',isRepeat); }
+        function toggleRepeat() { isRepeat=!isRepeat; audio.loop=isRepeat; document.getElementById('repeatBtn').classList.toggle('on',isRepeat); localStorage.setItem('eq_repeat',String(isRepeat)); document.getElementById('fsRepeat')?.classList.toggle('active',isRepeat); }
         function toggleMute() { if(isMuted){audio.volume=prevVol;volumeSlider.value=prevVol;isMuted=false;}else{prevVol=audio.volume||1;audio.volume=0;volumeSlider.value=0;isMuted=true;} }
         function toggleQueuePanel() { queuePanelOpen=!queuePanelOpen; document.getElementById('queuePanel').classList.toggle('open',queuePanelOpen); document.getElementById('queueToggleBtn').classList.toggle('active',queuePanelOpen); if(queuePanelOpen)renderQueuePanel(); }
 
