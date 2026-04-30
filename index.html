@@ -5346,6 +5346,7 @@
             }));
         }
 
+
         function loadPlaybackMemory() {
             try {
                 const vol = parseFloat(localStorage.getItem('eq_volume') || '1');
@@ -5355,11 +5356,11 @@
                     isShuffle = true;
                     document.getElementById('shuffleBtn').classList.add('on');
                 }
-                isRepeat = false;
-                audio.loop = false;
-                localStorage.removeItem('eq_repeat');
-                document.getElementById('repeatBtn') ? .classList.remove('on');
-                document.getElementById('fsRepeat') ? .classList.remove('active');
+                if (localStorage.getItem('eq_repeat') === 'true') {
+                    isRepeat = true;
+                    audio.loop = true;
+                    document.getElementById('repeatBtn').classList.add('on');
+                }
                 const last = JSON.parse(localStorage.getItem('eq_last_song') || 'null');
                 if (!last) return;
                 currentSong = {
