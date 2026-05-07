@@ -3863,18 +3863,388 @@
         </div>
     </div>
     <script type="module">
-        import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"; import{getAuth,GoogleAuthProvider,signInWithPopup,signInWithRedirect,getRedirectResult,signOut as fbSignOut,onAuthStateChanged,setPersistence,browserLocalPersistence}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-        import{getFirestore,doc,setDoc,getDoc,updateDoc}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"; const firebaseConfig={apiKey:"AIzaSyBGByQV7o655YvsCa8_c16P6zIaMGr7Uq0",authDomain:"falconx-f1016.firebaseapp.com",projectId:"falconx-f1016",storageBucket:"falconx-f1016.firebasestorage.app",messagingSenderId:"357270984794",appId:"1:357270984794:web:93a4c9e3502eeeeca42063"};
-        const app=initializeApp(firebaseConfig); const auth=getAuth(app); const db=getFirestore(app); await setPersistence(auth,browserLocalPersistence); await getRedirectResult(auth); window.signInWithGoogle=async()=>{ const provider=new GoogleAuthProvider();
-        try{await signInWithPopup(auth,provider);}catch(err){await signInWithRedirect(auth,provider);} }; window.signOut=async()=>{await fbSignOut(auth);}; window._saveToCloud=async()=>{ if(!auth.currentUser)return; const ref=doc(db,"users",auth.currentUser.uid);
-        await setDoc(ref,{likedSongs:Array.from(likedSongs),playlists:playlists},{merge:true}); }; async function loadUserData(){ if(!auth.currentUser)return; const snap=await getDoc(doc(db,"users",auth.currentUser.uid)); if(snap.exists()){ const data=snap.data();
-        if(data.likedSongs){likedSongs=new Set(data.likedSongs);} if(data.playlists){ playlists={...playlists}; for(const id in data.playlists){ if(!playlists[id]){playlists[id]=data.playlists[id];} else{playlists[id]={...playlists[id],...data.playlists[id]};}
-        } localStorage.setItem('eq_playlists',JSON.stringify(playlists)); } } } onAuthStateChanged(auth,async user=>{ const loginBtn=document.getElementById("loginBtn"); const userBar=document.getElementById("userBar"); const syncDot=document.getElementById("syncDot");
-        const syncLabel=document.getElementById("syncLabel"); const userNameEl=document.getElementById("userDisplayNameMain"); const userEmailEl=document.getElementById("userEmailMain"); const userAvatarEl=document.getElementById("userAvatarMain"); const
-        mobileLoginBtn=document.getElementById("mobileLoginBtn"); const mobileUserBtn=document.getElementById("mobileUserBtn"); const mobileUserAvatar=document.getElementById("mobileUserAvatar"); if(user){ loginBtn.style.display="none"; userBar.style.display="flex";
-        if(userNameEl)userNameEl.textContent=user.displayName||"User"; if(userEmailEl)userEmailEl.textContent=user.email||""; if(userAvatarEl)userAvatarEl.src=user.photoURL||""; if(mobileLoginBtn)mobileLoginBtn.style.display="none"; if(mobileUserBtn)mobileUserBtn.style.display="flex";
-        if(mobileUserAvatar)mobileUserAvatar.src=user.photoURL||""; syncDot.className="sync-dot syncing"; syncLabel.textContent="Syncing…"; await loadUserData(); syncDot.className="sync-dot synced"; syncLabel.textContent="Synced"; }else{ userBar.style.display="none";
-        if(loginBtn)loginBtn.style.display="block"; if(mobileLoginBtn)mobileLoginBtn.style.display="flex"; if(mobileUserBtn)mobileUserBtn.style.display="none"; syncDot.className="sync-dot"; syncLabel.textContent="Offline"; } });
+        import {
+            initializeApp
+        } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import {
+            getAuth,
+            GoogleAuthProvider,
+            signInWithPopup,
+            signInWithRedirect,
+            getRedirectResult,
+            signOut as fbSignOut,
+            onAuthStateChanged,
+            setPersistence,
+            browserLocalPersistence
+        } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+        import {
+            getFirestore,
+            doc,
+            setDoc,
+            onSnapshot,
+            serverTimestamp
+        } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBGByQV7o655YvsCa8_c16P6zIaMGr7Uq0",
+            authDomain: "falconx-f1016.firebaseapp.com",
+            projectId: "falconx-f1016",
+            storageBucket: "falconx-f1016.firebasestorage.app",
+            messagingSenderId: "357270984794",
+            appId: "1:357270984794:web:93a4c9e3502eeeeca42063"
+        };
+
+        const MAX_LIKED = 3000;
+        const MAX_DOWNLOADS = 3000;
+        const MAX_RECENT = 40;
+        const MAX_QUEUE = 120;
+        const POPUP_FALLBACK_CODES = new Set([
+            'auth/popup-blocked',
+            'auth/cancelled-popup-request',
+            'auth/operation-not-supported-in-this-environment'
+        ]);
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const provider = new GoogleAuthProvider();
+        provider.setCustomParameters({
+            prompt: 'select_account'
+        });
+
+        let unsubscribeUserDoc = null;
+        let syncTimer = null;
+        let authBusy = false;
+        let applyingRemote = false;
+        let lastUploadedHash = '';
+        let lastAppliedRemoteHash = '';
+
+        function isMobileLike() {
+            const ua = navigator.userAgent || '';
+            return /android|iphone|ipad|ipod|iemobile|opera mini|mobile/i.test(ua) || window.matchMedia('(max-width: 900px)').matches;
+        }
+
+        function setSyncStatus(mode, text) {
+            const dot = document.getElementById('syncDot');
+            const label = document.getElementById('syncLabel');
+            if (dot) {
+                if (mode === 'synced') dot.className = 'sync-dot synced';
+                else if (mode === 'syncing') dot.className = 'sync-dot syncing';
+                else dot.className = 'sync-dot';
+            }
+            if (label) label.textContent = text;
+        }
+
+        function setAuthButtonsBusy(busy) {
+            authBusy = busy;
+            const desktopBtn = document.getElementById('loginBtn');
+            const mobileBtn = document.getElementById('mobileLoginBtn');
+            [desktopBtn, mobileBtn].forEach((btn) => {
+                if (!btn) return;
+                btn.disabled = busy;
+                btn.style.opacity = busy ? '0.72' : '';
+                btn.style.pointerEvents = busy ? 'none' : '';
+            });
+        }
+
+        function updateAuthUI(user) {
+            const loginBtn = document.getElementById('loginBtn');
+            const userBar = document.getElementById('userBar');
+            const userNameEl = document.getElementById('userDisplayNameMain');
+            const userEmailEl = document.getElementById('userEmailMain');
+            const userAvatarEl = document.getElementById('userAvatarMain');
+            const mobileLoginBtn = document.getElementById('mobileLoginBtn');
+            const mobileUserBtn = document.getElementById('mobileUserBtn');
+            const mobileUserAvatar = document.getElementById('mobileUserAvatar');
+
+            if (user) {
+                if (loginBtn) loginBtn.style.display = 'none';
+                if (userBar) userBar.style.display = 'flex';
+                if (mobileLoginBtn) mobileLoginBtn.style.display = 'none';
+                if (mobileUserBtn) mobileUserBtn.style.display = 'flex';
+
+                if (userNameEl) userNameEl.textContent = user.displayName || 'User';
+                if (userEmailEl) userEmailEl.textContent = user.email || '';
+                if (userAvatarEl) userAvatarEl.src = user.photoURL || '';
+                if (mobileUserAvatar) mobileUserAvatar.src = user.photoURL || '';
+            } else {
+                if (userBar) userBar.style.display = 'none';
+                if (loginBtn) loginBtn.style.display = 'block';
+                if (mobileLoginBtn) mobileLoginBtn.style.display = 'flex';
+                if (mobileUserBtn) mobileUserBtn.style.display = 'none';
+            }
+        }
+
+        function uniqStrings(values, maxItems) {
+            const out = [];
+            const seen = new Set();
+            for (const value of Array.isArray(values) ? values : []) {
+                if (typeof value !== 'string' || seen.has(value)) continue;
+                seen.add(value);
+                out.push(value);
+                if (out.length >= maxItems) break;
+            }
+            return out;
+        }
+
+        function normalizeSongArray(values, maxItems) {
+            const out = [];
+            for (const song of Array.isArray(values) ? values : []) {
+                if (!song || typeof song !== 'object' || typeof song.file !== 'string') continue;
+                out.push({
+                    ...song,
+                    file: song.file,
+                    title: typeof song.title === 'string' ? song.title : '',
+                    poster: typeof song.poster === 'string' ? song.poster : '',
+                    artistName: typeof song.artistName === 'string' ? song.artistName : ''
+                });
+                if (out.length >= maxItems) break;
+            }
+            return out;
+        }
+
+        function normalizePlaylists(input) {
+            if (!input || typeof input !== 'object' || Array.isArray(input)) return {};
+            const out = {};
+            const entries = Object.entries(input).slice(0, 300);
+            for (const [id, pl] of entries) {
+                if (!pl || typeof pl !== 'object') continue;
+                const songs = normalizeSongArray(pl.songs, 500).map((s) => ({
+                    ...s,
+                    addedAt: typeof s.addedAt === 'number' ? s.addedAt : 0
+                }));
+                out[id] = {
+                    ...pl,
+                    name: typeof pl.name === 'string' ? pl.name : 'Playlist',
+                    songs
+                };
+            }
+            return out;
+        }
+
+        function normalizeCloudState(raw) {
+            return {
+                likedSongs: uniqStrings(raw?.likedSongs, MAX_LIKED),
+                playlists: normalizePlaylists(raw?.playlists),
+                recentlyPlayed: normalizeSongArray(raw?.recentlyPlayed, MAX_RECENT),
+                downloads: uniqStrings(raw?.downloads, MAX_DOWNLOADS),
+                queue: normalizeSongArray(raw?.queue, MAX_QUEUE)
+            };
+        }
+
+        function stableHash(value) {
+            try {
+                return JSON.stringify(value);
+            } catch (err) {
+                return '';
+            }
+        }
+
+        function getLocalState() {
+            if (typeof window.__getCloudStatePayload === 'function') {
+                return normalizeCloudState(window.__getCloudStatePayload());
+            }
+            return normalizeCloudState({});
+        }
+
+        function mergeStates(remote, local) {
+            const likedSongs = uniqStrings([...(remote.likedSongs || []), ...(local.likedSongs || [])], MAX_LIKED);
+            const downloads = uniqStrings([...(remote.downloads || []), ...(local.downloads || [])], MAX_DOWNLOADS);
+
+            const playlists = {
+                ...(local.playlists || {}),
+                ...(remote.playlists || {})
+            };
+
+            const recentlyPlayed = normalizeSongArray([
+                ...(remote.recentlyPlayed || []),
+                ...(local.recentlyPlayed || [])
+            ], MAX_RECENT);
+
+            const queue = normalizeSongArray(
+                (remote.queue && remote.queue.length) ? remote.queue : (local.queue || []),
+                MAX_QUEUE
+            );
+
+            return normalizeCloudState({
+                likedSongs,
+                playlists,
+                recentlyPlayed,
+                downloads,
+                queue
+            });
+        }
+
+        async function pushLocalStateToCloud(reason = 'local-change') {
+            if (!auth.currentUser || applyingRemote) return;
+
+            const payload = getLocalState();
+            const hash = stableHash(payload);
+            if (!hash || hash === lastUploadedHash) {
+                setSyncStatus('synced', 'Synced');
+                return;
+            }
+
+            setSyncStatus('syncing', 'Syncing...');
+            try {
+                const userRef = doc(db, 'users', auth.currentUser.uid);
+                await setDoc(userRef, {
+                    ...payload,
+                    profile: {
+                        displayName: auth.currentUser.displayName || '',
+                        email: auth.currentUser.email || '',
+                        photoURL: auth.currentUser.photoURL || ''
+                    },
+                    updatedAt: serverTimestamp(),
+                    lastSyncReason: reason
+                }, {
+                    merge: true
+                });
+                lastUploadedHash = hash;
+                setSyncStatus('synced', 'Synced');
+            } catch (err) {
+                console.error('Cloud sync write failed:', err);
+                setSyncStatus('offline', 'Sync failed');
+                if (typeof window.showToast === 'function') window.showToast('Cloud sync failed');
+            }
+        }
+
+        function scheduleSync(reason = 'local-change') {
+            if (!auth.currentUser || applyingRemote) return;
+            clearTimeout(syncTimer);
+            setSyncStatus('syncing', 'Syncing...');
+            syncTimer = setTimeout(() => {
+                pushLocalStateToCloud(reason);
+            }, 700);
+        }
+
+        window._onLocalStateChanged = (reason = 'local-change') => {
+            scheduleSync(reason);
+        };
+        window.forceCloudSync = () => pushLocalStateToCloud('manual');
+
+        window.signInWithGoogle = async () => {
+            if (authBusy) return;
+            setAuthButtonsBusy(true);
+            setSyncStatus('syncing', 'Signing in...');
+            try {
+                if (isMobileLike()) {
+                    await signInWithRedirect(auth, provider);
+                    return;
+                }
+                await signInWithPopup(auth, provider);
+            } catch (err) {
+                const code = err?.code || '';
+                if (POPUP_FALLBACK_CODES.has(code)) {
+                    await signInWithRedirect(auth, provider);
+                    return;
+                }
+                if (code === 'auth/popup-closed-by-user') {
+                    setSyncStatus('offline', 'Sign-in canceled');
+                    return;
+                }
+                console.error('Google sign-in failed:', err);
+                setSyncStatus('offline', 'Sign-in failed');
+                if (typeof window.showToast === 'function') window.showToast('Sign-in failed');
+            } finally {
+                setAuthButtonsBusy(false);
+            }
+        };
+
+        window.signOut = async () => {
+            if (authBusy) return;
+            setAuthButtonsBusy(true);
+            setSyncStatus('syncing', 'Signing out...');
+            try {
+                await fbSignOut(auth);
+                if (typeof window.showToast === 'function') window.showToast('Signed out');
+            } catch (err) {
+                console.error('Sign-out failed:', err);
+                setSyncStatus('offline', 'Sign-out failed');
+                if (typeof window.showToast === 'function') window.showToast('Sign-out failed');
+            } finally {
+                setAuthButtonsBusy(false);
+            }
+        };
+
+        try {
+            await setPersistence(auth, browserLocalPersistence);
+        } catch (err) {
+            console.error('Persistence setup failed:', err);
+        }
+
+        try {
+            await getRedirectResult(auth);
+        } catch (err) {
+            console.error('Redirect sign-in result error:', err);
+            if (typeof window.showToast === 'function') window.showToast('Sign-in redirect failed');
+        }
+
+        onAuthStateChanged(auth, (user) => {
+            if (unsubscribeUserDoc) {
+                unsubscribeUserDoc();
+                unsubscribeUserDoc = null;
+            }
+            clearTimeout(syncTimer);
+
+            updateAuthUI(user);
+
+            if (!user) {
+                lastUploadedHash = '';
+                lastAppliedRemoteHash = '';
+                setSyncStatus('offline', 'Offline');
+                return;
+            }
+
+            setSyncStatus('syncing', 'Loading...');
+            const userRef = doc(db, 'users', user.uid);
+
+            unsubscribeUserDoc = onSnapshot(userRef, async (snap) => {
+                try {
+                    const localState = getLocalState();
+
+                    if (!snap.exists()) {
+                        await pushLocalStateToCloud('bootstrap-create');
+                        return;
+                    }
+
+                    const remoteState = normalizeCloudState(snap.data());
+                    const mergedState = mergeStates(remoteState, localState);
+                    const remoteHash = stableHash(remoteState);
+                    const mergedHash = stableHash(mergedState);
+
+                    if (mergedHash && mergedHash !== lastAppliedRemoteHash) {
+                        applyingRemote = true;
+                        try {
+                            if (typeof window.__applyCloudState === 'function') {
+                                window.__applyCloudState(mergedState, {
+                                    source: 'cloud'
+                                });
+                            }
+                        } finally {
+                            applyingRemote = false;
+                        }
+                        lastAppliedRemoteHash = mergedHash;
+                        lastUploadedHash = mergedHash;
+                    }
+
+                    if (mergedHash && mergedHash !== remoteHash) {
+                        await pushLocalStateToCloud('merge');
+                    } else {
+                        setSyncStatus('synced', 'Synced');
+                    }
+                } catch (err) {
+                    applyingRemote = false;
+                    console.error('Cloud snapshot apply failed:', err);
+                    setSyncStatus('offline', 'Sync error');
+                }
+            }, (err) => {
+                console.error('Cloud snapshot listener failed:', err);
+                setSyncStatus('offline', 'Sync error');
+            });
+
+            scheduleSync('post-login');
+        });
     </script>
     <script>
         const finishSplash = () => document.body.classList.remove('loading');
@@ -5259,6 +5629,7 @@
 
         function saveDownloaded() {
             localStorage.setItem('falcon_downloaded', JSON.stringify([...downloadedFiles]));
+            if (typeof notifyCloudStateChange === 'function') notifyCloudStateChange('downloads');
         }
 
         function isDownloaded(f) {
@@ -5494,19 +5865,135 @@
         }
         loadState();
 
+        function notifyCloudStateChange(scope) {
+            if (typeof window._onLocalStateChanged === 'function') {
+                window._onLocalStateChanged(scope || 'local-change');
+            }
+        }
+
+        function sanitizeCloudPlaylists(input) {
+            if (!input || typeof input !== 'object' || Array.isArray(input)) return {};
+            const out = {};
+            for (const [id, pl] of Object.entries(input)) {
+                if (!pl || typeof pl !== 'object') continue;
+                const songs = Array.isArray(pl.songs) ? pl.songs.filter((s) => s && typeof s === 'object' && typeof s.file === 'string').map((s) => ({
+                    ...s,
+                    file: s.file,
+                    title: typeof s.title === 'string' ? s.title : '',
+                    poster: typeof s.poster === 'string' ? s.poster : '',
+                    artistName: typeof s.artistName === 'string' ? s.artistName : '',
+                    addedAt: typeof s.addedAt === 'number' ? s.addedAt : 0
+                })) : [];
+                out[id] = {
+                    ...pl,
+                    name: typeof pl.name === 'string' ? pl.name : 'Playlist',
+                    songs
+                };
+            }
+            return out;
+        }
+
+        function sanitizeCloudSongArray(items, maxItems = 40) {
+            if (!Array.isArray(items)) return [];
+            return items.filter((s) => s && typeof s === 'object' && typeof s.file === 'string').slice(0, maxItems).map((s) => ({
+                ...s,
+                file: s.file,
+                title: typeof s.title === 'string' ? s.title : '',
+                poster: typeof s.poster === 'string' ? s.poster : '',
+                artistName: typeof s.artistName === 'string' ? s.artistName : ''
+            }));
+        }
+
         function saveLiked() {
             localStorage.setItem('eq_liked', JSON.stringify([...likedSongs]));
-            if (window._saveToCloud) window._saveToCloud();
+            notifyCloudStateChange('likedSongs');
         }
 
         function savePlaylists() {
             localStorage.setItem('eq_playlists', JSON.stringify(playlists));
-            if (window._saveToCloud) window._saveToCloud();
+            notifyCloudStateChange('playlists');
         }
 
         function saveContinueListening() {
             localStorage.setItem('eq_continue_listening', JSON.stringify(continueListening));
+            notifyCloudStateChange('recentlyPlayed');
         }
+
+        function saveQueue() {
+            localStorage.setItem('eq_queue', JSON.stringify(queue));
+            notifyCloudStateChange('queue');
+        }
+
+        window.__getCloudStatePayload = () => ({
+            likedSongs: [...likedSongs],
+            playlists: sanitizeCloudPlaylists(playlists),
+            recentlyPlayed: sanitizeCloudSongArray(continueListening, 40),
+            downloads: [...downloadedFiles],
+            queue: sanitizeCloudSongArray(queue, 120)
+        });
+
+        window.__applyCloudState = (incoming = {}) => {
+            const safeLiked = Array.isArray(incoming.likedSongs) ? incoming.likedSongs.filter((f) => typeof f === 'string') : [];
+            const safeDownloads = Array.isArray(incoming.downloads) ? incoming.downloads.filter((f) => typeof f === 'string') : [];
+            const safePlaylists = sanitizeCloudPlaylists(incoming.playlists);
+            const safeRecent = sanitizeCloudSongArray(incoming.recentlyPlayed, 40);
+            const safeQueue = sanitizeCloudSongArray(incoming.queue, 120);
+
+            likedSongs = new Set(safeLiked);
+            playlists = safePlaylists;
+            continueListening = safeRecent;
+            downloadedFiles = new Set(safeDownloads);
+            queue = safeQueue;
+
+            localStorage.setItem('eq_liked', JSON.stringify([...likedSongs]));
+            localStorage.setItem('eq_playlists', JSON.stringify(playlists));
+            localStorage.setItem('eq_continue_listening', JSON.stringify(continueListening));
+            localStorage.setItem('falcon_downloaded', JSON.stringify([...downloadedFiles]));
+            localStorage.setItem('eq_queue', JSON.stringify(queue));
+
+            try {
+                refreshSongRows();
+            } catch (e) {}
+            try {
+                renderQueuePanel();
+            } catch (e) {}
+            try {
+                updateDpStats();
+            } catch (e) {}
+
+            if (currentSong) {
+                try {
+                    updatePlayerLikeBtn(currentSong.file);
+                } catch (e) {}
+                try {
+                    updatePlayerDlBtn();
+                } catch (e) {}
+                try {
+                    updateFullPlayerUI();
+                } catch (e) {}
+            }
+
+            const favTab = document.getElementById('navFav');
+            const playlistsTab = document.getElementById('navPlaylists');
+            const downloadsTab = document.getElementById('navDownloads');
+
+            if (favTab && favTab.classList.contains('active')) {
+                try {
+                    refreshLikedDisplay();
+                } catch (e) {}
+            }
+            if (playlistsTab && playlistsTab.classList.contains('active')) {
+                try {
+                    if (currentPlaylistId && playlists[currentPlaylistId]) openPlaylist(currentPlaylistId);
+                    else showPlaylists();
+                } catch (e) {}
+            }
+            if (downloadsTab && downloadsTab.classList.contains('active')) {
+                try {
+                    showDownloads();
+                } catch (e) {}
+            }
+        };
 
         function savePlaybackMemory() {
             if (!currentSong) return;
@@ -5762,7 +6249,7 @@
 
         function togglePlay() { if(audio.paused){audio.play();playBtn.innerHTML='&#9208;';document.getElementById('fsPlay').innerHTML='&#9208;';}else{audio.pause();playBtn.innerHTML='&#9654;';document.getElementById('fsPlay').innerHTML='&#9654;';savePlaybackMemory();} updateNowPlayingIndicator(); }
 
-        function next() { if(queue.length>0){const s=queue.shift();localStorage.setItem('eq_queue',JSON.stringify(queue));const previousSongFile=currentSong?currentSong.file:null; if(isRepeat&&previousSongFile&&previousSongFile!==s.file){isRepeat=false; localStorage.setItem('eq_repeat','false');} currentSong=s;const ak=Object.keys(artists).find(k=>artists[k].songs.some(x=>x.file===s.file));const an=ak?artists[ak].name:(s.artistName||'');posterEl.src=s.poster;playerTitle.textContent=s.title;playerArtist.textContent=an;updatePlayerLikeBtn(s.file);updatePlayerDlBtn();getAudioSrc('songs/'+s.file).then(src=>{audio.src=src;audio.play();playBtn.innerHTML='&#9208;';updateNowPlayingIndicator();});savePlaybackMemory();renderQueuePanel();syncPlaybackModeUI();updateNowPlayingIndicator();return;} if(!currentSongs.length)return; if(isShuffle){const recent=new Set(shuffleHistory.slice(-Math.min(shuffleHistory.length,Math.floor(currentSongs.length*.5))));const avail=currentSongs.map((_,i)=>i).filter(i=>!recent.has(currentSongs[i].file));currentIndex=avail.length>0?avail[Math.floor(Math.random()*avail.length)]:Math.floor(Math.random()*currentSongs.length);}else{currentIndex=(currentIndex+1)%currentSongs.length;} playSong(currentIndex,true); }
+        function next() { if(queue.length>0){const s=queue.shift();saveQueue();const previousSongFile=currentSong?currentSong.file:null; if(isRepeat&&previousSongFile&&previousSongFile!==s.file){isRepeat=false; localStorage.setItem('eq_repeat','false');} currentSong=s;const ak=Object.keys(artists).find(k=>artists[k].songs.some(x=>x.file===s.file));const an=ak?artists[ak].name:(s.artistName||'');posterEl.src=s.poster;playerTitle.textContent=s.title;playerArtist.textContent=an;updatePlayerLikeBtn(s.file);updatePlayerDlBtn();getAudioSrc('songs/'+s.file).then(src=>{audio.src=src;audio.play();playBtn.innerHTML='&#9208;';updateNowPlayingIndicator();});savePlaybackMemory();renderQueuePanel();syncPlaybackModeUI();updateNowPlayingIndicator();return;} if(!currentSongs.length)return; if(isShuffle){const recent=new Set(shuffleHistory.slice(-Math.min(shuffleHistory.length,Math.floor(currentSongs.length*.5))));const avail=currentSongs.map((_,i)=>i).filter(i=>!recent.has(currentSongs[i].file));currentIndex=avail.length>0?avail[Math.floor(Math.random()*avail.length)]:Math.floor(Math.random()*currentSongs.length);}else{currentIndex=(currentIndex+1)%currentSongs.length;} playSong(currentIndex,true); }
 
         function previous() { if(!currentSongs.length)return; if(audio.currentTime>3){audio.currentTime=0;return;} currentIndex=(currentIndex-1+currentSongs.length)%currentSongs.length; playSong(currentIndex,true); }
 
@@ -5835,7 +6322,7 @@
         window.addEventListener('touchend', endDrag);
 
         
-        function addToQueue(index) { const song=currentSongs[index]; if(!song)return; const artistKey=currentArtistKey||Object.keys(artists).find(k=>artists[k].songs===currentSongs); const artistName=artistKey?artists[artistKey].name:''; queue.push({...song,artistName}); localStorage.setItem('eq_queue',JSON.stringify(queue)); renderQueuePanel(); showToast('Added to queue'); }
+        function addToQueue(index) { const song=currentSongs[index]; if(!song)return; const artistKey=currentArtistKey||Object.keys(artists).find(k=>artists[k].songs===currentSongs); const artistName=artistKey?artists[artistKey].name:''; queue.push({...song,artistName}); saveQueue(); renderQueuePanel(); showToast('Added to queue'); }
 
         function syncPlaybackModeUI() {
             const shuffleBtn = document.getElementById('shuffleBtn');
@@ -5856,9 +6343,9 @@
 
         function renderQueuePanel() { const body=document.getElementById('queuePanelBody'); if(!body)return; let html=''; if(currentSong){html+=`<div class="qp-section">Now Playing</div><div class="qp-item"><img src="${escH(currentSong.poster)}" onerror="this.style.background='#282828'"><div class="qp-item-info"><div class="qp-item-title" style="color:var(--accent)">${escH(currentSong.title)}</div><div class="qp-item-artist">${escH(playerArtist.textContent)}</div></div></div>`;} if(queue.length>0){html+=`<div class="qp-section" style="margin-top:7px">Up Next (${queue.length})</div>`;queue.forEach((s,i)=>{html+=`<div class="qp-item" onclick="playFromQueue(${i})"><img src="${escH(s.poster)}" onerror="this.style.background='#282828'"><div class="qp-item-info"><div class="qp-item-title">${escH(s.title)}</div><div class="qp-item-artist">${escH(s.artistName||'')}</div></div><button class="qp-item-rm" onclick="event.stopPropagation();removeFromQueue(${i})">&#10005;</button></div>`;});html+=`<div style="padding:8px 14px"><button onclick="clearQueue()" style="background:none;border:1px solid rgba(255,85,85,.2);color:rgba(255,85,85,.6);font-family:'Circular Std','Circular','Spotify Mix','Nunito Sans','Helvetica Neue',Helvetica,Arial,sans-serif;font-size:.72rem;cursor:pointer;padding:5px 12px;border-radius:500px;width:100%">Clear Queue</button></div>`;} if(currentSong&&currentArtistKey&&currentSongs.length>1){const nl=currentSongs.slice(currentIndex+1,currentIndex+5);if(nl.length>0){html+=`<div class="qp-section" style="margin-top:7px">Next from ${escH(currentArtistKey&&artists[currentArtistKey]?artists[currentArtistKey].name:'')}</div>`;nl.forEach((s,i)=>{html+=`<div class="qp-item" onclick="playSong(${currentIndex+1+i},true)"><img src="${escH(s.poster)}" onerror="this.style.background='#282828'"><div class="qp-item-info"><div class="qp-item-title">${escH(s.title)}</div><div class="qp-item-artist">${escH(currentArtistKey&&artists[currentArtistKey]?artists[currentArtistKey].name:'')}</div></div></div>`;});}} if(!currentSong&&!queue.length){html=`<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:50px 20px;color:var(--text2);gap:10px;font-size:.85rem"><div style="font-size:2.5rem;opacity:.3">&#9776;</div><p>Your queue is empty</p></div>`;} body.innerHTML=html; }
 
-        window.playFromQueue = (i) => { if(!queue[i])return; const songs=queue.splice(0,i+1); const s=songs[songs.length-1]; localStorage.setItem('eq_queue',JSON.stringify(queue)); const previousSongFile=currentSong?currentSong.file:null; if(isRepeat&&previousSongFile&&previousSongFile!==s.file){isRepeat=false; localStorage.setItem('eq_repeat','false');} currentSong=s; const ak=Object.keys(artists).find(k=>artists[k].songs.some(x=>x.file===s.file)); const an=ak?artists[ak].name:(s.artistName||''); posterEl.src=s.poster; playerTitle.textContent=s.title; playerArtist.textContent=an; updatePlayerLikeBtn(s.file); updatePlayerDlBtn(); getAudioSrc('songs/'+s.file).then(src=>{audio.src=src;audio.play();playBtn.innerHTML='&#9208;';updateNowPlayingIndicator();}); savePlaybackMemory(); renderQueuePanel(); syncPlaybackModeUI(); updateNowPlayingIndicator(); };
-        window.removeFromQueue = (i) => { queue.splice(i,1); localStorage.setItem('eq_queue',JSON.stringify(queue)); renderQueuePanel(); showToast('Removed from queue'); };
-        window.clearQueue = () => { queue=[]; localStorage.setItem('eq_queue',JSON.stringify(queue)); renderQueuePanel(); showToast('Queue cleared'); };
+        window.playFromQueue = (i) => { if(!queue[i])return; const songs=queue.splice(0,i+1); const s=songs[songs.length-1]; saveQueue(); const previousSongFile=currentSong?currentSong.file:null; if(isRepeat&&previousSongFile&&previousSongFile!==s.file){isRepeat=false; localStorage.setItem('eq_repeat','false');} currentSong=s; const ak=Object.keys(artists).find(k=>artists[k].songs.some(x=>x.file===s.file)); const an=ak?artists[ak].name:(s.artistName||''); posterEl.src=s.poster; playerTitle.textContent=s.title; playerArtist.textContent=an; updatePlayerLikeBtn(s.file); updatePlayerDlBtn(); getAudioSrc('songs/'+s.file).then(src=>{audio.src=src;audio.play();playBtn.innerHTML='&#9208;';updateNowPlayingIndicator();}); savePlaybackMemory(); renderQueuePanel(); syncPlaybackModeUI(); updateNowPlayingIndicator(); };
+        window.removeFromQueue = (i) => { queue.splice(i,1); saveQueue(); renderQueuePanel(); showToast('Removed from queue'); };
+        window.clearQueue = () => { queue=[]; saveQueue(); renderQueuePanel(); showToast('Queue cleared'); };
 
         
         function toggleLike(fileId,rowIndex) { if(likedSongs.has(fileId))likedSongs.delete(fileId); else likedSongs.add(fileId); saveLiked(); if(rowIndex!==undefined)refreshSongRows(); updatePlayerLikeBtn(fileId); }
@@ -6016,7 +6503,7 @@
         function showToast(msg) { const t=document.getElementById('toast'); t.textContent=msg; t.style.opacity='1'; clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.style.opacity='0',2200); }
 
     
-        const _origSignIn = window.signInWithGoogle;
+        
       
         function syncMobileAuthUI(isLoggedIn, user) {
             const mobileLoginBtn = document.getElementById('mobileLoginBtn');
