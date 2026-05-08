@@ -2737,6 +2737,19 @@
         }
         
         @media (min-width: 769px) {
+            @media (max-width: 380px) {
+                .player-song-title {
+                    font-size: 0.78rem;
+                }
+                .player-song-artist {
+                    font-size: 0.64rem;
+                }
+                .player-like,
+                .player-dl-btn {
+                    width: 30px;
+                    height: 30px;
+                }
+            }
             .now-playing-bar,
             .now-playing-indicator {
                 display: none !important;
@@ -3129,10 +3142,15 @@
             }
             .player-song-main {
                 min-width: 0;
+                width: 100%;
+                max-width: 100%;
                 display: flex;
                 flex-direction: column;
+                justify-content: center;
+                align-items: flex-start;
                 gap: 2px;
                 overflow: hidden;
+                padding-right: 2px;
             }
             .player-poster {
                 width: 42px;
@@ -3141,27 +3159,30 @@
                 flex-shrink: 0;
             }
             .player-song-title {
-                max-width: none;
-                font-size: 0.84rem;
-                line-height: 1.2;
+                display: block;
+                width: 100%;
+                max-width: 100%;
+                font-size: 0.82rem;
+                font-weight: 700;
+                line-height: 1.18;
+                color: var(--text);
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
             }
             .player-song-artist {
                 display: block;
-                font-size: 0.7rem;
-                line-height: 1.2;
+                width: 100%;
+                max-width: 100%;
+                font-size: 0.68rem;
+                line-height: 1.18;
                 color: var(--text2);
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
             }
             .player-song-meta {
-                margin-top: 1px;
-                display: flex;
-                align-items: center;
-                gap: 6px;
+                display: none;
             }
             .offline-badge {
                 font-size: 0.52rem;
@@ -3172,6 +3193,7 @@
                 align-items: center;
                 gap: 4px;
                 flex-shrink: 0;
+                margin-left: 2px;
             }
             .player-like,
             .player-dl-btn {
@@ -3291,6 +3313,19 @@
             .progress-track:active .progress-fill::after,
             .progress-track.dragging .progress-fill::after {
                 transform: translateY(-50%) scale(1.12);
+            }
+            @media (max-width: 380px) {
+                .player-song-title {
+                    font-size: 0.78rem;
+                }
+                .player-song-artist {
+                    font-size: 0.64rem;
+                }
+                .player-like,
+                .player-dl-btn {
+                    width: 30px;
+                    height: 30px;
+                }
             }
             .now-playing-bar,
             .now-playing-indicator {
