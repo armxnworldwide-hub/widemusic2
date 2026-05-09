@@ -4080,7 +4080,8 @@
         @media (max-width: 768px) {
              :root {
                 --mobile-nav-h: 64px;
-                --mobile-player-h: 106px;
+                --mobile-player-h: 148px;
+                --player-h: var(--mobile-player-h);
                 --mobile-bottom-stack: calc(var(--mobile-nav-h) + var(--mobile-player-h) + var(--safe-bottom) + 16px);
             }
             body {
@@ -4100,6 +4101,84 @@
             .playlists-wrap,
             .playlist-song-list {
                 padding-bottom: 18px !important;
+            }
+            .main-topbar {
+                padding: 8px 10px;
+                gap: 8px;
+            }
+            .continue-strip {
+                padding: 10px 10px 8px;
+                border-bottom: 1px solid rgba(255, 255, 255, .06);
+            }
+            .continue-label {
+                font-size: .62rem;
+                letter-spacing: 1.2px;
+                margin-bottom: 8px;
+            }
+            .continue-scroll {
+                gap: 6px;
+                padding-bottom: 4px;
+                scroll-snap-type: x proximity;
+            }
+            .continue-card {
+                width: 102px;
+                border-radius: 10px;
+                background: rgba(255, 255, 255, .04);
+                border: 1px solid rgba(255, 255, 255, .06);
+                scroll-snap-align: start;
+            }
+            .continue-card img {
+                height: 58px;
+            }
+            .continue-card-info {
+                padding: 6px 6px 7px;
+                gap: 2px;
+            }
+            .continue-card-title {
+                font-size: .64rem;
+                letter-spacing: .1px;
+                line-height: 1.2;
+            }
+            .continue-card-artist {
+                font-size: .56rem;
+                line-height: 1.2;
+            }
+            .section-header {
+                padding: 10px 10px 8px;
+            }
+            .section-title {
+                font-size: 1.04rem;
+                letter-spacing: -.15px;
+            }
+            .artists-grid {
+                grid-template-columns: repeat(4, minmax(0, 1fr));
+                padding: 0 10px 12px;
+                gap: 6px;
+            }
+            .artist-card {
+                padding: 8px 7px 7px;
+                border-radius: 10px;
+            }
+            .artist-card-img-wrap {
+                margin-bottom: 6px;
+            }
+            .artist-card img {
+                box-shadow: 0 5px 12px rgba(0, 0, 0, .38);
+            }
+            .artist-card-name {
+                font-size: .7rem;
+                line-height: 1.12;
+                margin-bottom: 1px;
+            }
+            .artist-card-count {
+                font-size: .58rem;
+                line-height: 1.12;
+            }
+            .card-play-btn {
+                width: 30px;
+                height: 30px;
+                font-size: .65rem;
+                bottom: -1px;
             }
             .mobile-nav {
                 height: var(--mobile-nav-h);
@@ -4129,57 +4208,212 @@
             .player {
                 bottom: calc(var(--mobile-nav-h) + var(--safe-bottom));
                 height: var(--mobile-player-h);
-                padding: 8px 12px 9px;
-                gap: 6px;
-                background: linear-gradient(180deg, rgba(24, 24, 24, .96), rgba(12, 12, 12, .98));
-                border-top: 1px solid rgba(255, 255, 255, .08);
-                backdrop-filter: blur(12px);
-                -webkit-backdrop-filter: blur(12px);
-                box-shadow: 0 -10px 26px rgba(0, 0, 0, .45);
+                padding: 10px 12px 10px;
+                display: grid;
+                grid-template-columns: 1fr;
+                grid-template-rows: auto auto;
+                align-content: start;
+                gap: 8px;
+                background: linear-gradient(180deg, rgba(24, 24, 24, .95), rgba(10, 10, 10, .98));
+                border-top: 1px solid rgba(255, 255, 255, .09);
+                backdrop-filter: blur(14px);
+                -webkit-backdrop-filter: blur(14px);
+                box-shadow: 0 -14px 30px rgba(0, 0, 0, .5), 0 -1px 0 rgba(200, 245, 66, .09);
+                overflow: hidden;
+            }
+            .player::before {
+                content: '';
+                position: absolute;
+                left: 18%;
+                right: 18%;
+                top: -30px;
+                height: 54px;
+                background: radial-gradient(circle at center, rgba(200, 245, 66, .2), rgba(200, 245, 66, 0));
+                pointer-events: none;
+                opacity: .45;
+            }
+            .player>* {
+                min-width: 0;
             }
             .player-song {
-                min-height: 40px;
-                gap: 9px;
+                width: 100%;
+                min-height: 44px;
+                gap: 10px;
+                padding: 0;
+                display: grid;
+                grid-template-columns: auto minmax(0, 1fr) auto;
+                align-items: center;
+                overflow: hidden;
+                position: relative;
+                z-index: 2;
+            }
+            .player-song-main {
+                min-width: 0;
+                max-width: 100%;
+                overflow: hidden;
+                display: flex;
+                flex-direction: column;
+                gap: 2px;
+                padding-right: 4px;
             }
             .player-poster {
-                width: 40px;
-                height: 40px;
-                border-radius: 8px;
+                width: 42px;
+                height: 42px;
+                border-radius: 9px;
+                object-fit: cover;
+                flex-shrink: 0;
             }
             .player-song-title {
-                font-size: .8rem;
+                font-size: .82rem;
+                font-weight: 700;
+                line-height: 1.18;
+                width: 100%;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
             .player-song-artist {
                 font-size: .67rem;
+                line-height: 1.16;
+                width: 100%;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                color: var(--text2);
             }
-            .player-controls {
-                gap: 3px;
+            .player-mobile-actions {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                margin-left: 0;
+                flex-shrink: 0;
             }
-            .ctrl-btn,
-            .queue-btn-player,
             .player-like,
             .player-dl-btn {
                 width: 34px;
                 height: 34px;
+                border-radius: 50%;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                font-size: .92rem;
+            }
+            .player-center {
+                width: 100%;
+                display: grid;
+                grid-template-rows: auto auto;
+                gap: 8px;
+                align-items: stretch;
+                position: relative;
+                z-index: 2;
+            }
+            .player-controls {
+                width: 100%;
+                display: grid;
+                grid-template-columns: repeat(5, minmax(0, auto));
+                justify-content: center;
+                align-items: center;
+                column-gap: 9px;
+                row-gap: 0;
+                position: relative;
+            }
+            #shuffleBtn,
+            #repeatBtn {
+                display: inline-flex;
+            }
+            .ctrl-btn {
+                width: 36px;
+                height: 36px;
+                font-size: .96rem;
+                padding: 0;
+                border-radius: 50%;
+            }
+            .ctrl-btn.on {
+                color: var(--accent);
+                background: rgba(200, 245, 66, .14);
+                box-shadow: inset 0 0 0 1px rgba(200, 245, 66, .28), 0 0 12px rgba(200, 245, 66, .22);
+            }
+            .ctrl-btn:active {
+                transform: scale(.94);
             }
             .play-btn {
-                width: 42px;
-                height: 42px;
-                font-size: 1.05rem;
+                width: 44px;
+                height: 44px;
+                font-size: 1.08rem;
+                box-shadow: 0 8px 18px rgba(200, 245, 66, .28);
+            }
+            .queue-btn-player {
+                position: absolute;
+                right: 0;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 32px;
+                height: 32px;
+                border-radius: 10px;
+                padding: 0;
+                font-size: .78rem;
+                background: rgba(255, 255, 255, .05);
+                border-color: rgba(255, 255, 255, .2);
             }
             .player-progress {
-                gap: 6px;
+                width: 100%;
+                max-width: none;
+                margin: 0;
+                display: grid;
+                grid-template-columns: minmax(30px, max-content) 1fr minmax(30px, max-content);
+                align-items: center;
+                column-gap: 8px;
+                row-gap: 0;
+                padding: 1px 0 0;
             }
             .time-label {
-                min-width: 32px;
+                min-width: 30px;
+                font-size: .62rem;
+                letter-spacing: .18px;
+                color: var(--muted2);
+                opacity: .86;
             }
             .progress-track {
+                width: 100%;
                 height: 5px;
+                border-radius: 999px;
+                background: rgba(255, 255, 255, .18);
+                position: relative;
+                overflow: visible;
+                touch-action: none;
+                user-select: none;
+                -webkit-user-select: none;
+                transition: height .16s ease, background .2s ease;
+            }
+            .progress-track::before {
+                content: '';
+                position: absolute;
+                left: 0;
+                right: 0;
+                top: -12px;
+                bottom: -12px;
+            }
+            .progress-track:active,
+            .progress-track.dragging {
+                height: 6px;
+                background: rgba(255, 255, 255, .28);
+            }
+            .progress-fill {
+                height: 100%;
+                width: 0%;
+                border-radius: 999px;
+                background: var(--accent);
+                position: relative;
+                transition: width .12s linear;
+            }
+            .progress-track.dragging .progress-fill {
+                transition: none;
             }
             .progress-fill::after {
                 width: 9px;
                 height: 9px;
                 right: -4px;
+                box-shadow: 0 0 0 2px rgba(200, 245, 66, .36), 0 2px 7px rgba(0, 0, 0, .45);
             }
             .playlist-page-header {
                 position: relative;
@@ -4634,7 +4868,108 @@
 
         @media (max-width: 480px) {
              :root {
-                --mobile-player-h: 102px;
+                --mobile-player-h: 138px;
+            }
+            .main-topbar {
+                padding: 8px 9px;
+            }
+            .continue-strip {
+                padding: 9px 9px 7px;
+            }
+            .continue-label {
+                font-size: .6rem;
+                margin-bottom: 7px;
+            }
+            .continue-scroll {
+                gap: 5px;
+            }
+            .continue-card {
+                width: 92px;
+                border-radius: 9px;
+            }
+            .continue-card img {
+                height: 52px;
+            }
+            .continue-card-info {
+                padding: 5px 5px 6px;
+            }
+            .continue-card-title {
+                font-size: .6rem;
+            }
+            .continue-card-artist {
+                font-size: .53rem;
+            }
+            .section-header {
+                padding: 9px 9px 7px;
+            }
+            .section-title {
+                font-size: .96rem;
+            }
+            .artists-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                padding: 0 9px 10px;
+                gap: 6px;
+            }
+            .artist-card {
+                padding: 7px 6px 6px;
+            }
+            .artist-card-name {
+                font-size: .68rem;
+            }
+            .artist-card-count {
+                font-size: .56rem;
+            }
+            .card-play-btn {
+                width: 28px;
+                height: 28px;
+                font-size: .62rem;
+            }
+            .player {
+                padding: 9px 10px 9px;
+                gap: 7px;
+            }
+            .player-song {
+                min-height: 42px;
+                gap: 8px;
+            }
+            .player-poster {
+                width: 40px;
+                height: 40px;
+            }
+            .player-song-title {
+                font-size: .79rem;
+            }
+            .player-song-artist {
+                font-size: .65rem;
+            }
+            .player-like,
+            .player-dl-btn {
+                width: 32px;
+                height: 32px;
+            }
+            .player-controls {
+                column-gap: 8px;
+            }
+            .ctrl-btn {
+                width: 34px;
+                height: 34px;
+            }
+            .play-btn {
+                width: 42px;
+                height: 42px;
+            }
+            .queue-btn-player {
+                width: 30px;
+                height: 30px;
+                right: 0;
+            }
+            .player-progress {
+                grid-template-columns: minmax(28px, max-content) 1fr minmax(28px, max-content);
+                column-gap: 7px;
+            }
+            .time-label {
+                min-width: 28px;
+                font-size: .6rem;
             }
             .playlist-page-header {
                 margin: 8px 8px 0;
@@ -4694,7 +5029,60 @@
         @media (max-width: 390px) {
              :root {
                 --mobile-nav-h: 62px;
-                --mobile-player-h: 100px;
+                --mobile-player-h: 130px;
+            }
+            .continue-strip {
+                padding: 8px 8px 7px;
+            }
+            .continue-card {
+                width: 86px;
+            }
+            .continue-card img {
+                height: 49px;
+            }
+            .continue-card-title {
+                font-size: .58rem;
+            }
+            .continue-card-artist {
+                font-size: .51rem;
+            }
+            .section-header {
+                padding: 8px 8px 6px;
+            }
+            .section-title {
+                font-size: .92rem;
+            }
+            .artists-grid {
+                padding: 0 8px 9px;
+                gap: 5px;
+            }
+            .artist-card {
+                padding: 6px 5px 6px;
+                border-radius: 9px;
+            }
+            .artist-card-name {
+                font-size: .65rem;
+            }
+            .artist-card-count {
+                font-size: .54rem;
+            }
+            .card-play-btn {
+                width: 26px;
+                height: 26px;
+                font-size: .58rem;
+            }
+            .player {
+                padding: 8px 9px 8px;
+                gap: 6px;
+            }
+            .player-song {
+                min-height: 40px;
+                gap: 7px;
+            }
+            .player-poster {
+                width: 38px;
+                height: 38px;
+                border-radius: 8px;
             }
             .playlist-page-title {
                 font-size: 1.12rem;
@@ -4727,6 +5115,19 @@
                 min-width: 28px;
                 font-size: .6rem;
             }
+            .player-controls {
+                column-gap: 7px;
+            }
+            .queue-btn-player {
+                width: 28px;
+                height: 28px;
+                border-radius: 9px;
+                right: 0;
+            }
+            .player-progress {
+                grid-template-columns: minmax(26px, max-content) 1fr minmax(26px, max-content);
+                column-gap: 6px;
+            }
             .ps-text h4 {
                 font-size: .79rem;
             }
@@ -4756,6 +5157,117 @@
             .fav-sort-trigger {
                 font-size: .74rem;
                 padding: 10px 12px;
+            }
+        }
+
+        @media (max-width: 360px) {
+             :root {
+                --mobile-player-h: 124px;
+            }
+            .main-topbar {
+                padding: 7px 8px;
+            }
+            .continue-strip {
+                padding: 7px 8px 6px;
+            }
+            .continue-label {
+                font-size: .58rem;
+                margin-bottom: 6px;
+                letter-spacing: 1px;
+            }
+            .continue-card {
+                width: 80px;
+            }
+            .continue-card img {
+                height: 46px;
+            }
+            .continue-card-info {
+                padding: 4px 5px 5px;
+            }
+            .continue-card-title {
+                font-size: .56rem;
+            }
+            .continue-card-artist {
+                font-size: .5rem;
+            }
+            .section-header {
+                padding: 7px 8px 6px;
+            }
+            .section-title {
+                font-size: .86rem;
+            }
+            .artists-grid {
+                padding: 0 8px 8px;
+                gap: 5px;
+            }
+            .artist-card {
+                padding: 6px 5px 5px;
+            }
+            .artist-card-name {
+                font-size: .62rem;
+            }
+            .artist-card-count {
+                font-size: .52rem;
+            }
+            .card-play-btn {
+                width: 24px;
+                height: 24px;
+                font-size: .54rem;
+            }
+            .player {
+                padding: 8px 8px 7px;
+                gap: 5px;
+            }
+            .player-song {
+                min-height: 38px;
+                gap: 6px;
+            }
+            .player-poster {
+                width: 36px;
+                height: 36px;
+            }
+            .player-song-title {
+                font-size: .74rem;
+            }
+            .player-song-artist {
+                font-size: .61rem;
+            }
+            .player-like,
+            .player-dl-btn {
+                width: 30px;
+                height: 30px;
+                font-size: .84rem;
+            }
+            .ctrl-btn {
+                width: 32px;
+                height: 32px;
+            }
+            .play-btn {
+                width: 38px;
+                height: 38px;
+            }
+            .queue-btn-player {
+                width: 26px;
+                height: 26px;
+                font-size: .7rem;
+            }
+            .player-controls {
+                column-gap: 6px;
+            }
+            .time-label {
+                min-width: 24px;
+                font-size: .56rem;
+            }
+            .progress-track {
+                height: 4px;
+            }
+            .progress-track:active,
+            .progress-track.dragging {
+                height: 5px;
+            }
+            .progress-fill::after {
+                width: 8px;
+                height: 8px;
             }
         }
 
