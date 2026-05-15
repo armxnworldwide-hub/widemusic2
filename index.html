@@ -5587,13 +5587,18 @@
         const app=initializeApp(firebaseConfig); const auth=getAuth(app); const db=getFirestore(app); await setPersistence(auth,browserLocalPersistence); await getRedirectResult(auth); window.signInWithGoogle=async()=>{ const provider=new GoogleAuthProvider();
         try{await signInWithPopup(auth,provider);}catch(err){await signInWithRedirect(auth,provider);} }; window.signOut=async()=>{await fbSignOut(auth);}; window._saveToCloud=async()=>{ if(!auth.currentUser)return; const ref=doc(db,"users",auth.currentUser.uid);
         await setDoc(ref,{likedSongs:Array.from(likedSongs),playlists:playlists},{merge:true}); }; async function loadUserData(){ if(!auth.currentUser)return; const snap=await getDoc(doc(db,"users",auth.currentUser.uid)); if(snap.exists()){ const data=snap.data();
-        if(data.likedSongs){likedSongs=new Set(data.likedSongs);} if(data.playlists){ playlists={...playlists}; for(const id in data.playlists){ if(!playlists[id]){playlists[id]=data.playlists[id];} else{playlists[id]={...playlists[id],...data.playlists[id]};}
-        } localStorage.setItem('eq_playlists',JSON.stringify(playlists)); } } } onAuthStateChanged(auth,async user=>{ const loginBtn=document.getElementById("loginBtn"); const userBar=document.getElementById("userBar"); const syncDot=document.getElementById("syncDot");
-        const syncLabel=document.getElementById("syncLabel"); const userNameEl=document.getElementById("userDisplayNameMain"); const userEmailEl=document.getElementById("userEmailMain"); const userAvatarEl=document.getElementById("userAvatarMain"); const
-        mobileLoginBtn=document.getElementById("mobileLoginBtn"); const mobileUserBtn=document.getElementById("mobileUserBtn"); const mobileUserAvatar=document.getElementById("mobileUserAvatar"); if(user){ loginBtn.style.display="none"; userBar.style.display="flex";
-        if(userNameEl)userNameEl.textContent=user.displayName||"User"; if(userEmailEl)userEmailEl.textContent=user.email||""; if(userAvatarEl)userAvatarEl.src=user.photoURL||""; if(mobileLoginBtn)mobileLoginBtn.style.display="none"; if(mobileUserBtn)mobileUserBtn.style.display="flex";
-        if(mobileUserAvatar)mobileUserAvatar.src=user.photoURL||""; syncDot.className="sync-dot syncing"; syncLabel.textContent="Syncing…"; await loadUserData(); syncDot.className="sync-dot synced"; syncLabel.textContent="Synced"; }else{ userBar.style.display="none";
-        if(loginBtn)loginBtn.style.display="block"; if(mobileLoginBtn)mobileLoginBtn.style.display="flex"; if(mobileUserBtn)mobileUserBtn.style.display="none"; syncDot.className="sync-dot"; syncLabel.textContent="Offline"; } });
+        const cloudLiked=Array.isArray(data.likedSongs)?data.likedSongs.filter((f)=>typeof f==="string"):[]; cloudLiked.forEach((f)=>likedSongs.add(f)); if(data.playlists&&typeof data.playlists==="object"){ for(const id in data.playlists){ const incoming=data.playlists[id];
+        if(!incoming||typeof incoming!=="object")continue; const incomingSongs=Array.isArray(incoming.songs)?incoming.songs.filter((s)=>s&&typeof s==="object"&&typeof s.file==="string").map((s)=>({ ...s,file:s.file,title:typeof s.title==="string"?s.title:"",
+        poster:typeof s.poster==="string"?s.poster:"",artistName:typeof s.artistName==="string"?s.artistName:"",addedAt:typeof s.addedAt==="number"?s.addedAt:0 })):[]; if(!playlists[id]){ playlists[id]={...incoming,name:typeof incoming.name==="string"?incoming.name:"Playlist",
+        songs:incomingSongs}; continue; } const localSongs=Array.isArray(playlists[id].songs)?playlists[id].songs:[]; const seen=new Set(localSongs.map((s)=>s&&s.file).filter((f)=>typeof f==="string")); const mergedSongs=[...localSongs]; incomingSongs.forEach((s)=>{
+        if(!seen.has(s.file)){ seen.add(s.file); mergedSongs.push(s); } }); playlists[id]={...incoming,...playlists[id],name:typeof playlists[id].name==="string"&&playlists[id].name?playlists[id].name:(typeof incoming.name==="string"?incoming.name:"Playlist"),songs:mergedSongs};
+        } } if(typeof saveAppData==="function"){ saveAppData(); } else{ localStorage.setItem("eq_liked",JSON.stringify([...likedSongs])); localStorage.setItem("eq_playlists",JSON.stringify(playlists)); } try{ if(typeof refreshVisibleSongLists==="function")refreshVisibleSongLists();
+        }catch(e){} } } onAuthStateChanged(auth,async user=>{ const loginBtn=document.getElementById("loginBtn"); const userBar=document.getElementById("userBar"); const syncDot=document.getElementById("syncDot"); const syncLabel=document.getElementById("syncLabel");
+        const userNameEl=document.getElementById("userDisplayNameMain"); const userEmailEl=document.getElementById("userEmailMain"); const userAvatarEl=document.getElementById("userAvatarMain"); const mobileLoginBtn=document.getElementById("mobileLoginBtn");
+        const mobileUserBtn=document.getElementById("mobileUserBtn"); const mobileUserAvatar=document.getElementById("mobileUserAvatar"); if(user){ loginBtn.style.display="none"; userBar.style.display="flex"; if(userNameEl)userNameEl.textContent=user.displayName||"User";
+        if(userEmailEl)userEmailEl.textContent=user.email||""; if(userAvatarEl)userAvatarEl.src=user.photoURL||""; if(mobileLoginBtn)mobileLoginBtn.style.display="none"; if(mobileUserBtn)mobileUserBtn.style.display="flex"; if(mobileUserAvatar)mobileUserAvatar.src=user.photoURL||"";
+        syncDot.className="sync-dot syncing"; syncLabel.textContent="Syncing…"; await loadUserData(); syncDot.className="sync-dot synced"; syncLabel.textContent="Synced"; }else{ userBar.style.display="none"; if(loginBtn)loginBtn.style.display="block";
+        if(mobileLoginBtn)mobileLoginBtn.style.display="flex"; if(mobileUserBtn)mobileUserBtn.style.display="none"; syncDot.className="sync-dot"; syncLabel.textContent="Offline"; } });
     </script>
     <script>
         const finishSplash = () => document.body.classList.remove('loading');
@@ -7409,17 +7414,61 @@
             currentPlaylistViewSongs = [];
         let currentFavSortType = localStorage.getItem('eq_fav_sort') || 'default';
         let songPlayCounts = {};
+        const APP_DATA_STORAGE_KEY = 'eq_app_data_v1';
 
-        function loadState() {
+        function loadAppData() {
+            let loadedFromCombinedState = false;
             try {
-                likedSongs = new Set(JSON.parse(localStorage.getItem('eq_liked') || '[]'));
-            } catch (e) {}
-            try {
-                const meta = JSON.parse(localStorage.getItem('eq_liked_meta') || '{}');
-                if (meta && typeof meta === 'object' && !Array.isArray(meta)) {
-                    likedSongMeta = Object.fromEntries(Object.entries(meta).filter(([k, v]) => typeof k === 'string' && Number.isFinite(v) && v > 0).map(([k, v]) => [k, Math.floor(v)]));
+                const appStateRaw = localStorage.getItem(APP_DATA_STORAGE_KEY);
+                const appState = appStateRaw ? JSON.parse(appStateRaw) : null;
+                if (appState && typeof appState === 'object' && !Array.isArray(appState)) {
+                    const savedLiked = Array.isArray(appState.likedSongs) ? appState.likedSongs.filter((f) => typeof f === 'string') : [];
+                    likedSongs = new Set(savedLiked);
+                    playlists = sanitizeCloudPlaylists(appState.playlists);
+                    queue = sanitizeCloudSongArray(appState.queue, 120);
+                    continueListening = sanitizeCloudSongArray(appState.recentlyPlayed, 40);
+                    shuffleHistory = Array.isArray(appState.shuffleHistory) ? appState.shuffleHistory.filter((f) => typeof f === 'string').slice(-80) : [];
+                    const meta = appState.likedSongMeta;
+                    likedSongMeta = meta && typeof meta === 'object' && !Array.isArray(meta) ? Object.fromEntries(Object.entries(meta).filter(([k, v]) => typeof k === 'string' && Number.isFinite(v) && v > 0).map(([k, v]) => [k, Math.floor(v)])) : {};
+                    const counts = appState.songPlayCounts;
+                    if (counts && typeof counts === 'object' && !Array.isArray(counts)) {
+                        songPlayCounts = Object.fromEntries(Object.entries(counts).filter(([k, v]) => typeof k === 'string' && Number.isFinite(v) && v >= 0).map(([k, v]) => [k, Math.floor(v)]));
+                    }
+                    loadedFromCombinedState = true;
                 }
             } catch (e) {}
+
+            if (!loadedFromCombinedState) {
+                try {
+                    likedSongs = new Set(JSON.parse(localStorage.getItem('eq_liked') || '[]'));
+                } catch (e) {}
+                try {
+                    const meta = JSON.parse(localStorage.getItem('eq_liked_meta') || '{}');
+                    if (meta && typeof meta === 'object' && !Array.isArray(meta)) {
+                        likedSongMeta = Object.fromEntries(Object.entries(meta).filter(([k, v]) => typeof k === 'string' && Number.isFinite(v) && v > 0).map(([k, v]) => [k, Math.floor(v)]));
+                    }
+                } catch (e) {}
+                try {
+                    playlists = sanitizeCloudPlaylists(JSON.parse(localStorage.getItem('eq_playlists') || '{}'));
+                } catch (e) {}
+                try {
+                    queue = sanitizeCloudSongArray(JSON.parse(localStorage.getItem('eq_queue') || '[]'), 120);
+                } catch (e) {}
+                try {
+                    shuffleHistory = JSON.parse(localStorage.getItem('eq_shuffle_history') || '[]');
+                    if (!Array.isArray(shuffleHistory)) shuffleHistory = [];
+                } catch (e) {}
+                try {
+                    continueListening = sanitizeCloudSongArray(JSON.parse(localStorage.getItem('eq_continue_listening') || '[]'), 40);
+                } catch (e) {}
+                try {
+                    const counts = JSON.parse(localStorage.getItem('eq_song_play_counts') || '{}');
+                    if (counts && typeof counts === 'object' && !Array.isArray(counts)) {
+                        songPlayCounts = Object.fromEntries(Object.entries(counts).filter(([k, v]) => typeof k === 'string' && Number.isFinite(v) && v >= 0).map(([k, v]) => [k, Math.floor(v)]));
+                    }
+                } catch (e) {}
+            }
+
             let likedSeedTs = Date.now();
             likedSongs.forEach((fileId) => {
                 if (!Number.isFinite(likedSongMeta[fileId]) || likedSongMeta[fileId] <= 0) {
@@ -7429,29 +7478,9 @@
             Object.keys(likedSongMeta).forEach((fileId) => {
                 if (!likedSongs.has(fileId)) delete likedSongMeta[fileId];
             });
-            try {
-                playlists = JSON.parse(localStorage.getItem('eq_playlists') || '{}');
-            } catch (e) {}
-            try {
-                queue = JSON.parse(localStorage.getItem('eq_queue') || '[]');
-            } catch (e) {}
-            try {
-                shuffleHistory = JSON.parse(localStorage.getItem('eq_shuffle_history') || '[]');
-            } catch (e) {}
-            try {
-                continueListening = JSON.parse(localStorage.getItem('eq_continue_listening') || '[]');
-            } catch (e) {}
-            try {
-                const counts = JSON.parse(localStorage.getItem('eq_song_play_counts') || '{}');
-                if (counts && typeof counts === 'object' && !Array.isArray(counts)) {
-                    songPlayCounts = Object.fromEntries(Object.entries(counts).filter(([k, v]) => typeof k === 'string' && Number.isFinite(v) && v >= 0).map(([k, v]) => [k, Math.floor(v)]));
-                }
-            } catch (e) {}
-            try {
-                localStorage.setItem('eq_liked_meta', JSON.stringify(likedSongMeta));
-            } catch (e) {}
+            saveAppData();
         }
-        loadState();
+        loadAppData();
 
         function notifyCloudStateChange(scope) {
             if (typeof window._onLocalStateChanged === 'function') {
@@ -7492,29 +7521,55 @@
             }));
         }
 
-        function saveLiked() {
-            localStorage.setItem('eq_liked', JSON.stringify([...likedSongs]));
+        function saveAppData() {
             Object.keys(likedSongMeta).forEach((fileId) => {
                 if (!likedSongs.has(fileId)) delete likedSongMeta[fileId];
             });
+            const safePlaylists = sanitizeCloudPlaylists(playlists);
+            const safeQueue = sanitizeCloudSongArray(queue, 120);
+            const safeRecent = sanitizeCloudSongArray(continueListening, 40);
+            const safeShuffleHistory = Array.isArray(shuffleHistory) ? shuffleHistory.filter((f) => typeof f === 'string').slice(-80) : [];
+            const safePlayCounts = songPlayCounts && typeof songPlayCounts === 'object' && !Array.isArray(songPlayCounts) ? Object.fromEntries(Object.entries(songPlayCounts).filter(([k, v]) => typeof k === 'string' && Number.isFinite(v) && v >= 0).map(([k, v]) => [k, Math.floor(v)])) : {};
+            const payload = {
+                likedSongs: [...likedSongs],
+                likedSongMeta,
+                playlists: safePlaylists,
+                queue: safeQueue,
+                recentlyPlayed: safeRecent,
+                shuffleHistory: safeShuffleHistory,
+                songPlayCounts: safePlayCounts
+            };
+            localStorage.setItem(APP_DATA_STORAGE_KEY, JSON.stringify(payload));
+            localStorage.setItem('eq_liked', JSON.stringify(payload.likedSongs));
             localStorage.setItem('eq_liked_meta', JSON.stringify(likedSongMeta));
+            localStorage.setItem('eq_playlists', JSON.stringify(safePlaylists));
+            localStorage.setItem('eq_continue_listening', JSON.stringify(safeRecent));
+            localStorage.setItem('eq_queue', JSON.stringify(safeQueue));
+            localStorage.setItem('eq_shuffle_history', JSON.stringify(safeShuffleHistory));
+            localStorage.setItem('eq_song_play_counts', JSON.stringify(safePlayCounts));
+        }
+
+        function saveLiked() {
+            saveAppData();
             notifyCloudStateChange('likedSongs');
         }
 
         function savePlaylists() {
-            localStorage.setItem('eq_playlists', JSON.stringify(playlists));
+            saveAppData();
             notifyCloudStateChange('playlists');
         }
 
         function saveContinueListening() {
-            localStorage.setItem('eq_continue_listening', JSON.stringify(continueListening));
+            saveAppData();
             notifyCloudStateChange('recentlyPlayed');
         }
 
         function saveQueue() {
-            localStorage.setItem('eq_queue', JSON.stringify(queue));
+            saveAppData();
             notifyCloudStateChange('queue');
         }
+        window.saveAppData = saveAppData;
+        window.loadAppData = loadAppData;
 
         window.__getCloudStatePayload = () => ({
             likedSongs: [...likedSongs],
@@ -7546,15 +7601,8 @@
                 if (!likedSongs.has(fileId)) delete likedSongMeta[fileId];
             });
 
-            localStorage.setItem('eq_liked', JSON.stringify([...likedSongs]));
-            Object.keys(likedSongMeta).forEach((fileId) => {
-                if (!likedSongs.has(fileId)) delete likedSongMeta[fileId];
-            });
-            localStorage.setItem('eq_liked_meta', JSON.stringify(likedSongMeta));
-            localStorage.setItem('eq_playlists', JSON.stringify(playlists));
-            localStorage.setItem('eq_continue_listening', JSON.stringify(continueListening));
+            saveAppData();
             localStorage.setItem('falcon_downloaded', JSON.stringify([...downloadedFiles]));
-            localStorage.setItem('eq_queue', JSON.stringify(queue));
 
             try {
                 refreshVisibleSongLists();
