@@ -306,6 +306,98 @@
             transition: color .15s;
         }
         
+        .lucide,
+        .lucide-icon {
+            display: block;
+            width: 1em;
+            height: 1em;
+            stroke-width: 2;
+        }
+        
+        .nav-icon-wrap .lucide {
+            width: 16px;
+            height: 16px;
+        }
+
+        .nav-arrow-btn .lucide {
+            width: 14px;
+            height: 14px;
+        }
+
+        .mobile-back-btn .lucide,
+        .mfp-back-btn .lucide {
+            width: 18px;
+            height: 18px;
+        }
+        
+        .search-icon,
+        .search-clear {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .search-icon .lucide,
+        .search-clear .lucide {
+            width: 14px;
+            height: 14px;
+        }
+        
+        .topbar-icon-btn .lucide,
+        .queue-btn .lucide,
+        .dl-btn .lucide,
+        .player-like .lucide,
+        .player-dl-btn .lucide,
+        .ctrl-btn .lucide,
+        .queue-btn-player .lucide,
+        .dl-queue-btn .lucide,
+        .ps-icon-btn .lucide,
+        .fav-icon-btn .lucide,
+        .mfp-ctrl-btn .lucide,
+        .mfp-prev-btn .lucide,
+        .mfp-next-btn .lucide,
+        .mfp-action-btn .lucide,
+        .dp-close .lucide,
+        .qp-close .lucide,
+        .playlist-card-play .lucide,
+        .playlist-card-del .lucide {
+            width: 16px;
+            height: 16px;
+        }
+        
+        .play-btn .lucide,
+        .mfp-play-btn .lucide,
+        .card-play-btn .lucide,
+        .playlist-play-btn .lucide {
+            width: 18px;
+            height: 18px;
+        }
+
+        .create-playlist-icon .lucide,
+        .cover-ph .lucide {
+            width: 18px;
+            height: 18px;
+        }
+
+        .sort-pill-icon .lucide,
+        .sort-chevron .lucide,
+        .fav-sort-icon .lucide,
+        .fav-sort-chevron .lucide {
+            width: 12px;
+            height: 12px;
+        }
+
+        .continue-label .lucide {
+            width: 13px;
+            height: 13px;
+        }
+
+        .ps-remove .lucide,
+        .qp-item-rm .lucide {
+            width: 13px;
+            height: 13px;
+        }
+        
         .sidebar-library-block {
             background: var(--surface);
             border-radius: var(--radius);
@@ -334,7 +426,15 @@
         }
         
         .library-title span {
-            font-size: .9rem
+            font-size: .9rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .library-title span .lucide {
+            width: 14px;
+            height: 14px;
         }
         
         .artists-list {
@@ -1123,6 +1223,11 @@
             transition: opacity .3s;
         }
         
+        .offline-badge .lucide {
+            width: 12px;
+            height: 12px;
+        }
+        
         .offline-badge.visible {
             opacity: 1
         }
@@ -1452,7 +1557,15 @@
         
         .dp-title {
             font-size: .9rem;
-            font-weight: 700
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+        }
+        
+        .dp-title .lucide {
+            width: 16px;
+            height: 16px;
         }
         
         .dp-close {
@@ -2099,12 +2212,16 @@
         }
         
         .sort-pill-icon {
-            font-size: .9rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             opacity: .85;
         }
-        
+
         .sort-chevron {
-            font-size: .66rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             opacity: .8;
             transform: translateY(1px);
         }
@@ -2392,7 +2509,10 @@
             cursor: pointer;
             padding: 4px 7px;
             border-radius: 4px;
-            transition: color .2s
+            transition: color .2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
         }
         
         .ps-remove:hover {
@@ -2405,6 +2525,9 @@
         }
         
         .continue-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
             font-size: .72rem;
             font-weight: 700;
             letter-spacing: 1.5px;
@@ -2483,6 +2606,10 @@
             padding: 8px 20px;
             border-radius: 500px;
             border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
             font-family: 'Circular Std', 'Circular', 'Spotify Mix', 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
             font-size: .82rem;
             font-weight: 700;
@@ -2638,6 +2765,11 @@
             opacity: .4
         }
         
+        .empty-state .emoji .lucide {
+            width: 40px;
+            height: 40px;
+        }
+        
         .empty-state p {
             font-size: .9rem
         }
@@ -2654,7 +2786,9 @@
         }
         
         .add-to-playlist-dropdown button {
-            display: block;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
             width: 100%;
             text-align: left;
             padding: 9px 14px;
@@ -2665,6 +2799,12 @@
             font-size: .82rem;
             cursor: pointer;
             transition: background .12s;
+        }
+
+        .add-to-playlist-dropdown button .lucide {
+            width: 13px;
+            height: 13px;
+            flex-shrink: 0;
         }
         
         .add-to-playlist-dropdown button:hover {
@@ -5198,11 +5338,15 @@
                 background: rgba(255, 255, 255, .1);
             }
             .fav-sort-icon {
-                font-size: .92rem;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
                 opacity: .88;
             }
             .fav-sort-chevron {
-                font-size: .66rem;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
                 opacity: .84;
             }
             .fav-song-list {
@@ -5904,10 +6048,10 @@
         </div>
 
 
-        <button class="mobile-back-btn hidden" id="mobileBackBtn" onclick="loadArtists()">‹</button>
+        <button class="mobile-back-btn hidden" id="mobileBackBtn" onclick="loadArtists()"><i data-lucide="chevron-left" aria-hidden="true"></i></button>
 
 
-        <button class="fav-mobile-btn" onclick="showLikedSongs()" title="Favorites">&#10084;</button>
+        <button class="fav-mobile-btn" onclick="showLikedSongs()" title="Favorites"><i data-lucide="heart" aria-hidden="true"></i></button>
 
 
         <div id="mobileAuthArea" style="flex-shrink:0">
@@ -5931,23 +6075,23 @@
 
         <div class="sidebar-nav-block">
             <button class="nav-btn active" id="navHome" onclick="loadArtists()">
-                <span class="nav-icon-wrap">&#127908;</span> Artists
+                <span class="nav-icon-wrap"><i data-lucide="disc-3" aria-hidden="true"></i></span> Artists
             </button>
             <button class="nav-btn" id="navFav" onclick="showLikedSongs()">
-                <span class="nav-icon-wrap">&#10084;</span> Favorites
+                <span class="nav-icon-wrap"><i data-lucide="heart" aria-hidden="true"></i></span> Favorites
             </button>
             <button class="nav-btn" id="navDownloads" onclick="showDownloads()">
-                <span class="nav-icon-wrap">&#128229;</span> Downloads
+                <span class="nav-icon-wrap"><i data-lucide="download" aria-hidden="true"></i></span> Downloads
             </button>
             <button class="nav-btn" id="navPlaylists" onclick="showPlaylists()">
-                <span class="nav-icon-wrap">&#127911;</span> Playlists
+                <span class="nav-icon-wrap"><i data-lucide="list-music" aria-hidden="true"></i></span> Playlists
             </button>
         </div>
 
 
         <div class="sidebar-library-block">
             <div class="library-header">
-                <div class="library-title"><span>&#127926;</span> Your Library</div>
+                <div class="library-title"><span><i data-lucide="library" aria-hidden="true"></i></span> Your Library</div>
             </div>
             <div class="artists-list" id="sidebarArtists"></div>
         </div>
@@ -6024,8 +6168,8 @@
 
     <div class="download-panel" id="downloadPanel">
         <div class="dp-header">
-            <div class="dp-title">&#128229; Download Queue</div>
-            <button class="dp-close" onclick="toggleDownloadPanel()">&#10005;</button>
+            <div class="dp-title"><i data-lucide="download" aria-hidden="true"></i><span>Download Queue</span></div>
+            <button class="dp-close" onclick="toggleDownloadPanel()"><i data-lucide="x" aria-hidden="true"></i></button>
         </div>
         <div class="dp-stats" id="dpStats">
             <div class="dp-stat"><span style="color:var(--text2)">Total</span><span class="dp-badge" id="dpTotal">0</span></div>
@@ -6033,7 +6177,7 @@
             <div class="dp-stat"><span style="color:var(--text2)">Done</span><span class="dp-badge done" id="dpDone">0</span></div>
         </div>
         <div class="dp-items" id="dpItems">
-            <div class="dp-empty">&#128229; <span>Queue empty — tap &#11015; on any song</span></div>
+            <div class="dp-empty"><i data-lucide="download" aria-hidden="true"></i><span>Queue empty - tap download on any song</span></div>
         </div>
         <div class="dp-actions">
             <button class="dp-action-btn" id="dpPauseBtn" onclick="toggleQueuePause()">Pause All</button>
@@ -6049,21 +6193,21 @@
             <div class="player-song-main">
                 <div class="player-song-title" id="playerTitle">Nothing playing</div>
                 <div class="player-song-artist" id="playerArtist">—</div>
-                <div class="player-song-meta"><span class="offline-badge" id="offlineBadge">&#10003; Offline</span></div>
+                <div class="player-song-meta"><span class="offline-badge" id="offlineBadge"><i data-lucide="check" aria-hidden="true"></i><span>Offline</span></span></div>
             </div>
             <div class="player-mobile-actions">
-                <button class="player-like" id="playerLikeBtn" onclick="togglePlayerLike()">&#9825;</button>
-                <button class="player-dl-btn" id="playerDlBtn" onclick="downloadCurrentSong()" title="Download">&#11015;</button>
+                <button class="player-like" id="playerLikeBtn" onclick="togglePlayerLike()"><i data-lucide="heart" aria-hidden="true"></i></button>
+                <button class="player-dl-btn" id="playerDlBtn" onclick="downloadCurrentSong()" title="Download"><i data-lucide="download" aria-hidden="true"></i></button>
             </div>
         </div>
         <div class="player-center">
             <div class="player-controls">
-                <button class="ctrl-btn" id="shuffleBtn" onclick="toggleShuffle()" title="Shuffle">&#10542;</button>
-                <button class="ctrl-btn" onclick="previous()" title="Previous">&#9198;</button>
-                <button class="play-btn" id="playBtn" onclick="togglePlay()">&#9654;</button>
-                <button class="ctrl-btn" onclick="next()" title="Next">&#9197;</button>
-                <button class="ctrl-btn" id="repeatBtn" onclick="toggleRepeat()" title="Repeat">&#8635;</button>
-                <button class="queue-btn-player" id="queueToggleBtn" onclick="toggleQueuePanel()">&#9776;</button>
+                <button class="ctrl-btn" id="shuffleBtn" onclick="toggleShuffle()" title="Shuffle"><i data-lucide="shuffle" aria-hidden="true"></i></button>
+                <button class="ctrl-btn" onclick="previous()" title="Previous"><i data-lucide="skip-back" aria-hidden="true"></i></button>
+                <button class="play-btn" id="playBtn" onclick="togglePlay()"><i data-lucide="play" aria-hidden="true"></i></button>
+                <button class="ctrl-btn" onclick="next()" title="Next"><i data-lucide="skip-forward" aria-hidden="true"></i></button>
+                <button class="ctrl-btn" id="repeatBtn" onclick="toggleRepeat()" title="Repeat"><i data-lucide="repeat" aria-hidden="true"></i></button>
+                <button class="queue-btn-player" id="queueToggleBtn" onclick="toggleQueuePanel()"><i data-lucide="list-music" aria-hidden="true"></i></button>
             </div>
             <div class="player-progress">
                 <span class="time-label" id="currentTime">0:00</span>
@@ -6075,10 +6219,10 @@
         </div>
         <div class="player-right">
             <button class="dl-queue-btn" id="dlQueueBtn" onclick="toggleDownloadPanel()" title="Downloads">
-                &#128229;<span class="dl-queue-badge hidden" id="dlQueueBadge">0</span>
+                <i data-lucide="download" aria-hidden="true"></i><span class="dl-queue-badge hidden" id="dlQueueBadge">0</span>
             </button>
             <div class="volume-wrap">
-                <span class="vol-icon" onclick="toggleMute()">&#128266;</span>
+                <span class="vol-icon" onclick="toggleMute()"><i data-lucide="volume-2" aria-hidden="true"></i></span>
                 <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1">
             </div>
         </div>
@@ -6099,7 +6243,7 @@
     <div class="queue-panel" id="queuePanel">
         <div class="qp-header">
             <div class="qp-title">Queue</div>
-            <button class="qp-close" onclick="toggleQueuePanel()">&#10005;</button>
+            <button class="qp-close" onclick="toggleQueuePanel()"><i data-lucide="x" aria-hidden="true"></i></button>
         </div>
         <div class="qp-body" id="queuePanelBody"></div>
     </div>
@@ -6112,7 +6256,7 @@
     <div id="fullscreenPlayer" class="mobile-fullscreen-player">
         <!-- Header -->
         <div class="mfp-header">
-            <button onclick="closeFullPlayer()" id="closePlayer" class="mfp-back-btn">‹</button>
+            <button onclick="closeFullPlayer()" id="closePlayer" class="mfp-back-btn"><i data-lucide="chevron-left" aria-hidden="true"></i></button>
             <span class="mfp-header-title">Now Playing</span>
             <div style="width: 32px;"></div>
         </div>
@@ -6138,16 +6282,16 @@
         </div>
 
         <div class="mfp-controls">
-            <button class="mfp-ctrl-btn" id="fsShuffle" onclick="toggleShuffle()" title="Shuffle">&#10542;</button>
-            <button class="mfp-prev-btn" onclick="previous()" title="Previous">&#9198;</button>
-            <button class="mfp-play-btn" id="fsPlay" onclick="togglePlay()">&#9654;</button>
-            <button class="mfp-next-btn" onclick="next()" title="Next">&#9197;</button>
-            <button class="mfp-ctrl-btn" id="fsRepeat" onclick="toggleRepeat()" title="Repeat">&#8635;</button>
+            <button class="mfp-ctrl-btn" id="fsShuffle" onclick="toggleShuffle()" title="Shuffle"><i data-lucide="shuffle" aria-hidden="true"></i></button>
+            <button class="mfp-prev-btn" onclick="previous()" title="Previous"><i data-lucide="skip-back" aria-hidden="true"></i></button>
+            <button class="mfp-play-btn" id="fsPlay" onclick="togglePlay()"><i data-lucide="play" aria-hidden="true"></i></button>
+            <button class="mfp-next-btn" onclick="next()" title="Next"><i data-lucide="skip-forward" aria-hidden="true"></i></button>
+            <button class="mfp-ctrl-btn" id="fsRepeat" onclick="toggleRepeat()" title="Repeat"><i data-lucide="repeat" aria-hidden="true"></i></button>
         </div>
 
 
         <div class="mfp-actions">
-            <button class="mfp-action-btn" id="fsLikeBtn" onclick="toggleFullPlayerLike()" title="Like">&#9825;</button>
+            <button class="mfp-action-btn" id="fsLikeBtn" onclick="toggleFullPlayerLike()" title="Like"><i data-lucide="heart" aria-hidden="true"></i></button>
         </div>
     </div>
 
@@ -6163,6 +6307,7 @@
         </div>
     </div>
 
+    <script src="https://unpkg.com/lucide@latest"></script>
     <script type="module">
         import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"; import{getAuth,GoogleAuthProvider,signInWithPopup,signInWithRedirect,getRedirectResult,signOut as fbSignOut,onAuthStateChanged,setPersistence,browserLocalPersistence}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
         import{getFirestore,doc,setDoc,getDoc,updateDoc}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"; const firebaseConfig={apiKey:"AIzaSyBGByQV7o655YvsCa8_c16P6zIaMGr7Uq0",authDomain:"falconx-f1016.firebaseapp.com",projectId:"falconx-f1016",storageBucket:"falconx-f1016.firebasestorage.app",messagingSenderId:"357270984794",appId:"1:357270984794:web:93a4c9e3502eeeeca42063"};
@@ -6317,6 +6462,53 @@
             }
         }
         startSplashSequence();
+
+        const uiIcon = (name, className = '') => `<i data-lucide="${name}"${className ? ` class="${className}"` : ''} aria-hidden="true"></i>`;
+
+        function renderLucideIcons(root = document) {
+            try {
+                if (!window.lucide || typeof window.lucide.createIcons !== 'function') return;
+                window.lucide.createIcons({
+                    root,
+                    attrs: {
+                        'stroke-width': 2,
+                        'aria-hidden': 'true'
+                    }
+                });
+            } catch (e) {}
+        }
+
+        function setElementIcon(el, iconName) {
+            if (!el) return;
+            el.innerHTML = uiIcon(iconName);
+            renderLucideIcons(el);
+        }
+
+        function setPlayButtonIcons(paused = true) {
+            setElementIcon(playBtn, paused ? 'play' : 'pause');
+            setElementIcon(document.getElementById('fsPlay'), paused ? 'play' : 'pause');
+        }
+
+        const __lucideObserver = new MutationObserver((mutations) => {
+            mutations.forEach((m) => {
+                m.addedNodes.forEach((node) => {
+                    if (!(node instanceof Element)) return;
+                    if (node.matches('[data-lucide]') || node.querySelector('[data-lucide]')) {
+                        renderLucideIcons(node);
+                    }
+                });
+            });
+        });
+
+        function initLucideSystem() {
+            renderLucideIcons(document);
+            if (document.body) {
+                __lucideObserver.observe(document.body, {
+                    childList: true,
+                    subtree: true
+                });
+            }
+        }
 
         const artists = {
             prem: {
@@ -7947,8 +8139,9 @@
             if (!el) {
                 el = document.createElement('div');
                 el.id = 'dpi_' + item.id;
-                el.innerHTML = `<img src="${escH(item.song.poster)}" onerror="this.style.background='var(--surface3)'"><div class="dp-item-info"><div class="dp-item-title">${escH(item.song.title)}</div><div class="dp-item-status"><div class="dp-dot"></div><span class="dp-status-text">${item.status}</span></div><div class="dp-progress"><div class="dp-progress-bar" style="width:0%"></div></div></div><button class="dp-item-del" onclick="removeFromDlQueue('${item.id}')" title="Remove from queue" aria-label="Remove from queue">&#10005;</button>`;
+                el.innerHTML = `<img src="${escH(item.song.poster)}" onerror="this.style.background='var(--surface3)'"><div class="dp-item-info"><div class="dp-item-title">${escH(item.song.title)}</div><div class="dp-item-status"><div class="dp-dot"></div><span class="dp-status-text">${item.status}</span></div><div class="dp-progress"><div class="dp-progress-bar" style="width:0%"></div></div></div><button class="dp-item-del" onclick="removeFromDlQueue('${item.id}')" title="Remove from queue" aria-label="Remove from queue">${uiIcon('x')}</button>`;
                 container.appendChild(el);
+                renderLucideIcons(el);
             }
             el.className = 'dp-item ' + (item.status === 'active' ? 'active' : item.status === 'done' ? 'done' : item.status === 'error' ? 'error' : '');
             el.querySelector('.dp-status-text').textContent = item.status === 'active' ? 'Downloading…' : item.status === 'done' ? 'Saved offline' : item.status === 'error' ? 'Failed' : item.status;
@@ -7959,14 +8152,20 @@
             dlQueue = dlQueue.filter(i => i.id !== id);
             const el = document.getElementById('dpi_' + id);
             if (el) el.remove();
-            if (!dlQueue.length) document.getElementById('dpItems').innerHTML = '<div class="dp-empty">&#128229; <span>Queue empty — tap &#11015; on any song</span></div>';
+            if (!dlQueue.length) {
+                const items = document.getElementById('dpItems');
+                items.innerHTML = `<div class="dp-empty">${uiIcon('download')} <span>Queue empty - tap download on any song</span></div>`;
+                renderLucideIcons(items);
+            }
             updateDpStats();
         };
 
         window.clearAllFromQueue = () => {
             if (!confirm('Clear download queue?')) return;
             dlQueue = [];
-            document.getElementById('dpItems').innerHTML = '<div class="dp-empty">&#128229; <span>Queue empty — tap &#11015; on any song</span></div>';
+            const items = document.getElementById('dpItems');
+            items.innerHTML = `<div class="dp-empty">${uiIcon('download')} <span>Queue empty - tap download on any song</span></div>`;
+            renderLucideIcons(items);
             updateDpStats();
             dpanel().classList.remove('open');
         };
@@ -8441,7 +8640,7 @@
             if (!currentSong) return;
             const dl = isDownloaded(currentSong.file);
             btn.classList.toggle('downloaded', dl);
-            btn.textContent = dl ? '?' : '?';
+            setElementIcon(btn, dl ? 'check' : 'download');
             btn.title = dl ? 'Downloaded — click to remove' : 'Download for offline';
             badge.classList.toggle('visible', dl);
         }
@@ -8480,11 +8679,12 @@
                 });
             });
             document.getElementById('mainArea').innerHTML = `
-            <div class="main-topbar"><div class="nav-arrows"><button class="nav-arrow-btn" onclick="history.back()">‹</button></div><div style="flex:1"><div style="font-size:1.2rem;font-weight:800">Downloads</div><div style="font-size:.72rem;color:var(--text2)">${count} cached offline</div></div>${count>0?`<button class="btn btn-outline" onclick="clearAllDownloads()" style="font-size:.75rem">&#128465; Clear All</button>`:''}</div>
+            <div class="main-topbar"><div class="nav-arrows"><button class="nav-arrow-btn" onclick="history.back()">${uiIcon('chevron-left')}</button></div><div style="flex:1"><div style="font-size:1.2rem;font-weight:800">Downloads</div><div style="font-size:.72rem;color:var(--text2)">${count} cached offline</div></div>${count>0?`<button class="btn btn-outline" onclick="clearAllDownloads()" style="font-size:.75rem;display:inline-flex;align-items:center;gap:6px">${uiIcon('trash-2')}<span>Clear All</span></button>`:''}</div>
             <div class="songs-section" style="padding-top:20px">
-            ${dlSongs.length===0?`<div class="empty-state"><div class="emoji">&#11015;</div><p>No songs downloaded yet.</p><p style="font-size:.8rem;margin-top:6px;color:var(--muted)">Tap &#11015; on any song to save offline.</p></div>`:dlSongs.map((s,i)=>`<div class="song-row" onclick="playDlSong(${i})"><div class="song-num">${i+1}</div><div class="song-row-info"><img src="${escH(s.poster)}" onerror="this.style.background='#282828'" loading="lazy"><div class="song-row-text"><h4>${escH(s.title)}</h4><p>${escH(s.artistName)}</p></div></div><div class="song-actions" style="opacity:1"><span style="font-size:.6rem;color:var(--accent);background:var(--accent3);border:1px solid rgba(200,245,66,.18);padding:2px 8px;border-radius:20px">&#10003; Saved</span><button class="queue-btn" onclick="event.stopPropagation();removeCachedSong('${escA(s.file)}')" title="Remove">&#10005;</button></div></div>`).join('')}
+            ${dlSongs.length===0?`<div class="empty-state"><div class="emoji">${uiIcon('download')}</div><p>No songs downloaded yet.</p><p style="font-size:.8rem;margin-top:6px;color:var(--muted)">Tap download on any song to save offline.</p></div>`:dlSongs.map((s,i)=>`<div class="song-row" onclick="playDlSong(${i})"><div class="song-num">${i+1}</div><div class="song-row-info"><img src="${escH(s.poster)}" onerror="this.style.background='#282828'" loading="lazy"><div class="song-row-text"><h4>${escH(s.title)}</h4><p>${escH(s.artistName)}</p></div></div><div class="song-actions" style="opacity:1"><span style="font-size:.6rem;color:var(--accent);background:var(--accent3);border:1px solid rgba(200,245,66,.18);padding:2px 8px;border-radius:20px;display:inline-flex;align-items:center;gap:4px">${uiIcon('check')}<span>Saved</span></span><button class="queue-btn" onclick="event.stopPropagation();removeCachedSong('${escA(s.file)}')" title="Remove">${uiIcon('x')}</button></div></div>`).join('')}
             </div>`;
             window.__dlSongs = dlSongs;
+            renderLucideIcons(document.getElementById('mainArea'));
         }
 
         window.playDlSong = (i) => { if (!window.__dlSongs) return; currentSongs = window.__dlSongs; currentArtistKey = null; currentIndex = i; playSong(i,true); };
@@ -8617,6 +8817,7 @@
             if (!list) return;
             currentPlaylistViewSongs = getSortedPlaylistSongs(plId, currentPlaylistSortType);
             list.innerHTML = currentPlaylistViewSongs.map((song, i) => playlistSongRowHTML(plId, song, i)).join('');
+            renderLucideIcons(list);
             updatePlaylistSortUI();
             updatePlaylistPlayingState(autoScrollActive);
         }
@@ -8652,15 +8853,17 @@
             currentPlaylistId = null;
             currentPlaylistViewSongs = [];
             const ids = Object.keys(playlists);
-            document.getElementById('mainArea').innerHTML = `
-            <div class="main-topbar"><div class="nav-arrows"><button class="nav-arrow-btn" onclick="loadArtists()">‹</button></div><div style="flex:1"><div style="font-size:1.2rem;font-weight:800">Playlists</div><div style="font-size:.72rem;color:var(--text2)">${ids.length} playlist${ids.length!==1?'s':''}</div></div><button class="btn btn-accent" onclick="openCreatePlaylistModal()">+ New</button></div>
+            const mainArea = document.getElementById('mainArea');
+            mainArea.innerHTML = `
+            <div class="main-topbar"><div class="nav-arrows"><button class="nav-arrow-btn" onclick="loadArtists()">${uiIcon('chevron-left')}</button></div><div style="flex:1"><div style="font-size:1.2rem;font-weight:800">Playlists</div><div style="font-size:.72rem;color:var(--text2)">${ids.length} playlist${ids.length!==1?'s':''}</div></div><button class="btn btn-accent" onclick="openCreatePlaylistModal()">${uiIcon('plus')}<span>New</span></button></div>
             <div class="playlists-wrap" style="padding-top:20px">
-                <button class="create-playlist-btn" onclick="openCreatePlaylistModal()"><div class="create-playlist-icon">+</div><span>Create new playlist</span></button>
-                ${ids.length===0?`<div class="empty-state" style="padding:40px 0"><div class="emoji">&#127911;</div><p>No playlists yet.</p></div>`:`<div class="playlist-grid">${ids.map(id=>playlistCardHTML(id)).join('')}</div>`}
+                <button class="create-playlist-btn" onclick="openCreatePlaylistModal()"><div class="create-playlist-icon">${uiIcon('plus')}</div><span>Create new playlist</span></button>
+                ${ids.length===0?`<div class="empty-state" style="padding:40px 0"><div class="emoji">${uiIcon('list-music')}</div><p>No playlists yet.</p></div>`:`<div class="playlist-grid">${ids.map(id=>playlistCardHTML(id)).join('')}</div>`}
             </div>`;
+            renderLucideIcons(mainArea);
         }
 
-        function playlistCardHTML(id) { const pl=playlists[id]; const songs=pl.songs||[]; const covers=songs.slice(0,4).map(s=>s.poster); while(covers.length<4)covers.push(null); return`<div class="playlist-card" onclick="openPlaylist('${escA(id)}')"><div class="playlist-card-cover">${covers.map(c=>c?`<img src="${escH(c)}" onerror="this.parentElement.style.background='var(--surface3)'">`:`<div class="cover-ph">&#9835;</div>`).join('')}</div><div class="playlist-card-name">${escH(pl.name)}</div><div class="playlist-card-count">${songs.length} song${songs.length!==1?'s':''}</div><button class="playlist-card-play" onclick="event.stopPropagation();playPlaylistById('${escA(id)}')">&#9654;</button><button class="playlist-card-del" onclick="event.stopPropagation();deletePlaylist('${escA(id)}')" title="Delete">&#10005;</button></div>`; }
+        function playlistCardHTML(id) { const pl=playlists[id]; const songs=pl.songs||[]; const covers=songs.slice(0,4).map(s=>s.poster); while(covers.length<4)covers.push(null); return`<div class="playlist-card" onclick="openPlaylist('${escA(id)}')"><div class="playlist-card-cover">${covers.map(c=>c?`<img src="${escH(c)}" onerror="this.parentElement.style.background='var(--surface3)'">`:`<div class="cover-ph">${uiIcon('music-2')}</div>`).join('')}</div><div class="playlist-card-name">${escH(pl.name)}</div><div class="playlist-card-count">${songs.length} song${songs.length!==1?'s':''}</div><button class="playlist-card-play" onclick="event.stopPropagation();playPlaylistById('${escA(id)}')">${uiIcon('play')}</button><button class="playlist-card-del" onclick="event.stopPropagation();deletePlaylist('${escA(id)}')" title="Delete">${uiIcon('trash-2')}</button></div>`; }
 
         function openPlaylist(id) {
             const pl = playlists[id];
@@ -8672,25 +8875,27 @@
             const covers = songs.slice(0, 4).map((s) => s.poster);
             while (covers.length < 4) covers.push(null);
             const hasSongs = songs.length > 0;
-            document.getElementById('mainArea').innerHTML = `
+            const mainArea = document.getElementById('mainArea');
+            mainArea.innerHTML = `
             <div class="playlist-page-header">
-                <div class="playlist-cover-collage">${covers.map(c=>c?`<img src="${escH(c)}" onerror="this.src=''">`:`<div class="cover-ph">&#9835;</div>`).join('')}</div>
+                <div class="playlist-cover-collage">${covers.map(c=>c?`<img src="${escH(c)}" onerror="this.src=''">`:`<div class="cover-ph">${uiIcon('music-2')}</div>`).join('')}</div>
                 <div class="playlist-page-info">
                     <div class="playlist-type-label">Playlist</div>
                     <div class="playlist-page-title">${escH(pl.name)}</div>
                     <div class="playlist-page-stats">${songs.length} songs</div>
                     <div class="playlist-page-actions">
-                        <button class="playlist-play-btn" title="Play playlist" onclick="playPlaylistById('${escA(id)}')">&#9654;</button>
-                        <button class="playlist-shuffle-btn" title="Shuffle playlist" onclick="shufflePlaylistById('${escA(id)}')">&#128256; Shuffle</button>
-                        <button class="btn btn-outline" onclick="openRenamePlaylistModal('${escA(id)}')">&#9998; Rename</button>
-                        <button class="btn btn-outline" style="color:rgba(255,85,85,.7);border-color:rgba(255,85,85,.2)" onclick="deletePlaylist('${escA(id)}')">&#128465;</button>
+                        <button class="playlist-play-btn" title="Play playlist" onclick="playPlaylistById('${escA(id)}')">${uiIcon('play')}</button>
+                        <button class="playlist-shuffle-btn" title="Shuffle playlist" onclick="shufflePlaylistById('${escA(id)}')">${uiIcon('shuffle')}<span>Shuffle</span></button>
+                        <button class="btn btn-outline" onclick="openRenamePlaylistModal('${escA(id)}')">${uiIcon('pencil')}<span>Rename</span></button>
+                        <button class="btn btn-outline" style="color:rgba(255,85,85,.7);border-color:rgba(255,85,85,.2)" onclick="deletePlaylist('${escA(id)}')">${uiIcon('trash-2')}</button>
                     </div>
                 </div>
             </div>
-            ${hasSongs?`<div class="playlist-sort-row"><button class="playlist-sort-trigger" id="playlistSortTrigger" onclick="togglePlaylistSortSheet()"><span class="sort-pill-icon">&#8645;</span><span>Sort: <span id="playlistSortLabel">${getPlaylistSortLabel(currentPlaylistSortType)}</span></span><span class="sort-chevron">&#9662;</span></button></div>`:''}
-            <div class="playlist-song-list">${hasSongs?`<div class="playlist-song-header"><span>#</span><span>Title</span><span></span></div><div id="playlistSongsList"></div>`:`<div class="empty-state" style="padding:44px 0"><div class="emoji">&#9835;</div><p>No songs yet.</p></div>`}</div>
+            ${hasSongs?`<div class="playlist-sort-row"><button class="playlist-sort-trigger" id="playlistSortTrigger" onclick="togglePlaylistSortSheet()"><span class="sort-pill-icon">${uiIcon('arrow-up-down')}</span><span>Sort: <span id="playlistSortLabel">${getPlaylistSortLabel(currentPlaylistSortType)}</span></span><span class="sort-chevron">${uiIcon('chevron-down')}</span></button></div>`:''}
+            <div class="playlist-song-list">${hasSongs?`<div class="playlist-song-header"><span>#</span><span>Title</span><span></span></div><div id="playlistSongsList"></div>`:`<div class="empty-state" style="padding:44px 0"><div class="emoji">${uiIcon('music-2')}</div><p>No songs yet.</p></div>`}</div>
             ${hasSongs?`<div class="playlist-sort-sheet" id="playlistSortSheet" onclick="closePlaylistSortSheetOnOverlay(event)"><div class="playlist-sort-sheet-card"><div class="playlist-sort-sheet-title">Sort Playlist</div><button class="playlist-sort-option" data-sort="default" onclick="setPlaylistSort('default')">Default</button><button class="playlist-sort-option" data-sort="recent" onclick="setPlaylistSort('recent')">Recently Added</button><button class="playlist-sort-option" data-sort="title" onclick="setPlaylistSort('title')">A-Z</button><button class="playlist-sort-option" data-sort="artist" onclick="setPlaylistSort('artist')">Artist Name</button><button class="playlist-sort-option" data-sort="plays" onclick="setPlaylistSort('plays')">Most Played</button><button class="playlist-sort-close" onclick="closePlaylistSortSheet()">Close</button></div></div>`:''}
             `;
+            renderLucideIcons(mainArea);
             if (hasSongs) {
                 renderPlaylistSongs(id, true);
             } else {
@@ -8702,7 +8907,7 @@
             const playing = currentSong && currentSong.file === song.file && !audio.paused;
             const liked = likedSongs.has(song.file);
             const dl = isDownloaded(song.file);
-            return `<div class="playlist-song-row${playing?' playing':''}" data-file="${escH(song.file)}" onclick="playFromPlaylist('${escA(plId)}',${i})"><div class="ps-num">${playing?'<div class="eq-bars"><div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div></div>':i+1}</div><div class="ps-info"><img src="${escH(song.poster)}" onerror="this.style.background='#282828'"><div class="ps-text"><h4>${escH(song.title)}</h4><p>${escH(song.artistName||'')}</p></div></div><div class="ps-actions"><button class="ps-icon-btn${liked?' liked':''}" title="${liked?'Unlike':'Like'}" onclick="event.stopPropagation();togglePlaylistLike('${escA(plId)}','${escA(song.file)}')">${liked?'&#10084;':'&#9825;'}</button><button class="ps-icon-btn${dl?' downloaded':''}" title="${dl?'Remove download':'Download'}" onclick="event.stopPropagation();handleDlBtn(this,'${escA(song.file)}')">${dl?'&#10003;':'&#11015;'}</button><button class="ps-remove" onclick="event.stopPropagation();removeSongFromPlaylist('${escA(plId)}','${escA(song.file)}')">&#10005; Remove</button></div></div>`;
+            return `<div class="playlist-song-row${playing?' playing':''}" data-file="${escH(song.file)}" onclick="playFromPlaylist('${escA(plId)}',${i})"><div class="ps-num">${playing?'<div class="eq-bars"><div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div></div>':i+1}</div><div class="ps-info"><img src="${escH(song.poster)}" onerror="this.style.background='#282828'"><div class="ps-text"><h4>${escH(song.title)}</h4><p>${escH(song.artistName||'')}</p></div></div><div class="ps-actions"><button class="ps-icon-btn${liked?' liked':''}" title="${liked?'Unlike':'Like'}" onclick="event.stopPropagation();togglePlaylistLike('${escA(plId)}','${escA(song.file)}')">${liked?uiIcon('heart'):uiIcon('heart-off')}</button><button class="ps-icon-btn${dl?' downloaded':''}" title="${dl?'Remove download':'Download'}" onclick="event.stopPropagation();handleDlBtn(this,'${escA(song.file)}')">${dl?uiIcon('check'):uiIcon('download')}</button><button class="ps-remove" onclick="event.stopPropagation();removeSongFromPlaylist('${escA(plId)}','${escA(song.file)}')">${uiIcon('x')}<span>Remove</span></button></div></div>`;
         }
 
         window.playFromPlaylist = (plId,i) => { const source=getPlaylistPlaybackSource(plId); if(!source[i])return; currentSongs=source.map(s=>({...s})); currentArtistKey=null; currentIndex=i; playSong(i,true); };
@@ -8741,18 +8946,19 @@
         function loadArtists() {
             setNavActive('navHome'); setMobileBack(false);
             const keys = Object.keys(artists);
-            const continueHTML = continueListening.length>0?`<div class="continue-strip"><div class="continue-label">&#9654; Continue Listening</div><div class="continue-scroll">${continueListening.slice(0,18).map(s=>`<div class="continue-card" onclick="playFromHistory('${escA(s.file)}','${escA(s.artistKey||'')}')"><img src="${s.poster}" onerror="this.style.background='#282828'" loading="lazy"><div class="continue-card-info"><div class="continue-card-title">${escH(s.title)}</div><div class="continue-card-artist">${escH(s.artistName||'')}</div></div></div>`).join('')}</div></div>`:'';
-            document.getElementById('mainArea').innerHTML = `
+            const continueHTML = continueListening.length>0?`<div class="continue-strip"><div class="continue-label">${uiIcon('play')}<span>Continue Listening</span></div><div class="continue-scroll">${continueListening.slice(0,18).map(s=>`<div class="continue-card" onclick="playFromHistory('${escA(s.file)}','${escA(s.artistKey||'')}')"><img src="${s.poster}" onerror="this.style.background='#282828'" loading="lazy"><div class="continue-card-info"><div class="continue-card-title">${escH(s.title)}</div><div class="continue-card-artist">${escH(s.artistName||'')}</div></div></div>`).join('')}</div></div>`:'';
+            const mainArea = document.getElementById('mainArea');
+            mainArea.innerHTML = `
             <div class="main-topbar">
-                <div class="nav-arrows"><button class="nav-arrow-btn" title="Back">‹</button><button class="nav-arrow-btn" title="Forward">›</button></div>
+                <div class="nav-arrows"><button class="nav-arrow-btn" title="Back">${uiIcon('chevron-left')}</button><button class="nav-arrow-btn" title="Forward">${uiIcon('chevron-right')}</button></div>
                 <div class="search-box">
-                    <span class="search-icon">&#128269;</span>
+                    <span class="search-icon">${uiIcon('search')}</span>
                     <input type="text" id="searchBar" placeholder="Search artists or songs…" oninput="globalSearch()">
-                    <button class="search-clear" id="searchClear" onclick="clearSearch()">&#10005;</button>
+                    <button class="search-clear" id="searchClear" onclick="clearSearch()">${uiIcon('x')}</button>
                 </div>
                 <div class="topbar-actions">
-                    <button class="topbar-icon-btn" onclick="showLikedSongs()" title="Favorites">&#10084;</button>
-                    <button class="topbar-icon-btn" onclick="showPlaylists()" title="Playlists">&#127911;</button>
+                    <button class="topbar-icon-btn" onclick="showLikedSongs()" title="Favorites">${uiIcon('heart')}</button>
+                    <button class="topbar-icon-btn" onclick="showPlaylists()" title="Playlists">${uiIcon('list-music')}</button>
                 </div>
             </div>
             ${continueHTML}
@@ -8761,9 +8967,10 @@
                 <span style="font-family:'Circular Std','Circular','Spotify Mix','Nunito Sans','Helvetica Neue',Helvetica,Arial,sans-serif;font-size:.62rem;color:var(--text2)">${keys.length} IN LIBRARY</span>
             </div>
             <div class="artists-grid">
-                ${keys.map(key=>{ const a=artists[key]; return`<div class="artist-card" onclick="openArtist('${key}')"><div class="artist-card-img-wrap"><img src="${a.image}" onerror="this.style.background='#282828'" loading="lazy"><button class="card-play-btn" onclick="event.stopPropagation();playArtist('${key}')">&#9654;</button></div><div class="artist-card-name">${a.name}</div><div class="artist-card-count">${a.songs.length} tracks</div></div>`; }).join('')}
+                ${keys.map(key=>{ const a=artists[key]; return`<div class="artist-card" onclick="openArtist('${key}')"><div class="artist-card-img-wrap"><img src="${a.image}" onerror="this.style.background='#282828'" loading="lazy"><button class="card-play-btn" onclick="event.stopPropagation();playArtist('${key}')">${uiIcon('play')}</button></div><div class="artist-card-name">${a.name}</div><div class="artist-card-count">${a.songs.length} tracks</div></div>`; }).join('')}
             </div>`;
             initSearchClear();
+            renderLucideIcons(mainArea);
         }
 
         function initSearchClear() { const inp=document.getElementById('searchBar'); const clr=document.getElementById('searchClear'); if(!inp||!clr)return; inp.addEventListener('input',()=>clr.classList.toggle('visible',inp.value.length>0)); }
@@ -8774,12 +8981,13 @@
         function openArtist(key) {
             currentArtistKey = key; const a = artists[key]; currentSongs = a.songs;
             setSidebarActive(key); setMobileBack(true);
-            document.getElementById('mainArea').innerHTML = `
+            const mainArea = document.getElementById('mainArea');
+            mainArea.innerHTML = `
             <div class="main-topbar">
-                <div class="nav-arrows"><button class="nav-arrow-btn" onclick="loadArtists()">‹</button></div>
-                <div class="search-box"><span class="search-icon">&#128269;</span><input type="text" id="searchBar" placeholder="Search in ${a.name}…" oninput="globalSearch()"><button class="search-clear" id="searchClear" onclick="clearSearch()">&#10005;</button></div>
+                <div class="nav-arrows"><button class="nav-arrow-btn" onclick="loadArtists()">${uiIcon('chevron-left')}</button></div>
+                <div class="search-box"><span class="search-icon">${uiIcon('search')}</span><input type="text" id="searchBar" placeholder="Search in ${a.name}…" oninput="globalSearch()"><button class="search-clear" id="searchClear" onclick="clearSearch()">${uiIcon('x')}</button></div>
             </div>
-            <div class="artist-hero"><div class="artist-hero-bg" style="background-image:url('${a.image}')"></div><div class="artist-hero-overlay"></div><div class="artist-hero-content"><img class="artist-hero-img" src="${a.image}" onerror="this.style.background='#282828'"><div><div class="artist-hero-tag">Artist</div><div class="artist-hero-name">${a.name}</div><div style="font-size:.8rem;color:var(--text2);margin-bottom:16px">${a.songs.length} songs</div><div class="artist-hero-actions"><button class="btn btn-white" onclick="playArtist('${key}')">&#9654; Play</button><button class="btn btn-outline" onclick="shuffleArtist('${key}')">&#128256; Shuffle</button></div></div></div></div>
+            <div class="artist-hero"><div class="artist-hero-bg" style="background-image:url('${a.image}')"></div><div class="artist-hero-overlay"></div><div class="artist-hero-content"><img class="artist-hero-img" src="${a.image}" onerror="this.style.background='#282828'"><div><div class="artist-hero-tag">Artist</div><div class="artist-hero-name">${a.name}</div><div style="font-size:.8rem;color:var(--text2);margin-bottom:16px">${a.songs.length} songs</div><div class="artist-hero-actions"><button class="btn btn-white" onclick="playArtist('${key}')">${uiIcon('play')}<span>Play</span></button><button class="btn btn-outline" onclick="shuffleArtist('${key}')">${uiIcon('shuffle')}<span>Shuffle</span></button></div></div></div></div>
             <div class="songs-section" style="padding-top:20px">
                 <div style="display:flex;justify-content:flex-end;margin-bottom:10px;gap:8px;align-items:center">
                     <label style="font-size:.78rem;color:var(--text2)">Sort:</label>
@@ -8794,14 +9002,15 @@
                 <div id="songsList">${a.songs.map((s,i)=>songRowHTML(s,i,a.name)).join('')}</div>
             </div>`;
             initSearchClear();
+            renderLucideIcons(mainArea);
         }
 
-        function songRowHTML(song,i,artistName) { const playing=currentSong&&currentSong.file===song.file&&!audio.paused; const liked=likedSongs.has(song.file); const dl=isDownloaded(song.file); return`<div class="song-row${playing?' playing':''}" id="row_${i}" onclick="playSong(${i},true)"><div class="song-num">${playing?'<div class="eq-bars"><div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div></div>':i+1}</div><div class="song-row-info"><img src="${song.poster}" onerror="this.style.background='#282828'" loading="lazy"><div class="song-row-text"><h4>${escH(song.title)}</h4><p>${escH(artistName)}</p></div></div><div class="song-actions"><button class="like-btn${liked?' liked':''}" onclick="event.stopPropagation();toggleLike('${escA(song.file)}',${i})">${liked?'&#10084;':'&#9825;'}</button><button class="dl-btn${dl?' downloaded':''}" onclick="event.stopPropagation();handleDlBtn(this,'${escA(song.file)}')" title="${dl?'Remove':'Download'}">${dl?'&#10003;':'&#11015;'}</button><button class="queue-btn" onclick="event.stopPropagation();showAddToPlaylistMenu(event,'${escA(song.file)}',${i})" title="Add to playlist">&#127911;</button><button class="queue-btn" onclick="event.stopPropagation();addToQueue(${i})" title="Add to queue">+</button></div></div>`; }
+        function songRowHTML(song,i,artistName) { const playing=currentSong&&currentSong.file===song.file&&!audio.paused; const liked=likedSongs.has(song.file); const dl=isDownloaded(song.file); return`<div class="song-row${playing?' playing':''}" id="row_${i}" onclick="playSong(${i},true)"><div class="song-num">${playing?'<div class="eq-bars"><div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div></div>':i+1}</div><div class="song-row-info"><img src="${song.poster}" onerror="this.style.background='#282828'" loading="lazy"><div class="song-row-text"><h4>${escH(song.title)}</h4><p>${escH(artistName)}</p></div></div><div class="song-actions"><button class="like-btn${liked?' liked':''}" onclick="event.stopPropagation();toggleLike('${escA(song.file)}',${i})">${liked?uiIcon('heart'):uiIcon('heart-off')}</button><button class="dl-btn${dl?' downloaded':''}" onclick="event.stopPropagation();handleDlBtn(this,'${escA(song.file)}')" title="${dl?'Remove':'Download'}">${dl?uiIcon('check'):uiIcon('download')}</button><button class="queue-btn" onclick="event.stopPropagation();showAddToPlaylistMenu(event,'${escA(song.file)}',${i})" title="Add to playlist">${uiIcon('folder-plus')}</button><button class="queue-btn" onclick="event.stopPropagation();addToQueue(${i})" title="Add to queue">${uiIcon('plus')}</button></div></div>`; }
 
-        window.handleDlBtn = async(btn,fileId) => { if(isDownloaded(fileId)){if(confirm('Remove from offline?')){await removeCachedSong(fileId);btn.classList.remove('downloaded');btn.innerHTML='&#11015;';}}else{let song=null;for(let k in artists){song=artists[k].songs.find(s=>s.file===fileId);if(song){song={...song,artistName:artists[k].name};break;}}if(song)addToDlQueue(song);} };
+        window.handleDlBtn = async(btn,fileId) => { if(isDownloaded(fileId)){if(confirm('Remove from offline?')){await removeCachedSong(fileId);btn.classList.remove('downloaded');setElementIcon(btn,'download');}}else{let song=null;for(let k in artists){song=artists[k].songs.find(s=>s.file===fileId);if(song){song={...song,artistName:artists[k].name};break;}}if(song)addToDlQueue(song);} };
 
         let currentSortType = 'default';
-        function refreshSongRows() { if(!currentArtistKey)return; const list=document.getElementById('songsList'); if(!list)return; list.innerHTML=currentSongs.map((s,i)=>songRowHTML(s,i,artists[currentArtistKey].name)).join(''); }
+        function refreshSongRows() { if(!currentArtistKey)return; const list=document.getElementById('songsList'); if(!list)return; list.innerHTML=currentSongs.map((s,i)=>songRowHTML(s,i,artists[currentArtistKey].name)).join(''); renderLucideIcons(list); }
         function refreshVisibleSongLists() {
             refreshSongRows();
             if (currentPlaylistId && document.getElementById('playlistSongsList')) {
@@ -8812,9 +9021,9 @@
             }
         }
 
-        window.sortSongs = () => { if(!currentSongs||!currentArtistKey)return; currentSortType=document.getElementById('sortSelect').value; const original=artists[currentArtistKey].songs; if(currentSortType==='default')currentSongs=original.slice(); else if(currentSortType==='title')currentSongs=[...original].sort((a,b)=>a.title.localeCompare(b.title)); else if(currentSortType==='liked')currentSongs=[...original].sort((a,b)=>(likedSongs.has(b.file)?1:0)-(likedSongs.has(a.file)?1:0)); else if(currentSortType==='liked_title')currentSongs=[...original].sort((a,b)=>{const aLiked=likedSongs.has(a.file)?0:1,bLiked=likedSongs.has(b.file)?0:1;return aLiked!==bLiked?aLiked-bLiked:a.title.localeCompare(b.title);}); document.getElementById('songsList').innerHTML=currentSongs.map((s,i)=>songRowHTML(s,i,artists[currentArtistKey].name)).join(''); };
+        window.sortSongs = () => { if(!currentSongs||!currentArtistKey)return; currentSortType=document.getElementById('sortSelect').value; const original=artists[currentArtistKey].songs; if(currentSortType==='default')currentSongs=original.slice(); else if(currentSortType==='title')currentSongs=[...original].sort((a,b)=>a.title.localeCompare(b.title)); else if(currentSortType==='liked')currentSongs=[...original].sort((a,b)=>(likedSongs.has(b.file)?1:0)-(likedSongs.has(a.file)?1:0)); else if(currentSortType==='liked_title')currentSongs=[...original].sort((a,b)=>{const aLiked=likedSongs.has(a.file)?0:1,bLiked=likedSongs.has(b.file)?0:1;return aLiked!==bLiked?aLiked-bLiked:a.title.localeCompare(b.title);}); const list=document.getElementById('songsList'); if(!list)return; list.innerHTML=currentSongs.map((s,i)=>songRowHTML(s,i,artists[currentArtistKey].name)).join(''); renderLucideIcons(list); };
 
-        window.showAddToPlaylistMenu = (e,fileId,rowIdx) => { e.stopPropagation(); closeDropdown(); const song=currentSongs[rowIdx]; if(!song)return; const artistName=currentArtistKey?artists[currentArtistKey].name:''; window.__ctxSong=song; window.__ctxArtist=artistName; const ids=Object.keys(playlists); const dd=document.createElement('div'); dd.className='add-to-playlist-dropdown'; dd.style.position='fixed'; const rect=e.target.getBoundingClientRect(); dd.style.top=(rect.bottom+4)+'px'; dd.style.left=Math.max(10,rect.left-140)+'px'; if(!ids.length){dd.innerHTML=`<div class="no-playlists">No playlists yet.</div><button onclick="closeDropdown();openCreatePlaylistModal()">+ Create playlist</button>`;}else{dd.innerHTML=`<button onclick="closeDropdown();openCreatePlaylistModal()">+ New playlist</button>`+ids.map(id=>`<button onclick="addSongToPlaylistById(window.__ctxSong,window.__ctxArtist,'${escA(id)}');closeDropdown()">${escH(playlists[id].name)}</button>`).join('');}document.body.appendChild(dd);openDropdownEl=dd; };
+        window.showAddToPlaylistMenu = (e,fileId,rowIdx) => { e.stopPropagation(); closeDropdown(); const song=currentSongs[rowIdx]; if(!song)return; const artistName=currentArtistKey?artists[currentArtistKey].name:''; window.__ctxSong=song; window.__ctxArtist=artistName; const ids=Object.keys(playlists); const dd=document.createElement('div'); dd.className='add-to-playlist-dropdown'; dd.style.position='fixed'; const rect=e.target.getBoundingClientRect(); dd.style.top=(rect.bottom+4)+'px'; dd.style.left=Math.max(10,rect.left-140)+'px'; if(!ids.length){dd.innerHTML=`<div class="no-playlists">No playlists yet.</div><button onclick="closeDropdown();openCreatePlaylistModal()">${uiIcon('plus')}<span>Create playlist</span></button>`;}else{dd.innerHTML=`<button onclick="closeDropdown();openCreatePlaylistModal()">${uiIcon('plus')}<span>New playlist</span></button>`+ids.map(id=>`<button onclick="addSongToPlaylistById(window.__ctxSong,window.__ctxArtist,'${escA(id)}');closeDropdown()">${escH(playlists[id].name)}</button>`).join('');}document.body.appendChild(dd);renderLucideIcons(dd);openDropdownEl=dd; };
 
       
         async function playSong(index, manualSelection = false) {
@@ -8873,11 +9082,10 @@
             }).catch(() => {
                 audio.volume = targetVol;
             });
-            playBtn.innerHTML = '&#9208;';
+            setPlayButtonIcons(false);
             document.getElementById('fsPoster').src = song.poster;
             document.getElementById('fsTitle').textContent = song.title;
             document.getElementById('fsArtist').textContent = artistName;
-            document.getElementById('fsPlay').innerHTML = '&#9208;';
             if (currentArtistKey) refreshSongRows();
             if (currentPlaylistId && document.getElementById('playlistSongsList')) updatePlaylistPlayingState(true);
             if (document.getElementById('favSongsList')) updateFavoritesPlayingState(true);
@@ -8914,7 +9122,7 @@
             }
         }
 
-        function togglePlay() { if(audio.paused){audio.play();playBtn.innerHTML='&#9208;';document.getElementById('fsPlay').innerHTML='&#9208;';}else{audio.pause();playBtn.innerHTML='&#9654;';document.getElementById('fsPlay').innerHTML='&#9654;';savePlaybackMemory();} updateNowPlayingIndicator(); }
+        function togglePlay() { if(audio.paused){audio.play();setPlayButtonIcons(false);}else{audio.pause();setPlayButtonIcons(true);savePlaybackMemory();} updateNowPlayingIndicator(); }
 
         function next() {
             if (queue.length > 0) {
@@ -8937,7 +9145,7 @@
                 getAudioSrc('songs/' + s.file).then((src) => {
                     audio.src = src;
                     audio.play();
-                    playBtn.innerHTML = '&#9208;';
+                    setPlayButtonIcons(false);
                     updateNowPlayingIndicator();
                     if (currentPlaylistId && document.getElementById('playlistSongsList')) updatePlaylistPlayingState(true);
                     if (document.getElementById('favSongsList')) updateFavoritesPlayingState(true);
@@ -9049,9 +9257,9 @@
         function toggleMute() { if(isMuted){audio.volume=prevVol;volumeSlider.value=prevVol;isMuted=false;}else{prevVol=audio.volume||1;audio.volume=0;volumeSlider.value=0;isMuted=true;} }
         function toggleQueuePanel() { queuePanelOpen=!queuePanelOpen; document.getElementById('queuePanel').classList.toggle('open',queuePanelOpen); document.getElementById('queueToggleBtn').classList.toggle('active',queuePanelOpen); if(queuePanelOpen)renderQueuePanel(); }
 
-        function renderQueuePanel() { const body=document.getElementById('queuePanelBody'); if(!body)return; let html=''; if(currentSong){html+=`<div class="qp-section">Now Playing</div><div class="qp-item"><img src="${escH(currentSong.poster)}" onerror="this.style.background='#282828'"><div class="qp-item-info"><div class="qp-item-title" style="color:var(--accent)">${escH(currentSong.title)}</div><div class="qp-item-artist">${escH(playerArtist.textContent)}</div></div></div>`;} if(queue.length>0){html+=`<div class="qp-section" style="margin-top:7px">Up Next (${queue.length})</div>`;queue.forEach((s,i)=>{html+=`<div class="qp-item" onclick="playFromQueue(${i})"><img src="${escH(s.poster)}" onerror="this.style.background='#282828'"><div class="qp-item-info"><div class="qp-item-title">${escH(s.title)}</div><div class="qp-item-artist">${escH(s.artistName||'')}</div></div><button class="qp-item-rm" onclick="event.stopPropagation();removeFromQueue(${i})">&#10005;</button></div>`;});html+=`<div style="padding:8px 14px"><button onclick="clearQueue()" style="background:none;border:1px solid rgba(255,85,85,.2);color:rgba(255,85,85,.6);font-family:'Circular Std','Circular','Spotify Mix','Nunito Sans','Helvetica Neue',Helvetica,Arial,sans-serif;font-size:.72rem;cursor:pointer;padding:5px 12px;border-radius:500px;width:100%">Clear Queue</button></div>`;} if(currentSong&&currentArtistKey&&currentSongs.length>1){const nl=currentSongs.slice(currentIndex+1,currentIndex+5);if(nl.length>0){html+=`<div class="qp-section" style="margin-top:7px">Next from ${escH(currentArtistKey&&artists[currentArtistKey]?artists[currentArtistKey].name:'')}</div>`;nl.forEach((s,i)=>{html+=`<div class="qp-item" onclick="playSong(${currentIndex+1+i},true)"><img src="${escH(s.poster)}" onerror="this.style.background='#282828'"><div class="qp-item-info"><div class="qp-item-title">${escH(s.title)}</div><div class="qp-item-artist">${escH(currentArtistKey&&artists[currentArtistKey]?artists[currentArtistKey].name:'')}</div></div></div>`;});}} if(!currentSong&&!queue.length){html=`<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:50px 20px;color:var(--text2);gap:10px;font-size:.85rem"><div style="font-size:2.5rem;opacity:.3">&#9776;</div><p>Your queue is empty</p></div>`;} body.innerHTML=html; }
+        function renderQueuePanel() { const body=document.getElementById('queuePanelBody'); if(!body)return; let html=''; if(currentSong){html+=`<div class="qp-section">Now Playing</div><div class="qp-item"><img src="${escH(currentSong.poster)}" onerror="this.style.background='#282828'"><div class="qp-item-info"><div class="qp-item-title" style="color:var(--accent)">${escH(currentSong.title)}</div><div class="qp-item-artist">${escH(playerArtist.textContent)}</div></div></div>`;} if(queue.length>0){html+=`<div class="qp-section" style="margin-top:7px">Up Next (${queue.length})</div>`;queue.forEach((s,i)=>{html+=`<div class="qp-item" onclick="playFromQueue(${i})"><img src="${escH(s.poster)}" onerror="this.style.background='#282828'"><div class="qp-item-info"><div class="qp-item-title">${escH(s.title)}</div><div class="qp-item-artist">${escH(s.artistName||'')}</div></div><button class="qp-item-rm" onclick="event.stopPropagation();removeFromQueue(${i})">${uiIcon('x')}</button></div>`;});html+=`<div style="padding:8px 14px"><button onclick="clearQueue()" style="background:none;border:1px solid rgba(255,85,85,.2);color:rgba(255,85,85,.6);font-family:'Circular Std','Circular','Spotify Mix','Nunito Sans','Helvetica Neue',Helvetica,Arial,sans-serif;font-size:.72rem;cursor:pointer;padding:5px 12px;border-radius:500px;width:100%">Clear Queue</button></div>`;} if(currentSong&&currentArtistKey&&currentSongs.length>1){const nl=currentSongs.slice(currentIndex+1,currentIndex+5);if(nl.length>0){html+=`<div class="qp-section" style="margin-top:7px">Next from ${escH(currentArtistKey&&artists[currentArtistKey]?artists[currentArtistKey].name:'')}</div>`;nl.forEach((s,i)=>{html+=`<div class="qp-item" onclick="playSong(${currentIndex+1+i},true)"><img src="${escH(s.poster)}" onerror="this.style.background='#282828'"><div class="qp-item-info"><div class="qp-item-title">${escH(s.title)}</div><div class="qp-item-artist">${escH(currentArtistKey&&artists[currentArtistKey]?artists[currentArtistKey].name:'')}</div></div></div>`;});}} if(!currentSong&&!queue.length){html=`<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:50px 20px;color:var(--text2);gap:10px;font-size:.85rem"><div style="opacity:.3">${uiIcon('list-music')}</div><p>Your queue is empty</p></div>`;} body.innerHTML=html; renderLucideIcons(body); }
 
-        window.playFromQueue = (i) => { if(!queue[i])return; const songs=queue.splice(0,i+1); const s=songs[songs.length-1]; saveQueue(); const previousSongFile=currentSong?currentSong.file:null; if(isRepeat&&previousSongFile&&previousSongFile!==s.file){isRepeat=false; localStorage.setItem('eq_repeat','false');} currentSong=s; const ak=Object.keys(artists).find(k=>artists[k].songs.some(x=>x.file===s.file)); const an=ak?artists[ak].name:(s.artistName||''); posterEl.src=s.poster; playerTitle.textContent=s.title; playerArtist.textContent=an; updatePlayerLikeBtn(s.file); updatePlayerDlBtn(); getAudioSrc('songs/'+s.file).then(src=>{audio.src=src;audio.play();playBtn.innerHTML='&#9208;';updateNowPlayingIndicator(); if(document.getElementById('favSongsList')) updateFavoritesPlayingState(true);}); savePlaybackMemory(); renderQueuePanel(); syncPlaybackModeUI(); updateNowPlayingIndicator(); };
+        window.playFromQueue = (i) => { if(!queue[i])return; const songs=queue.splice(0,i+1); const s=songs[songs.length-1]; saveQueue(); const previousSongFile=currentSong?currentSong.file:null; if(isRepeat&&previousSongFile&&previousSongFile!==s.file){isRepeat=false; localStorage.setItem('eq_repeat','false');} currentSong=s; const ak=Object.keys(artists).find(k=>artists[k].songs.some(x=>x.file===s.file)); const an=ak?artists[ak].name:(s.artistName||''); posterEl.src=s.poster; playerTitle.textContent=s.title; playerArtist.textContent=an; updatePlayerLikeBtn(s.file); updatePlayerDlBtn(); getAudioSrc('songs/'+s.file).then(src=>{audio.src=src;audio.play();setPlayButtonIcons(false);updateNowPlayingIndicator(); if(document.getElementById('favSongsList')) updateFavoritesPlayingState(true);}); savePlaybackMemory(); renderQueuePanel(); syncPlaybackModeUI(); updateNowPlayingIndicator(); };
         window.removeFromQueue = (i) => { queue.splice(i,1); saveQueue(); renderQueuePanel(); showToast('Removed from queue'); };
         window.clearQueue = () => { queue=[]; saveQueue(); renderQueuePanel(); showToast('Queue cleared'); };
 
@@ -9075,7 +9283,7 @@
             if (currentPlaylistId && document.getElementById('playlistSongsList')) renderPlaylistSongs(currentPlaylistId, false);
             if (document.getElementById('favSongsList')) refreshLikedDisplay();
         }
-        function updatePlayerLikeBtn(f) { const btn=document.getElementById('playerLikeBtn'); btn.innerHTML=likedSongs.has(f)?'&#10084;':'&#9825;'; btn.classList.toggle('liked',likedSongs.has(f)); }
+        function updatePlayerLikeBtn(f) { const btn=document.getElementById('playerLikeBtn'); setElementIcon(btn, likedSongs.has(f)?'heart':'heart-off'); btn.classList.toggle('liked',likedSongs.has(f)); }
 
         function showLikedSongs() { setNavActive('navFav'); setMobileBack(true); refreshLikedDisplay(); }
 
@@ -9146,7 +9354,7 @@
         function favSongRowHTML(song, i) {
             const playing = currentSong && currentSong.file === song.file && !audio.paused;
             const dl = isDownloaded(song.file);
-            return `<div class="fav-song-row${playing ? ' playing' : ''}" data-file="${escH(song.file)}" onclick="playLikedSong(${i})"><div class="fav-song-num">${playing ? '<div class="eq-bars"><div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div></div>' : i + 1}</div><div class="fav-song-info"><img src="${escH(song.poster)}" onerror="this.style.background='#282828'" loading="lazy"><div class="fav-song-text"><h4>${escH(song.title)}</h4><p>${escH(song.artistName)}</p></div></div><div class="fav-song-actions"><button class="fav-icon-btn liked" title="Remove from favorites" onclick="event.stopPropagation();toggleLikeFav('${escA(song.file)}')">&#10084;</button><button class="fav-icon-btn${dl ? ' downloaded' : ''}" title="${dl ? 'Remove download' : 'Download'}" onclick="event.stopPropagation();toggleFavDownload(this,'${escA(song.file)}')">${dl ? '&#10003;' : '&#11015;'}</button></div></div>`;
+            return `<div class="fav-song-row${playing ? ' playing' : ''}" data-file="${escH(song.file)}" onclick="playLikedSong(${i})"><div class="fav-song-num">${playing ? '<div class="eq-bars"><div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div></div>' : i + 1}</div><div class="fav-song-info"><img src="${escH(song.poster)}" onerror="this.style.background='#282828'" loading="lazy"><div class="fav-song-text"><h4>${escH(song.title)}</h4><p>${escH(song.artistName)}</p></div></div><div class="fav-song-actions"><button class="fav-icon-btn liked" title="Remove from favorites" onclick="event.stopPropagation();toggleLikeFav('${escA(song.file)}')">${uiIcon('heart')}</button><button class="fav-icon-btn${dl ? ' downloaded' : ''}" title="${dl ? 'Remove download' : 'Download'}" onclick="event.stopPropagation();toggleFavDownload(this,'${escA(song.file)}')">${dl ? uiIcon('check') : uiIcon('download')}</button></div></div>`;
         }
 
         function updateFavoritesPlayingState(autoScrollActive = false) {
@@ -9207,6 +9415,7 @@
             if (!list) return;
             window.__likedList = getSortedLikedSongs(currentFavSortType);
             list.innerHTML = window.__likedList.map((song, i) => favSongRowHTML(song, i)).join('');
+            renderLucideIcons(list);
             updateFavSortUI();
             updateFavoritesPlayingState(autoScrollActive);
         }
@@ -9223,24 +9432,26 @@
             const likedBase = getLikedSongsBase();
             const likedCount = likedBase.length;
             const isMobile = window.matchMedia('(max-width: 768px)').matches;
+            const mainArea = document.getElementById('mainArea');
             if (isMobile) {
                 const cover = likedBase[0]?.poster || '';
-                document.getElementById('mainArea').innerHTML = `
+                mainArea.innerHTML = `
                 <div class="fav-mobile-shell">
                     <div class="fav-mobile-header">
-                        <div class="fav-mobile-cover">${cover ? `<img src="${escH(cover)}" onerror="this.parentElement.innerHTML='&#10084;'" loading="lazy">` : '&#10084;'}</div>
+                        <div class="fav-mobile-cover">${cover ? `<img src="${escH(cover)}" onerror="this.style.background='#282828'" loading="lazy">` : uiIcon('heart')}</div>
                         <div class="fav-mobile-meta">
                             <div class="fav-mobile-kicker">Collection</div>
                             <div class="fav-mobile-title">Liked Songs</div>
                             <div class="fav-mobile-sub">${likedCount} song${likedCount !== 1 ? 's' : ''} • Personal Mix</div>
                         </div>
                     </div>
-                    ${likedCount ? `<div class="fav-sort-row"><button class="fav-sort-trigger" onclick="toggleFavSortSheet()"><span class="fav-sort-icon">&#8645;</span><span>Sort: <span id="favSortLabel">${getFavSortLabel(currentFavSortType)}</span></span><span class="fav-sort-chevron">&#9662;</span></button></div>` : ''}
+                    ${likedCount ? `<div class="fav-sort-row"><button class="fav-sort-trigger" onclick="toggleFavSortSheet()"><span class="fav-sort-icon">${uiIcon('arrow-up-down')}</span><span>Sort: <span id="favSortLabel">${getFavSortLabel(currentFavSortType)}</span></span><span class="fav-sort-chevron">${uiIcon('chevron-down')}</span></button></div>` : ''}
                     <div class="fav-song-list">
-                        ${likedCount ? '<div class="fav-song-header"><span>#</span><span>Title</span><span></span></div><div id="favSongsList"></div>' : '<div class="empty-state" style="padding:40px 0"><div class="emoji">&#127911;</div><p>No favorites yet.</p></div>'}
+                        ${likedCount ? '<div class="fav-song-header"><span>#</span><span>Title</span><span></span></div><div id="favSongsList"></div>' : `<div class="empty-state" style="padding:40px 0"><div class="emoji">${uiIcon('list-music')}</div><p>No favorites yet.</p></div>`}
                     </div>
                     ${likedCount ? `<div class="fav-sort-sheet" id="favSortSheet" onclick="closeFavSortSheetOnOverlay(event)"><div class="fav-sort-sheet-card"><div class="fav-sort-sheet-title">Sort Favorites</div><button class="fav-sort-option" data-sort="default" onclick="setFavSort('default')">Default</button><button class="fav-sort-option" data-sort="recent" onclick="setFavSort('recent')">Recently Liked</button><button class="fav-sort-option" data-sort="title" onclick="setFavSort('title')">A-Z</button><button class="fav-sort-option" data-sort="artist" onclick="setFavSort('artist')">Artist Name</button><button class="fav-sort-option" data-sort="plays" onclick="setFavSort('plays')">Most Played</button><button class="fav-sort-close" onclick="closeFavSortSheet()">Close</button></div></div>` : ''}
                 </div>`;
+                renderLucideIcons(mainArea);
                 if (likedCount) {
                     renderMobileLikedSongList(true);
                     syncFavoritesPlaybackSource();
@@ -9259,10 +9470,10 @@
                 return out;
             });
             const html = `
-            <div class="main-topbar"><div class="nav-arrows"><button class="nav-arrow-btn" onclick="loadArtists()">‹</button></div><div style="flex:1"><div style="font-size:1.2rem;font-weight:800">Favorites</div><div style="font-size:.72rem;color:var(--text2)">${likedCount} liked songs</div></div></div>
+            <div class="main-topbar"><div class="nav-arrows"><button class="nav-arrow-btn" onclick="loadArtists()">${uiIcon('chevron-left')}</button></div><div style="flex:1"><div style="font-size:1.2rem;font-weight:800">Favorites</div><div style="font-size:.72rem;color:var(--text2)">${likedCount} liked songs</div></div></div>
             <div class="songs-section" style="padding-top:20px">
                 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-                    <div class="fav-section-label">&#10084; Liked Songs</div>
+                    <div class="fav-section-label" style="display:inline-flex;align-items:center;gap:6px">${uiIcon('heart')}<span>Liked Songs</span></div>
                     <div style="display:flex;gap:8px;align-items:center">
                         <label style="font-size:.78rem;color:var(--text2)">Sort:</label>
                         <select id="favSortSelect" onchange="refreshLikedDisplay()" style="background:var(--surface3);color:var(--text);border:1px solid rgba(255,255,255,.1);padding:6px 10px;border-radius:8px;font-family:'Circular Std','Circular','Spotify Mix','Nunito Sans','Helvetica Neue',Helvetica,Arial,sans-serif;font-size:.78rem;outline:none;cursor:pointer">
@@ -9272,9 +9483,10 @@
                         </select>
                     </div>
                 </div>
-                ${likedCount===0?'<div class="empty-state"><div class="emoji">&#127911;</div><p>No favorites yet.</p></div>':`<div class="songs-table-header"><span class="th">#</span><span class="th">Title</span><span class="th"></span></div><div id="favSongsList">${window.__likedList.map((s,i)=>`<div class="song-row" onclick="playLikedSong(${i})"><div class="song-num">${i+1}</div><div class="song-row-info"><img src="${s.poster}" onerror="this.style.background='#282828'" loading="lazy"><div class="song-row-text"><h4>${escH(s.title)}</h4><p>${escH(s.artistName)}</p></div></div><div class="song-actions"><button class="like-btn liked" onclick="event.stopPropagation();toggleLikeFav('${escA(s.file)}')">&#10084;</button><button class="dl-btn${isDownloaded(s.file)?' downloaded':''}" onclick="event.stopPropagation();toggleFavDownload(this,'${escA(s.file)}')">${isDownloaded(s.file)?'&#10003;':'&#11015;'}</button></div></div>`).join('')}</div>`}
+                ${likedCount===0?`<div class="empty-state"><div class="emoji">${uiIcon('list-music')}</div><p>No favorites yet.</p></div>`:`<div class="songs-table-header"><span class="th">#</span><span class="th">Title</span><span class="th"></span></div><div id="favSongsList">${window.__likedList.map((s,i)=>`<div class="song-row" onclick="playLikedSong(${i})"><div class="song-num">${i+1}</div><div class="song-row-info"><img src="${s.poster}" onerror="this.style.background='#282828'" loading="lazy"><div class="song-row-text"><h4>${escH(s.title)}</h4><p>${escH(s.artistName)}</p></div></div><div class="song-actions"><button class="like-btn liked" onclick="event.stopPropagation();toggleLikeFav('${escA(s.file)}')">${uiIcon('heart')}</button><button class="dl-btn${isDownloaded(s.file)?' downloaded':''}" onclick="event.stopPropagation();toggleFavDownload(this,'${escA(s.file)}')">${isDownloaded(s.file)?uiIcon('check'):uiIcon('download')}</button></div></div>`).join('')}</div>`}
             </div>`;
-            document.getElementById('mainArea').innerHTML = html;
+            mainArea.innerHTML = html;
+            renderLucideIcons(mainArea);
             const select = document.getElementById('favSortSelect');
             if (select) select.value = type;
         }
@@ -9306,11 +9518,12 @@
             if(!q){loadArtists();return;}
             setMobileBack(false);
             let artistHtml='',songHtml='',ac=0,sc=0;
-            for(let key in artists){ const a=artists[key]; if(a.name.toLowerCase().includes(q)){artistHtml+=`<div class="artist-card" onclick="openArtist('${key}')"><div class="artist-card-img-wrap"><img src="${a.image}"><button class="card-play-btn" onclick="event.stopPropagation();playArtist('${key}')">&#9654;</button></div><div class="artist-card-name">${a.name}</div><div class="artist-card-count">${a.songs.length} songs</div></div>`;ac++;} a.songs.forEach((s,i)=>{if(s.title.toLowerCase().includes(q)){songHtml+=`<div class="song-row" onclick="openArtistAndPlay('${key}',${i})"><div class="song-num">${sc+1}</div><div class="song-row-info"><img src="${s.poster}" onerror="this.style.background='#282828'"><div class="song-row-text"><h4>${escH(s.title)}</h4><p>${escH(a.name)}</p></div></div><div class="song-actions" style="opacity:1"><button class="like-btn${likedSongs.has(s.file)?' liked':''}" onclick="event.stopPropagation();toggleLike('${escA(s.file)}')">${likedSongs.has(s.file)?'&#10084;':'&#9825;'}</button><button class="dl-btn${isDownloaded(s.file)?' downloaded':''}" onclick="event.stopPropagation();handleDlBtn(this,'${escA(s.file)}')">${isDownloaded(s.file)?'&#10003;':'&#11015;'}</button></div></div>`;sc++;}}); }
+            for(let key in artists){ const a=artists[key]; if(a.name.toLowerCase().includes(q)){artistHtml+=`<div class="artist-card" onclick="openArtist('${key}')"><div class="artist-card-img-wrap"><img src="${a.image}"><button class="card-play-btn" onclick="event.stopPropagation();playArtist('${key}')">${uiIcon('play')}</button></div><div class="artist-card-name">${a.name}</div><div class="artist-card-count">${a.songs.length} songs</div></div>`;ac++;} a.songs.forEach((s,i)=>{if(s.title.toLowerCase().includes(q)){songHtml+=`<div class="song-row" onclick="openArtistAndPlay('${key}',${i})"><div class="song-num">${sc+1}</div><div class="song-row-info"><img src="${s.poster}" onerror="this.style.background='#282828'"><div class="song-row-text"><h4>${escH(s.title)}</h4><p>${escH(a.name)}</p></div></div><div class="song-actions" style="opacity:1"><button class="like-btn${likedSongs.has(s.file)?' liked':''}" onclick="event.stopPropagation();toggleLike('${escA(s.file)}')">${likedSongs.has(s.file)?uiIcon('heart'):uiIcon('heart-off')}</button><button class="dl-btn${isDownloaded(s.file)?' downloaded':''}" onclick="event.stopPropagation();handleDlBtn(this,'${escA(s.file)}')">${isDownloaded(s.file)?uiIcon('check'):uiIcon('download')}</button></div></div>`;sc++;}}); }
             const total = ac+sc;
             const mainArea = document.getElementById('mainArea');
-            const topbarHTML = `<div class="main-topbar"><div class="nav-arrows"><button class="nav-arrow-btn" onclick="loadArtists()">‹</button></div><div class="search-box"><span class="search-icon">&#128269;</span><input type="text" id="searchBar" value="${escH(document.getElementById('searchBar')?.value||q)}" placeholder="Search artists or songs…" oninput="globalSearch()"><button class="search-clear visible" id="searchClear" onclick="clearSearch()">&#10005;</button></div></div>`;
-            mainArea.innerHTML = topbarHTML+`${ac>0?`<div style="padding:20px 24px 0"><div class="section-title" style="margin-bottom:14px">Artists</div><div class="artists-grid" style="padding:0">${artistHtml}</div></div>`:''}<div style="height:20px"></div>${sc>0?`<div class="songs-section"><div style="font-size:1.1rem;font-weight:800;margin-bottom:12px">Songs</div>${songHtml}</div>`:''}${!total?'<div class="empty-state"><div class="emoji">&#128269;</div><p>No results for "'+escH(q)+'"</p></div>':''}`;
+            const topbarHTML = `<div class="main-topbar"><div class="nav-arrows"><button class="nav-arrow-btn" onclick="loadArtists()">${uiIcon('chevron-left')}</button></div><div class="search-box"><span class="search-icon">${uiIcon('search')}</span><input type="text" id="searchBar" value="${escH(document.getElementById('searchBar')?.value||q)}" placeholder="Search artists or songs…" oninput="globalSearch()"><button class="search-clear visible" id="searchClear" onclick="clearSearch()">${uiIcon('x')}</button></div></div>`;
+            mainArea.innerHTML = topbarHTML+`${ac>0?`<div style="padding:20px 24px 0"><div class="section-title" style="margin-bottom:14px">Artists</div><div class="artists-grid" style="padding:0">${artistHtml}</div></div>`:''}<div style="height:20px"></div>${sc>0?`<div class="songs-section"><div style="font-size:1.1rem;font-weight:800;margin-bottom:12px">Songs</div>${songHtml}</div>`:''}${!total?`<div class="empty-state"><div class="emoji">${uiIcon('search')}</div><p>No results for "${escH(q)}"</p></div>`:''}`;
+            renderLucideIcons(mainArea);
             const newInp = document.getElementById('searchBar'); if(newInp){newInp.focus();newInp.setSelectionRange(newInp.value.length,newInp.value.length);} initSearchClear();
         }
 
@@ -9342,8 +9555,8 @@
             if(fsPoster) fsPoster.src = currentSong.poster || '';
             if(fsTitle) fsTitle.textContent = currentSong.title || 'Unknown';
             if(fsArtist) fsArtist.textContent = currentArtistKey ? artists[currentArtistKey].name : (currentSong.artistName || playerArtist.textContent || 'Unknown Artist');
-            if(fsPlay) fsPlay.innerHTML = audio.paused ? '&#9654;' : '&#9208;';
-            if(fsLikeBtn) fsLikeBtn.innerHTML = likedSongs.has(currentSong.file) ? '&#10084;' : '&#9825;';
+            if(fsPlay) setElementIcon(fsPlay, audio.paused ? 'play' : 'pause');
+            if(fsLikeBtn) setElementIcon(fsLikeBtn, likedSongs.has(currentSong.file) ? 'heart' : 'heart-off');
             if(fsLikeBtn) fsLikeBtn.classList.toggle('liked', likedSongs.has(currentSong.file));
             if(fsShuffle) fsShuffle.classList.toggle('active', isShuffle);
             if(fsRepeat) fsRepeat.classList.toggle('active', isRepeat > 0);
@@ -9382,18 +9595,14 @@
         });
         audio.addEventListener('ended',()=>{ if(!isRepeat) next(); });
         audio.addEventListener('play',()=>{ 
-            playBtn.innerHTML='&#9208;'; 
-            const fp=document.getElementById('fsPlay'); 
-            if(fp) fp.innerHTML='&#9208;';
+            setPlayButtonIcons(false);
             if(currentArtistKey) refreshSongRows();
             if(currentPlaylistId && document.getElementById('playlistSongsList')) updatePlaylistPlayingState(false);
             if(document.getElementById('favSongsList')) updateFavoritesPlayingState(false);
             updateNowPlayingIndicator();
         });
         audio.addEventListener('pause',()=>{ 
-            playBtn.innerHTML='&#9654;'; 
-            const fp=document.getElementById('fsPlay'); 
-            if(fp) fp.innerHTML='&#9654;'; 
+            setPlayButtonIcons(true);
             if(currentArtistKey) refreshSongRows();
             if(currentPlaylistId && document.getElementById('playlistSongsList')) updatePlaylistPlayingState(false);
             if(document.getElementById('favSongsList')) updateFavoritesPlayingState(false);
@@ -9492,6 +9701,7 @@
         window.playArtist = playArtist; window.shuffleArtist = shuffleArtist; window.toggleLike = toggleLike; window.globalSearch = globalSearch;
 
         // -- INIT --
+        initLucideSystem();
         buildSidebar();
         loadArtists();
         loadPlaybackMemory();
@@ -9513,27 +9723,22 @@
 
     <nav class="mobile-nav" id="mobileNav">
         <button class="mnav-btn active" data-tab="home">
-            <span>&#127968;</span>
+            <span><i data-lucide="house" aria-hidden="true"></i></span>
             <small>Home</small>
         </button>
         <button class="mnav-btn" data-tab="search">
-            <span>&#128269;</span>
+            <span><i data-lucide="search" aria-hidden="true"></i></span>
             <small>Search</small>
         </button>
         <button class="mnav-btn" data-tab="fav">
-            <span>&#10084;</span>
+            <span><i data-lucide="heart" aria-hidden="true"></i></span>
             <small>Fav</small>
         </button>
         <button class="mnav-btn" data-tab="library">
-            <span>&#127911;</span>
+            <span><i data-lucide="list-music" aria-hidden="true"></i></span>
             <small>Library</small>
         </button>
     </nav>
-</body>
-
-</html>
-</button>
-</nav>
 </body>
 
 </html>
